@@ -62,7 +62,9 @@ func CreateNew(
 		return err
 	}
 
-	install(appName)
+	if err := install(appName); err != nil {
+		return err
+	}
 
 	if err := cleanKeepFiles(appName); err != nil {
 		return err
@@ -71,22 +73,21 @@ func CreateNew(
 	return nil
 }
 
-func install(appName string) {
-	commands := []string{
-		"go get ./...",
-		"go mod tidy",
-		"go mod download",
+func install(appName string) error {
+	commands := []*exec.Cmd{
+		exec.Command("go", "get", "./..."),
+		exec.Command("go", "mod", "tidy"),
+		exec.Command("go", "mod", "download"),
 	}
 
 	for _, command := range commands {
-		cmd := exec.Command(command)
-		cmd.Dir = fmt.Sprintf("./%s", appName)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Run(); err != nil {
-			panic(err)
+		command.Dir = "./" + appName
+		if _, err := command.Output(); err != nil {
+			return err
 		}
 	}
+
+	return nil
 }
 
 func removeOtherFiles(appName string) error {
