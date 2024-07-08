@@ -1,0 +1,179 @@
+basePath: /
+definitions:
+  example.CreateReq:
+    properties:
+      name:
+        type: string
+    type: object
+  example.CreateResp:
+    properties:
+      name:
+        type: string
+    type: object
+  example.DeleteReq:
+    properties:
+      name:
+        type: string
+    type: object
+  example.DeleteResp:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  example.EditReq:
+    properties:
+      name:
+        type: string
+    type: object
+  example.EditResp:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  example.ListResp:
+    properties:
+      func:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: API Support
+  description: Swan
+  license: {}
+  title: Swan
+  version: 0.1.0
+paths:
+  /example:
+    get:
+      consumes:
+      - application/json
+      description: List
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.ListResp'
+      summary: List
+      tags:
+      - example
+    post:
+      consumes:
+      - application/json
+      description: Create
+      parameters:
+      - description: Request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/example.CreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.CreateResp'
+      summary: Create
+      tags:
+      - example
+  /example/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/example.DeleteReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.DeleteResp'
+        "400":
+          description: Bad Request
+      summary: Delete
+      tags:
+      - example
+    get:
+      consumes:
+      - application/json
+      description: One
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.ListResp'
+      summary: One
+      tags:
+      - example
+    put:
+      consumes:
+      - application/json
+      description: Edit
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/example.EditReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.EditResp'
+      summary: Edit
+      tags:
+      - example
+swagger: "2.0"
