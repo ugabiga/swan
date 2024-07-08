@@ -2,9 +2,16 @@ package providers
 
 import (
 	"log/slog"
-	"os"
+
+	"github.com/ugabiga/swan/utl"
 )
 
 func ProvideLogger() *slog.Logger {
-	return slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	return utl.NewDefaultLogger(
+		&slog.HandlerOptions{
+			AddSource:   false,
+			Level:       slog.LevelDebug,
+			ReplaceAttr: nil,
+		},
+	)
 }

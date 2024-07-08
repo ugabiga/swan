@@ -16,6 +16,7 @@ func CreateHandler(
 	template := `package ` + domainName + `
 
 import (
+	"log/slog"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -23,11 +24,15 @@ import (
 
 type Handler struct {
 	prefix string
+	logger *slog.Logger
 }
 
-func NewHandler() *Handler {
+func NewHandler(
+	logger *slog.Logger,
+) *Handler {
 	return &Handler{
 		prefix: "/DOMAIN",
+		logger: logger,
 	}
 }
 
