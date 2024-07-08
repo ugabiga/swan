@@ -62,7 +62,11 @@ func CreateNew(
 		return err
 	}
 
-	if err := install(appName); err != nil {
+	if err := setupEnvFile(appName); err != nil {
+		return err
+	}
+
+	if err := setupDependencies(appName); err != nil {
 		return err
 	}
 
@@ -73,7 +77,23 @@ func CreateNew(
 	return nil
 }
 
-func install(appName string) error {
+func setupEnvFile(appName string) error {
+	envExampleFile, err := os.ReadFile("./" + appName + "/.env.example")
+	if err != nil {
+		return err
+	}
+
+	envFileContents := string(envExampleFile)
+	envFileContents = strings.ReplaceAll(envFileContents, "starter", appName)
+
+	if err := os.WriteFile("./"+appName+"/.env", []byte(envFileContents), 0644); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func setupDependencies(appName string) error {
 	commands := []*exec.Cmd{
 		exec.Command("go", "get", "./..."),
 		exec.Command("go", "mod", "tidy"),
