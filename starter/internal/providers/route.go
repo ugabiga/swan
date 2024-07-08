@@ -6,12 +6,12 @@ import (
 )
 
 func InvokeSetRouteHTTPServer(
-	server *core.Server,
 	exampleHandler *example.Handler,
+	server *core.Server,
 ) {
 	e := server.HTTPServer()
 
-	apiGroup := e.Group("/api")
+	group := e.Group("")
 
-	exampleHandler.SetRoutes(apiGroup)
+	exampleHandler.SetRoutes(group)
 }

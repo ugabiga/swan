@@ -7,9 +7,13 @@ import (
 
 func ProvideAppAndRun() error {
 	env := ProvideEnvironmentVariables()
-	c := core.NewApp()
+	app := core.NewApp()
 
-	c.RegisterProviders(
+	app.RegisterProviders(
+		example.NewHandler,
+	)
+
+	app.RegisterProviders(
 		func() core.ServerConfig {
 			return core.ServerConfig{
 				Addr: env.Addr,
@@ -18,18 +22,14 @@ func ProvideAppAndRun() error {
 		core.NewServer,
 	)
 
-	c.RegisterProviders(
+	app.RegisterProviders(
 		ProvideEnvironmentVariables,
 		ProvideLogger,
 	)
 
-	c.RegisterProviders(
-		example.NewHandler,
-	)
-
-	c.RegisterInvokers(
+	app.RegisterInvokers(
 		InvokeSetRouteHTTPServer,
 	)
 
-	return c.Run()
+	return app.Run()
 }
