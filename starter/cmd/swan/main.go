@@ -2,7 +2,7 @@ package main
 
 import "github.com/ugabiga/swan/starter/internal/providers"
 
-//	@title			Swan
+//	@title			Starter
 //	@version		0.1.0
 //	@description	Swan
 //	@termsOfService
