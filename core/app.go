@@ -27,6 +27,15 @@ func (c *App) RegisterInvokers(invokers ...any) {
 	c.Invokers = append(c.Invokers, invokers...)
 }
 
+func (c *App) Invoke() error {
+	fx.New(
+		fx.Provide(c.Providers...),
+		fx.Invoke(c.Invokers...),
+	)
+
+	return nil
+}
+
 func (c *App) Run() error {
 	fx.New(
 		fx.Provide(c.Providers...),

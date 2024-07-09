@@ -2,12 +2,15 @@ package core
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -50,4 +53,33 @@ func ValidateEnvironmentVariables[T interface{}]() *T {
 	}
 
 	return env
+}
+
+func LoadEnv(envFile string) {
+	err := godotenv.Load(rootPath(envFile))
+	if err != nil {
+		panic(fmt.Errorf("error loading .env file: %w", err))
+	}
+}
+
+func rootPath(file string) string {
+	currentDir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+
+	for {
+		goModPath := filepath.Join(currentDir, "go.mod")
+		if _, err := os.Stat(goModPath); err == nil {
+			break
+		}
+
+		parent := filepath.Dir(currentDir)
+		if parent == currentDir {
+			panic(fmt.Errorf("go.mod not found"))
+		}
+		currentDir = parent
+	}
+
+	return filepath.Join(currentDir, file)
 }

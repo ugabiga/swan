@@ -5,12 +5,13 @@ import (
 	"github.com/ugabiga/swan/starter/internal/example"
 )
 
-func ProvideAppAndRun() error {
+func ProvideApp() *core.App {
 	env := ProvideEnvironmentVariables()
 	app := core.NewApp()
 
 	app.RegisterProviders(
 		example.NewHandler,
+		example.NewService,
 	)
 
 	app.RegisterProviders(
@@ -31,5 +32,5 @@ func ProvideAppAndRun() error {
 		InvokeSetRouteHTTPServer,
 	)
 
-	return app.Run()
+	return app
 }
