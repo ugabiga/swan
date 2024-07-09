@@ -18,6 +18,7 @@ const (
 
 func CreateNew(
 	appName string,
+	addWebProject bool,
 ) error {
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
 		URL:      StarterRepo,
@@ -74,6 +75,16 @@ func CreateNew(
 		return err
 	}
 
+	if addWebProject {
+		if err := setupDependenciesForWeb(appName); err != nil {
+			return err
+		}
+	} else {
+		if err := os.RemoveAll(fmt.Sprintf("./%s/web", appName)); err != nil {
+			return err
+		}
+	}
+
 	if err := cleanKeepFiles(appName); err != nil {
 		return err
 	}
@@ -123,6 +134,21 @@ func setupDependencies(appName string) error {
 
 	for _, command := range commands {
 		command.Dir = "./" + appName
+		if _, err := command.Output(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func setupDependenciesForWeb(appName string) error {
+	commands := []*exec.Cmd{
+		exec.Command("yarn"),
+	}
+
+	for _, command := range commands {
+		command.Dir = "./" + appName + "/web"
 		if _, err := command.Output(); err != nil {
 			return err
 		}
