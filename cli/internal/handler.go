@@ -55,14 +55,15 @@ func (h *Handler) SetRoutes(e *echo.Group) {
 //	@Param			limit		query		int		false	"Limit"
 //	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
+//	@Failure		400			{object}	utl.RequestValidationErrorResponse
 //	@Router			ROUTE_PREFIX/DOMAIN [get]
 func (h *Handler) List(c echo.Context) error {
 	var query ListQuery
 	if err := c.Bind(&query); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
 	}
 
-	validationErrors, ok := utl.ValidateStruct(query)
+	validationErrors, ok := utl.ValidateRequestStruct(query)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
@@ -92,16 +93,17 @@ type ListResp struct {
 //	@Param			limit		query		int		false	"Limit"
 //	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
+//	@Failure		400			{object}	utl.RequestValidationErrorResponse
 //	@Router			ROUTE_PREFIX/DOMAIN/{id} [get]
 func (h *Handler) One(c echo.Context) error {
 	id := c.Param("id")
 
 	var query OneQuery
 	if err := c.Bind(&query); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
 	}
 
-	validationErrors, ok := utl.ValidateStruct(query)
+	validationErrors, ok := utl.ValidateRequestStruct(query)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
@@ -129,14 +131,15 @@ type OneResp struct {
 //	@Produce		json
 //	@Param			req	body		CreateReq	true	"Request"
 //	@Success		200	{object}	CreateResp
+//	@Failure		400	{object}	utl.RequestValidationErrorResponse
 //	@Router			ROUTE_PREFIX/DOMAIN [post]
 func (h *Handler) Create(c echo.Context) error {
 	var req CreateReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
 	}
 
-	validationErrors, ok := utl.ValidateStruct(req)
+	validationErrors, ok := utl.ValidateRequestStruct(req)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
@@ -164,16 +167,17 @@ type CreateResp struct {
 //	@Param			id	path		string	true	"ID"
 //	@Param			req	body		EditReq	true	"Request"
 //	@Success		200	{object}	EditResp
+//	@Failure		400	{object}	utl.RequestValidationErrorResponse
 //	@Router			ROUTE_PREFIX/DOMAIN/{id} [put]
 func (h *Handler) Edit(c echo.Context) error {
 	id := c.Param("id")
 
 	var req EditReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
 	}
 
-	validationErrors, ok := utl.ValidateStruct(req)
+	validationErrors, ok := utl.ValidateRequestStruct(req)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
@@ -203,17 +207,17 @@ type EditResp struct {
 //	@Param			id	path		string		true	"ID"
 //	@Param			req	body		DeleteReq	true	"Request"
 //	@Success		200	{object}	DeleteResp
-//	@Failure		400	{object}	nil
+//	@Failure		400	{object}	utl.RequestValidationErrorResponse
 //	@Router			ROUTE_PREFIX/DOMAIN/{id} [delete]
 func (h *Handler) Delete(c echo.Context) error {
 	id := c.Param("id")
 
 	var req DeleteReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
 	}
 
-	validationErrors, ok := utl.ValidateStruct(req)
+	validationErrors, ok := utl.ValidateRequestStruct(req)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
