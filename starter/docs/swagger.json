@@ -6,7 +6,6 @@
         "contact": {
             "name": "API Support"
         },
-        "license": {},
         "version": "0.1.0"
     },
     "host": "localhost:8080",

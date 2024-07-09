@@ -12,7 +12,6 @@ const docTemplate = `{
         "contact": {
             "name": "API Support"
         },
-        "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
