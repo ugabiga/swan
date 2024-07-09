@@ -2,9 +2,9 @@ package main
 
 import "github.com/ugabiga/swan/starter/internal/providers"
 
-//	@title			STARTER_TITLE
+//	@title			STARTER_PLACEHOLDER
 //	@version		0.1.0
-//	@description	Swan
+//	@description	STARTER_PLACEHOLDER
 //	@termsOfService
 
 //	@contact.name	API Support

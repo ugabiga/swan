@@ -66,6 +66,10 @@ func CreateNew(
 		return err
 	}
 
+	if err := setupMainFile(appName); err != nil {
+		return err
+	}
+
 	if err := setupDependencies(appName); err != nil {
 		return err
 	}
@@ -87,6 +91,23 @@ func setupEnvFile(appName string) error {
 	envFileContents = strings.ReplaceAll(envFileContents, "starter", appName)
 
 	if err := os.WriteFile("./"+appName+"/.env", []byte(envFileContents), 0644); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func setupMainFile(appName string) error {
+	filePath := fmt.Sprintf("./%s/cmd/swan/main.go", appName)
+	mainFile, err := os.ReadFile(filePath)
+	if err != nil {
+		return err
+	}
+
+	mailFileContents := string(mainFile)
+	mailFileContents = strings.ReplaceAll(mailFileContents, "STARTER_PLACEHOLDER", appName)
+
+	if err := os.WriteFile(filePath, []byte(mailFileContents), 0644); err != nil {
 		return err
 	}
 
