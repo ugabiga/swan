@@ -105,6 +105,10 @@ func setupEnvFile(appName string) error {
 		return err
 	}
 
+	if err := os.WriteFile("./"+appName+"/.env.test", []byte(envFileContents), 0644); err != nil {
+		return err
+	}
+
 	return nil
 }
 
