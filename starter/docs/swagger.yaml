@@ -1,9 +1,10 @@
-basePath: /
 definitions:
   example.CreateReq:
     properties:
       name:
         type: string
+    required:
+    - name
     type: object
   example.CreateResp:
     properties:
@@ -41,8 +42,7 @@ definitions:
     type: object
 host: localhost:8080
 info:
-  contact:
-    name: API Support
+  contact: {}
   description: STARTER_PLACEHOLDER
   title: STARTER_PLACEHOLDER
   version: 0.1.0

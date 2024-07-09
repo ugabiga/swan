@@ -3,13 +3,10 @@
     "info": {
         "description": "STARTER_PLACEHOLDER",
         "title": "STARTER_PLACEHOLDER",
-        "contact": {
-            "name": "API Support"
-        },
+        "contact": {},
         "version": "0.1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/",
     "paths": {
         "/example": {
             "get": {
@@ -209,6 +206,9 @@
     "definitions": {
         "example.CreateReq": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
                 "name": {
                     "type": "string"

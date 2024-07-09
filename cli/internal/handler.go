@@ -20,6 +20,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/ugabiga/swan/utl"
 )
 
 type Handler struct {
@@ -58,7 +59,12 @@ func (h *Handler) SetRoutes(e *echo.Group) {
 func (h *Handler) List(c echo.Context) error {
 	var query ListQuery
 	if err := c.Bind(&query); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+	}
+
+	validationErrors, ok := utl.ValidateStruct(query)
+	if !ok {
+		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
 
 	return c.JSON(http.StatusOK, ListResp{
@@ -90,6 +96,16 @@ type ListResp struct {
 func (h *Handler) One(c echo.Context) error {
 	id := c.Param("id")
 
+	var query OneQuery
+	if err := c.Bind(&query); err != nil {
+		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+	}
+
+	validationErrors, ok := utl.ValidateStruct(query)
+	if !ok {
+		return c.JSON(http.StatusBadRequest, validationErrors)
+	}
+
 	return c.JSON(http.StatusOK, OneResp{
 		ID: id,
 	})
@@ -117,7 +133,12 @@ type OneResp struct {
 func (h *Handler) Create(c echo.Context) error {
 	var req CreateReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+	}
+
+	validationErrors, ok := utl.ValidateStruct(req)
+	if !ok {
+		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
 
 	return c.JSON(http.StatusOK, CreateResp{
@@ -149,7 +170,12 @@ func (h *Handler) Edit(c echo.Context) error {
 
 	var req EditReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+	}
+
+	validationErrors, ok := utl.ValidateStruct(req)
+	if !ok {
+		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
 
 	return c.JSON(http.StatusOK, EditResp{
@@ -184,7 +210,12 @@ func (h *Handler) Delete(c echo.Context) error {
 
 	var req DeleteReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, utl.AllFieldsAreEmpty())
+	}
+
+	validationErrors, ok := utl.ValidateStruct(req)
+	if !ok {
+		return c.JSON(http.StatusBadRequest, validationErrors)
 	}
 
 	return c.JSON(http.StatusOK, DeleteResp{
