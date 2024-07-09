@@ -43,9 +43,9 @@ host: localhost:8080
 info:
   contact:
     name: API Support
-  description: Swan
+  description: STARTER_PLACEHOLDER
   license: {}
-  title: Swan
+  title: STARTER_PLACEHOLDER
   version: 0.1.0
 paths:
   /example:
