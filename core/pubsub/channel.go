@@ -4,14 +4,13 @@ import (
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/ThreeDotsLabs/watermill/pubsub/gochannel"
-	"github.com/ugabiga/swan/core"
 )
 
 type Channel struct {
 	pubSub *gochannel.GoChannel
 }
 
-func NewChannel() core.PubSubInstance {
+func NewChannel() Container {
 	//TODO: Add slog
 	logger := watermill.NewStdLogger(false, false)
 

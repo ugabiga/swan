@@ -2,7 +2,6 @@ package providers
 
 import (
 	"github.com/ugabiga/swan/core"
-	"github.com/ugabiga/swan/core/pubsub"
 	"github.com/ugabiga/swan/starter/internal/example"
 )
 
@@ -18,7 +17,7 @@ func ProvideApp() *core.App {
 
 	//Event
 	app.RegisterProviders(
-		pubsub.NewChannel,
+		ProvidePubSubContainer,
 		core.NewEventEmitter,
 	)
 

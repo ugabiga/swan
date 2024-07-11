@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
@@ -30,7 +31,20 @@ func ValidateEnvironmentVariables[T interface{}]() *T {
 		}
 
 		if envValue := os.Getenv(envName); envValue != "" {
-			value.Field(i).SetString(envValue)
+			// set the value by types
+			switch field.Type.Kind() {
+			case reflect.String:
+				value.Field(i).SetString(envValue)
+			case reflect.Int:
+				//Convert the string to int
+				envIntValue, err := strconv.Atoi(envValue)
+				if err != nil {
+					log.Fatal(err)
+				}
+				value.Field(i).SetInt(int64(envIntValue))
+			default:
+				log.Fatal(errors.New("unsupported type"))
+			}
 		}
 	}
 

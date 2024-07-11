@@ -7,24 +7,20 @@ import (
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
+	"github.com/ugabiga/swan/core/pubsub"
 )
 
-type PubSubInstance interface {
-	NewSubscriber() message.Subscriber
-	NewPublisher() message.Publisher
-}
-
 type EventEmitter struct {
-	logger         *slog.Logger
-	router         *message.Router
-	pubSubInstance PubSubInstance
-	subscriber     message.Subscriber
-	publisher      message.Publisher
+	logger          *slog.Logger
+	router          *message.Router
+	pubSubContainer pubsub.Container
+	subscriber      message.Subscriber
+	publisher       message.Publisher
 }
 
 func NewEventEmitter(
 	logger *slog.Logger,
-	pubSubInstance PubSubInstance,
+	pubSubContainer pubsub.Container,
 ) *EventEmitter {
 	//TODO: Add slog
 	router, err := message.NewRouter(
@@ -36,11 +32,11 @@ func NewEventEmitter(
 	}
 
 	return &EventEmitter{
-		logger:         logger,
-		router:         router,
-		pubSubInstance: pubSubInstance,
-		subscriber:     pubSubInstance.NewSubscriber(),
-		publisher:      pubSubInstance.NewPublisher(),
+		logger:          logger,
+		router:          router,
+		pubSubContainer: pubSubContainer,
+		subscriber:      pubSubContainer.NewSubscriber(),
+		publisher:       pubSubContainer.NewPublisher(),
 	}
 }
 
