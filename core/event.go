@@ -1,0 +1,95 @@
+package core
+
+import (
+	"context"
+	"log"
+	"log/slog"
+
+	"github.com/ThreeDotsLabs/watermill"
+	"github.com/ThreeDotsLabs/watermill/message"
+)
+
+type PubSubInstance interface {
+	NewSubscriber() message.Subscriber
+	NewPublisher() message.Publisher
+}
+
+type EventEmitter struct {
+	logger         *slog.Logger
+	router         *message.Router
+	pubSubInstance PubSubInstance
+	subscriber     message.Subscriber
+	publisher      message.Publisher
+}
+
+func NewEventEmitter(
+	logger *slog.Logger,
+	pubSubInstance PubSubInstance,
+) *EventEmitter {
+	//TODO: Add slog
+	router, err := message.NewRouter(
+		message.RouterConfig{},
+		watermill.NewStdLogger(false, false),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &EventEmitter{
+		logger:         logger,
+		router:         router,
+		pubSubInstance: pubSubInstance,
+		subscriber:     pubSubInstance.NewSubscriber(),
+		publisher:      pubSubInstance.NewPublisher(),
+	}
+}
+
+func (emitter *EventEmitter) AddOneWayHandler(handlerName, topic string, handler message.NoPublishHandlerFunc) {
+	emitter.router.AddNoPublisherHandler(handlerName, topic, emitter.subscriber, handler)
+}
+
+func (emitter *EventEmitter) AddTwoWayHandler(handlerName, topicSubscription, topicPublisher string, handler message.HandlerFunc) {
+	emitter.router.AddHandler(handlerName, topicSubscription, emitter.subscriber, topicPublisher, emitter.publisher, handler)
+}
+
+func (emitter *EventEmitter) AddCustomOneWayHandler(
+	handlerName string,
+	subscribeTopic string,
+	subscriber message.Subscriber,
+	handlerFunc message.NoPublishHandlerFunc,
+) {
+	emitter.router.AddNoPublisherHandler(handlerName, subscribeTopic, subscriber, handlerFunc)
+}
+
+func (emitter *EventEmitter) AddCustomTwoWayHandler(
+	handlerName string,
+	subscribeTopic string,
+	subscriber message.Subscriber,
+	publishTopic string,
+	publisher message.Publisher,
+	handlerFunc message.HandlerFunc,
+) {
+	emitter.router.AddHandler(handlerName, subscribeTopic, subscriber, publishTopic, publisher, handlerFunc)
+}
+
+func (emitter *EventEmitter) Emit(topic string, payload []byte) error {
+	msg := message.NewMessage(watermill.NewUUID(), payload)
+	if err := emitter.publisher.Publish(topic, msg); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (emitter *EventEmitter) Run() {
+	emitter.logger.Info("Listening for events")
+
+	err := emitter.router.Run(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (emitter *EventEmitter) ListenForEvents() {
+	go emitter.Run()
+}

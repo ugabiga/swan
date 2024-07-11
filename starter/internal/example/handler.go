@@ -5,20 +5,24 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/ugabiga/swan/core"
 	"github.com/ugabiga/swan/utl"
 )
 
 type Handler struct {
-	prefix string
-	logger *slog.Logger
+	prefix       string
+	logger       *slog.Logger
+	eventEmitter *core.EventEmitter
 }
 
 func NewHandler(
 	logger *slog.Logger,
+	eventEmitter *core.EventEmitter,
 ) *Handler {
 	return &Handler{
-		prefix: "/example",
-		logger: logger,
+		prefix:       "/example",
+		logger:       logger,
+		eventEmitter: eventEmitter,
 	}
 }
 
@@ -51,6 +55,10 @@ func (h *Handler) List(c echo.Context) error {
 	validationErrors, ok := utl.ValidateRequestStruct(query)
 	if !ok {
 		return c.JSON(http.StatusBadRequest, validationErrors)
+	}
+
+	if err := h.eventEmitter.Emit("example", []byte(`{"message": "List"}`)); err != nil {
+		return err
 	}
 
 	return c.JSON(http.StatusOK, ListResp{
