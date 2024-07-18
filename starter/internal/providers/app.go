@@ -43,5 +43,12 @@ func ProvideApp() *core.App {
 		InvokeListenForEvents,
 	)
 
+	//Command
+	app.RegisterCommands(
+		map[string]any{
+			"example": example.NewCommand,
+		},
+	)
+
 	return app
 }
