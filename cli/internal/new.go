@@ -1,7 +1,9 @@
 package internal
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -14,6 +16,10 @@ const (
 	StarterRepo    = "https://github.com/ugabiga/swan.git"
 	StarterDirName = "starter"
 	StarterPath    = "swan/starter"
+)
+
+var (
+	ErrorNoYarn = errors.New("yarn not found")
 )
 
 func CreateNew(
@@ -75,9 +81,11 @@ func CreateNew(
 		return err
 	}
 
+	// TODO : Refactor this
 	if addWebProject {
 		if err := setupDependenciesForWeb(appName); err != nil {
-			return err
+			log.Printf("Error setting up web project dependencies: %v", err)
+			log.Printf("Skipping web project dependencies setup")
 		}
 	} else {
 		if err := os.RemoveAll(fmt.Sprintf("./%s/web", appName)); err != nil {
@@ -149,6 +157,11 @@ func setupDependencies(appName string) error {
 func setupDependenciesForWeb(appName string) error {
 	commands := []*exec.Cmd{
 		exec.Command("yarn"),
+	}
+
+	_, err := exec.LookPath("yarn")
+	if err != nil {
+		return ErrorNoYarn
 	}
 
 	for _, command := range commands {
