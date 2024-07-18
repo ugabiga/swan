@@ -45,9 +45,7 @@ func ProvideApp() *core.App {
 
 	//Command
 	app.RegisterCommands(
-		map[string]any{
-			"example": example.NewCommand,
-		},
+		Commands,
 	)
 
 	return app
