@@ -34,6 +34,8 @@ func NewContainer(
 ) (Container, error) {
 
 	switch config.EventDriver {
+	case "channel":
+		return NewChannel(), nil
 	case "redis":
 		if config.RedisAddr == nil || config.RedisDB == nil {
 			return nil, ErrRedisConfigIsEmpty
