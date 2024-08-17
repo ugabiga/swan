@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/ugabiga/swan/starter/internal/providers"
+	"github.com/ugabiga/swan/starter/internal/config"
 )
 
 func main() {
-	if err := providers.ProvideApp().RunCommand("example"); err != nil {
+	if err := config.ProvideApp().RunCommand("example"); err != nil {
 		panic(err)
 	}
 }

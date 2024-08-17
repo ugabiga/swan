@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ugabiga/swan/starter/internal/providers"
+	"github.com/ugabiga/swan/starter/internal/config"
 )
 
 // @title			STARTER_PLACEHOLDER
@@ -10,7 +10,7 @@ import (
 // @host			localhost:8080
 // @BasePath
 func main() {
-	if err := providers.ProvideApp().Run(); err != nil {
+	if err := config.ProvideApp().Run(); err != nil {
 		panic(err)
 	}
 }
