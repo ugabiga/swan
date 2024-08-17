@@ -16,7 +16,8 @@ func ProvideApp() *core.App {
 	)
 
 	app.RegisterInvokers(
-		example.InvokeNewCommand,
+		example.InvokeSetMainCommand,
+		example.InvokeSetExampleCommand,
 	)
 
 	//HTTP Server

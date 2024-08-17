@@ -7,7 +7,7 @@ import (
 	"github.com/ugabiga/swan/core"
 )
 
-func InvokeNewCommand(
+func InvokeSetMainCommand(
 	command *core.Command,
 	logger *slog.Logger,
 ) {
@@ -17,6 +17,23 @@ func InvokeNewCommand(
 			Short: "Main command",
 			Run: func(cmd *cobra.Command, args []string) {
 				logger.Info("Command example")
+			},
+		},
+	)
+}
+
+func InvokeSetExampleCommand(
+	command *core.Command,
+	logger *slog.Logger,
+) {
+	command.RegisterCommand(
+		&cobra.Command{
+			Use:   "example",
+			Short: "example command",
+			Run: func(cmd *cobra.Command, args []string) {
+				logger.Info("Example command",
+					slog.Any("args", args),
+				)
 			},
 		},
 	)

@@ -13,7 +13,7 @@ func NewCommand() *Command {
 	}
 }
 
-func (c *Command) RegisterNewCommands(commands ...*cobra.Command) {
+func (c *Command) RegisterCommand(commands ...*cobra.Command) {
 	c.commands = append(c.commands, commands...)
 }
 
@@ -22,6 +22,10 @@ func (c *Command) RegisterMainCommand(command *cobra.Command) {
 }
 
 func (c *Command) Run() error {
+	for _, command := range c.commands {
+		c.mainCommand.AddCommand(command)
+	}
+
 	if err := c.mainCommand.Execute(); err != nil {
 		return err
 	}
