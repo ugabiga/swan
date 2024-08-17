@@ -1,7 +1,9 @@
 package config
 
-import "github.com/ugabiga/swan/starter/internal/example"
+import (
+	"github.com/ugabiga/swan/core"
+)
 
-var Commands = map[string]any{
-	"crawl": example.InvokeCommand,
+func ProvideCommand() *core.Command {
+	return core.NewCommand()
 }

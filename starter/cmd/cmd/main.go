@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	if err := config.ProvideApp().RunCommand("example"); err != nil {
+	if err := config.ProvideApp().RunCmd(); err != nil {
 		panic(err)
 	}
 }

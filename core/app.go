@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"log/slog"
 
 	"go.uber.org/fx"
@@ -10,7 +9,6 @@ import (
 type App struct {
 	Providers []any
 	Invokers  []any
-	Commands  map[string]any
 }
 
 type AppConfig struct {
@@ -29,8 +27,30 @@ func (c *App) RegisterInvokers(invokers ...any) {
 	c.Invokers = append(c.Invokers, invokers...)
 }
 
-func (c *App) RegisterCommands(commands map[string]any) {
-	c.Commands = commands
+func (c *App) Invoke() error {
+	fx.New(
+		fx.Provide(c.Providers...),
+		fx.Invoke(c.Invokers...),
+	)
+
+	return nil
+}
+
+func (c *App) RunCmd() error {
+	fx.New(
+		fx.Provide(c.Providers...),
+		fx.Invoke(c.Invokers...),
+		fx.Invoke(func(
+			logger *slog.Logger,
+			command *Command,
+		) {
+			if err := command.Run(); err != nil {
+				logger.Error("Failed to run command", slog.Any("error", err))
+			}
+		}),
+	)
+
+	return nil
 }
 
 func (c *App) Run() error {
@@ -46,30 +66,6 @@ func (c *App) Run() error {
 				logger.Error("Failed to start the server", slog.Any("error", err))
 			}
 		}),
-	)
-
-	return nil
-}
-
-func (c *App) Invoke() error {
-	fx.New(
-		fx.Provide(c.Providers...),
-		fx.Invoke(c.Invokers...),
-	)
-
-	return nil
-}
-
-func (c *App) RunCommand(commandStr string) error {
-	command := c.Commands[commandStr]
-	if command == nil {
-		return fmt.Errorf("command %s not found", commandStr)
-	}
-
-	fx.New(
-		fx.Provide(c.Providers...),
-		fx.Invoke(c.Invokers...),
-		fx.Invoke(command),
 	)
 
 	return nil

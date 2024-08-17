@@ -15,6 +15,10 @@ func ProvideApp() *core.App {
 		example.NewService,
 	)
 
+	app.RegisterInvokers(
+		example.InvokeNewCommand,
+	)
+
 	//HTTP Server
 	app.RegisterProviders(
 		func() core.ServerConfig {
@@ -27,6 +31,7 @@ func ProvideApp() *core.App {
 
 	//Default Providers
 	app.RegisterProviders(
+		ProvideCommand,
 		ProvideEventEmitter,
 		ProvideEventPubSubContainer,
 		ProvideEnvironmentVariables,
@@ -38,11 +43,6 @@ func ProvideApp() *core.App {
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
 		InvokeListenForEvents,
-	)
-
-	//Command
-	app.RegisterCommands(
-		Commands,
 	)
 
 	return app
