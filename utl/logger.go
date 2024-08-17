@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"strings"
 
+	charmlogger "github.com/charmbracelet/log"
 	slogformatter "github.com/samber/slog-formatter"
 )
 
@@ -27,6 +28,21 @@ func NewDefaultLogger(opts *slog.HandlerOptions) *slog.Logger {
 	)
 
 	return logger
+}
+
+func NewCharmLogger() *slog.Logger {
+	charmLoggerStyle := charmlogger.DefaultStyles()
+
+	charmLogger := charmlogger.NewWithOptions(
+		os.Stdout,
+		charmlogger.Options{
+			ReportCaller:    true,
+			ReportTimestamp: true,
+		},
+	)
+	charmLogger.SetStyles(charmLoggerStyle)
+
+	return slog.New(charmLogger)
 }
 
 func errorFormatter(fieldName string) slogformatter.Formatter {
