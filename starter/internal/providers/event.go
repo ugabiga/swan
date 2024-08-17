@@ -9,7 +9,17 @@ import (
 	"github.com/ugabiga/swan/core/pubsub"
 )
 
-func ProvidePubSubContainer(env *EnvironmentVariables) (pubsub.Container, error) {
+func ProvideEventEmitter(
+	logger *slog.Logger,
+	pubSubContainer pubsub.Container,
+) *core.EventEmitter {
+	return core.NewEventEmitter(
+		logger,
+		pubSubContainer,
+	)
+}
+
+func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, error) {
 	return pubsub.NewContainer(
 		pubsub.ContainerConfig{
 			EventDriver: env.EventDriver,

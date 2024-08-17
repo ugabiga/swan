@@ -15,17 +15,6 @@ func ProvideApp() *core.App {
 		example.NewService,
 	)
 
-	//Event
-	app.RegisterProviders(
-		ProvidePubSubContainer,
-		core.NewEventEmitter,
-	)
-
-	app.RegisterProviders(
-		ProvideEnvironmentVariables,
-		ProvideLogger,
-	)
-
 	//HTTP Server
 	app.RegisterProviders(
 		func() core.ServerConfig {
@@ -34,6 +23,14 @@ func ProvideApp() *core.App {
 			}
 		},
 		core.NewServer,
+	)
+
+	//Default Providers
+	app.RegisterProviders(
+		ProvideEventEmitter,
+		ProvideEventPubSubContainer,
+		ProvideEnvironmentVariables,
+		ProvideLogger,
 	)
 
 	//Invoke
