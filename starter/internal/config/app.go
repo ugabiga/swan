@@ -19,35 +19,29 @@ func ProvideApp() *core.App {
 		example.InvokeSetExampleCommand,
 	)
 
-	//HTTP Server
+	// Events
 	app.RegisterProviders(
-		func() core.ServerConfig {
-			return core.ServerConfig{
-				Addr: env.Addr,
-			}
-		},
-		core.NewServer,
+		core.NewEventEmitter,
 	)
 
-	//Default Providers
+	app.RegisterInvokers(
+		core.InvokeListenForEvents,
+	)
+
+	// Core
 	app.RegisterProviders(
 		ProvideEventPubSubContainer,
 		ProvideEnvironmentVariables,
 		ProvideLogger,
-		core.NewEventEmitter,
-		core.NewCronTab,
-		core.NewCommand,
 	)
 
-	//Invoke
 	app.RegisterInvokers(
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
 		InvokeToSetCronTabRouter,
-		core.InvokeListenForEvents,
-		core.InvokeSetCronCommand,
-		core.InvokeSetMainCommand,
 	)
+
+	ProvideConfigs(app, env)
 
 	return app
 }

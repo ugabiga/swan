@@ -17,7 +17,20 @@ type AppConfig struct {
 }
 
 func NewApp() *App {
-	return &App{}
+	a := &App{}
+
+	a.RegisterProviders(
+		NewCronTab,
+		NewCommand,
+		NewServer,
+	)
+
+	a.RegisterInvokers(
+		InvokeSetCronCommand,
+		InvokeSetMainCommand,
+	)
+
+	return a
 }
 
 func (c *App) RegisterProviders(providers ...any) {
