@@ -28,10 +28,9 @@ func NewEventEmitter(
 	logger *slog.Logger,
 	pubSubContainer pubsub.Container,
 ) *EventEmitter {
-	//TODO: Add slog
 	router, err := message.NewRouter(
 		message.RouterConfig{},
-		watermill.NewStdLogger(false, false),
+		watermill.NewSlogLogger(logger),
 	)
 	if err != nil {
 		log.Fatal(err)
