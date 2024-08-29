@@ -45,9 +45,12 @@ func (c *CronTab) RegisterCronJob(expression string, cronFunc func() error) {
 	c.cronJobs = append(c.cronJobs, NewCronJob(expression, cronFunc))
 }
 
-func (c *CronTab) Start() error {
+func (c *CronTab) Start() {
 	c.logger.Info("CronTab started")
+	go c.start()
+}
 
+func (c *CronTab) start() {
 	ticker := time.NewTicker(1 * time.Minute)
 	defer ticker.Stop()
 
