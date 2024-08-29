@@ -2,8 +2,10 @@ package core
 
 import (
 	"log/slog"
+	"os"
+	"os/signal"
+	"syscall"
 
-	"github.com/spf13/cobra"
 	"go.uber.org/fx"
 )
 
@@ -11,6 +13,7 @@ type App struct {
 	useDependencyLogger bool
 	Providers           []any
 	Invokers            []any
+	cleanUpFuncList     []func()
 }
 
 type AppConfig struct {
@@ -48,6 +51,10 @@ func (c *App) RegisterInvokers(invokers ...any) {
 	c.Invokers = append(c.Invokers, invokers...)
 }
 
+func (c *App) RegisterCleanUp(cleanUps ...func()) {
+	c.cleanUpFuncList = append(c.cleanUpFuncList, cleanUps...)
+}
+
 func (c *App) Invoke() error {
 	fx.New(
 		fx.Provide(c.Providers...),
@@ -66,6 +73,24 @@ func (c *App) Run() error {
 			command *Command,
 			server *Server,
 		) {
+			// Defer the cleanup function
+			defer func() {
+				c.cleanUp()
+			}()
+
+			// Create a channel to receive OS signals
+			sigChan := make(chan os.Signal, 1)
+			signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+
+			// Run a goroutine to wait for the signal
+			go func() {
+				sig := <-sigChan
+				logger.Info("Received signal", slog.Any("signal", sig))
+				c.cleanUp()
+				os.Exit(0)
+			}()
+
+			// Run the command
 			if err := command.Run(); err != nil {
 				logger.Error("Failed to run command", slog.Any("error", err))
 			}
@@ -76,25 +101,13 @@ func (c *App) Run() error {
 		options = append(options, fx.NopLogger)
 	}
 
-	fx.New(options...)
+	fx.New(options...).Run()
 
 	return nil
 }
 
-func InvokeSetMainCommand(
-	logger *slog.Logger,
-	server *Server,
-	command *Command,
-) {
-	command.registerMainCommand(
-		&cobra.Command{
-			Use:   "main",
-			Short: "",
-			Run: func(cmd *cobra.Command, args []string) {
-				if err := server.StartHTTPServer(); err != nil {
-					logger.Error("Failed to start the server", slog.Any("error", err))
-				}
-			},
-		},
-	)
+func (c *App) cleanUp() {
+	for _, cleanUp := range c.cleanUpFuncList {
+		cleanUp()
+	}
 }

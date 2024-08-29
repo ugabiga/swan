@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log/slog"
 	"time"
-
-	"github.com/spf13/cobra"
 )
 import "github.com/adhocore/gronx"
 
@@ -96,19 +94,4 @@ func (c *CronTab) startJobs() error {
 	}
 
 	return nil
-}
-
-func InvokeSetCronCommand(
-	crontab *CronTab,
-	command *Command,
-) {
-	command.RegisterCommand(
-		&cobra.Command{
-			Use:   "cron",
-			Short: "",
-			Run: func(cmd *cobra.Command, args []string) {
-				crontab.Start()
-			},
-		},
-	)
 }
