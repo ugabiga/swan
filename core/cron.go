@@ -4,12 +4,29 @@ import (
 	"fmt"
 	"log/slog"
 	"time"
+
+	"github.com/spf13/cobra"
 )
 import "github.com/adhocore/gronx"
 
 var (
 	ErrCronExpressionInvalid = fmt.Errorf("invalid cron expression")
 )
+
+func InvokeSetCronCommand(
+	crontab *CronTab,
+	command *Command,
+) {
+	command.RegisterCommand(
+		&cobra.Command{
+			Use:   "cron",
+			Short: "",
+			Run: func(cmd *cobra.Command, args []string) {
+				crontab.Start()
+			},
+		},
+	)
+}
 
 type CronJob struct {
 	cronExpression string
@@ -47,7 +64,7 @@ func (c *CronTab) RegisterCronJob(expression string, cronFunc func() error) {
 
 func (c *CronTab) Start() {
 	c.logger.Info("CronTab started")
-	go c.start()
+	c.start()
 }
 
 func (c *CronTab) start() {
