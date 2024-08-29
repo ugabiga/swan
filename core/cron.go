@@ -41,8 +41,8 @@ func NewCronTab(
 	}
 }
 
-func (c *CronTab) RegisterCronJob(cronJob *CronJob) {
-	c.cronJobs = append(c.cronJobs, cronJob)
+func (c *CronTab) RegisterCronJob(expression string, cronFunc func() error) {
+	c.cronJobs = append(c.cronJobs, NewCronJob(expression, cronFunc))
 }
 
 func (c *CronTab) Start() error {
