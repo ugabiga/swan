@@ -13,21 +13,6 @@ var (
 	ErrCronExpressionInvalid = fmt.Errorf("invalid cron expression")
 )
 
-func InvokeSetCronCommand(
-	crontab *CronTab,
-	command *Command,
-) {
-	command.RegisterCommand(
-		&cobra.Command{
-			Use:   "cron",
-			Short: "",
-			Run: func(cmd *cobra.Command, args []string) {
-				crontab.Start()
-			},
-		},
-	)
-}
-
 type CronJob struct {
 	cronExpression string
 	cronFunc       func() error
@@ -111,4 +96,19 @@ func (c *CronTab) startJobs() error {
 	}
 
 	return nil
+}
+
+func InvokeSetCronCommand(
+	crontab *CronTab,
+	command *Command,
+) {
+	command.RegisterCommand(
+		&cobra.Command{
+			Use:   "cron",
+			Short: "",
+			Run: func(cmd *cobra.Command, args []string) {
+				crontab.Start()
+			},
+		},
+	)
 }

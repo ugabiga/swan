@@ -17,7 +17,7 @@ func (c *Command) RegisterCommand(commands ...*cobra.Command) {
 	c.commands = append(c.commands, commands...)
 }
 
-func (c *Command) RegisterMainCommand(command *cobra.Command) {
+func (c *Command) registerMainCommand(command *cobra.Command) {
 	c.mainCommand = command
 }
 
