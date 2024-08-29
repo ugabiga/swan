@@ -37,7 +37,7 @@ func (c *App) Invoke() error {
 	return nil
 }
 
-func (c *App) RunCmd() error {
+func (c *App) Run() error {
 	fx.New(
 		fx.Provide(c.Providers...),
 		fx.Invoke(c.Invokers...),
@@ -47,24 +47,6 @@ func (c *App) RunCmd() error {
 		) {
 			if err := command.Run(); err != nil {
 				logger.Error("Failed to run command", slog.Any("error", err))
-			}
-		}),
-	)
-
-	return nil
-}
-
-func (c *App) Run() error {
-	fx.New(
-		fx.Provide(c.Providers...),
-		fx.Invoke(c.Invokers...),
-		fx.Invoke(func(
-			lc fx.Lifecycle,
-			logger *slog.Logger,
-			server *Server,
-		) {
-			if err := server.StartHTTPServer(); err != nil {
-				logger.Error("Failed to start the server", slog.Any("error", err))
 			}
 		}),
 	)
