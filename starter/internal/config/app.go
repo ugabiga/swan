@@ -41,6 +41,8 @@ func ProvideApp() *core.App {
 		InvokeToSetCronTabRouter,
 	)
 
+	app.SetUseDependencyLogger(false)
+
 	ProvideConfigs(app, env)
 
 	return app

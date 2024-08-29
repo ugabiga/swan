@@ -8,8 +8,9 @@ import (
 )
 
 type App struct {
-	Providers []any
-	Invokers  []any
+	useDependencyLogger bool
+	Providers           []any
+	Invokers            []any
 }
 
 type AppConfig struct {
@@ -17,7 +18,9 @@ type AppConfig struct {
 }
 
 func NewApp() *App {
-	a := &App{}
+	a := &App{
+		useDependencyLogger: true,
+	}
 
 	a.RegisterProviders(
 		NewCronTab,
@@ -31,6 +34,10 @@ func NewApp() *App {
 	)
 
 	return a
+}
+
+func (c *App) SetUseDependencyLogger(useDependencyLogger bool) {
+	c.useDependencyLogger = useDependencyLogger
 }
 
 func (c *App) RegisterProviders(providers ...any) {
@@ -51,18 +58,25 @@ func (c *App) Invoke() error {
 }
 
 func (c *App) Run() error {
-	fx.New(
+	options := []fx.Option{
 		fx.Provide(c.Providers...),
 		fx.Invoke(c.Invokers...),
 		fx.Invoke(func(
 			logger *slog.Logger,
 			command *Command,
+			server *Server,
 		) {
 			if err := command.Run(); err != nil {
 				logger.Error("Failed to run command", slog.Any("error", err))
 			}
 		}),
-	)
+	}
+
+	if !c.useDependencyLogger {
+		options = append(options, fx.NopLogger)
+	}
+
+	fx.New(options...)
 
 	return nil
 }
