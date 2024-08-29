@@ -9,16 +9,6 @@ import (
 	"github.com/ugabiga/swan/core/pubsub"
 )
 
-func ProvideEventEmitter(
-	logger *slog.Logger,
-	pubSubContainer pubsub.Container,
-) *core.EventEmitter {
-	return core.NewEventEmitter(
-		logger,
-		pubSubContainer,
-	)
-}
-
 func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, error) {
 	return pubsub.NewContainer(
 		pubsub.ContainerConfig{
@@ -51,10 +41,4 @@ func InvokeSetEventRouter(
 			return nil
 		},
 	)
-}
-
-func InvokeListenForEvents(
-	eventEmitter *core.EventEmitter,
-) {
-	eventEmitter.ListenForEvents()
 }

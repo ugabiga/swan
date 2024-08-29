@@ -10,6 +10,12 @@ import (
 	"github.com/ugabiga/swan/core/pubsub"
 )
 
+func InvokeListenForEvents(
+	eventEmitter *EventEmitter,
+) {
+	eventEmitter.ListenForEvents()
+}
+
 type EventEmitter struct {
 	logger          *slog.Logger
 	router          *message.Router

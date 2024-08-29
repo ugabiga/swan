@@ -33,19 +33,19 @@ func ProvideApp() *core.App {
 
 	//Default Providers
 	app.RegisterProviders(
-		ProvideCommand,
-		ProvideEventEmitter,
 		ProvideEventPubSubContainer,
 		ProvideEnvironmentVariables,
 		ProvideLogger,
+		core.NewEventEmitter,
 		core.NewCronTab,
+		core.NewCommand,
 	)
 
 	//Invoke
 	app.RegisterInvokers(
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
-		InvokeListenForEvents,
+		core.InvokeListenForEvents,
 		core.InvokeSetCronCommand,
 	)
 
