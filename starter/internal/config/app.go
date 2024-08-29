@@ -16,7 +16,6 @@ func ProvideApp() *core.App {
 	)
 
 	app.RegisterInvokers(
-		example.InvokeToSetCronTab,
 		example.InvokeSetExampleCommand,
 	)
 
@@ -44,6 +43,7 @@ func ProvideApp() *core.App {
 	app.RegisterInvokers(
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
+		InvokeToSetCronTabRouter,
 		core.InvokeListenForEvents,
 		core.InvokeSetCronCommand,
 		core.InvokeSetMainCommand,

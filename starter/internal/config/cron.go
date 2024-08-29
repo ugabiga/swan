@@ -1,4 +1,4 @@
-package example
+package config
 
 import (
 	"log/slog"
@@ -6,17 +6,12 @@ import (
 	"github.com/ugabiga/swan/core"
 )
 
-func InvokeToSetCronTab(
-	cronTab *core.CronTab,
+func InvokeToSetCronTabRouter(
 	logger *slog.Logger,
+	cronTab *core.CronTab,
 ) {
 	cronTab.RegisterCronJob("* * * * *", func() error {
 		logger.Info("Cron job 1")
-		return nil
-	})
-
-	cronTab.RegisterCronJob("* * * * *", func() error {
-		logger.Info("Cron job 2")
 		return nil
 	})
 }
