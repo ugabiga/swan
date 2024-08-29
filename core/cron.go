@@ -64,12 +64,14 @@ func (c *CronTab) Start() error {
 
 func (c *CronTab) startJobs() error {
 	for _, cronJob := range c.cronJobs {
-		if !c.gx.IsValid(cronJob.cronExpression) {
+		cronExpression := "* " + cronJob.cronExpression
+
+		if !c.gx.IsValid(cronExpression) {
 			c.logger.Error("Error", slog.Any("error", ErrCronExpressionInvalid))
 			continue
 		}
 
-		isDue, err := c.gx.IsDue(cronJob.cronExpression, time.Now())
+		isDue, err := c.gx.IsDue(cronExpression, time.Now())
 		if err != nil {
 			c.logger.Error("Error", slog.Any("error", err))
 			continue
