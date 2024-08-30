@@ -5,8 +5,8 @@ import (
 )
 
 // @title			STARTER_PLACEHOLDER
-// @version			0.1.0
-// @description		STARTER_PLACEHOLDER
+// @version		0.1.0
+// @description	STARTER_PLACEHOLDER
 // @host			localhost:8080
 // @BasePath
 func main() {
