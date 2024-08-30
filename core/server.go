@@ -41,6 +41,10 @@ func (s *Server) StartHTTPServer() error {
 	return s.e.Start(s.serverConfig.Addr)
 }
 
+func (s *Server) Shutdown() error {
+	return s.e.Shutdown(context.Background())
+}
+
 func (s *Server) initHTTPServer() {
 	logger := s.logger
 	s.e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{

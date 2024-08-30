@@ -39,7 +39,7 @@ func ProvideApp() *core.App {
 		InvokeToSetCleanup,
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
-		InvokeToSetCronTabRouter,
+		InvokeSetCronTabRouter,
 	)
 
 	app.SetUseDependencyLogger(false)

@@ -13,7 +13,7 @@ import (
 func InvokeListenForEvents(
 	eventEmitter *EventEmitter,
 ) {
-	eventEmitter.ListenForEvents()
+	go eventEmitter.ListenForEvents()
 }
 
 type EventEmitter struct {
@@ -92,5 +92,5 @@ func (emitter *EventEmitter) Run() {
 }
 
 func (emitter *EventEmitter) ListenForEvents() {
-	go emitter.Run()
+	emitter.Run()
 }

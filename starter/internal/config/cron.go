@@ -6,7 +6,7 @@ import (
 	"github.com/ugabiga/swan/core"
 )
 
-func InvokeToSetCronTabRouter(
+func InvokeSetCronTabRouter(
 	logger *slog.Logger,
 	cronTab *core.CronTab,
 ) {

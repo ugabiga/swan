@@ -6,14 +6,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func InvokeSetMainCommand(
+func InvokeSetServerCommand(
 	logger *slog.Logger,
 	server *Server,
 	command *Command,
 ) {
-	command.registerMainCommand(
+	command.RegisterCommand(
 		&cobra.Command{
-			Use:   "main",
+			Use:   "server",
 			Short: "",
 			Run: func(cmd *cobra.Command, args []string) {
 				if err := server.StartHTTPServer(); err != nil {
