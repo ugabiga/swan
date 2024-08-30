@@ -20,12 +20,12 @@ type Server struct {
 
 func NewServer(
 	serverConfig ServerConfig,
-	Logger *slog.Logger,
+	logger *slog.Logger,
 ) *Server {
 	server := &Server{
 		e:            echo.New(),
 		serverConfig: serverConfig,
-		logger:       Logger,
+		logger:       logger,
 	}
 
 	server.initHTTPServer()
@@ -38,6 +38,7 @@ func (s *Server) HTTPServer() *echo.Echo {
 }
 
 func (s *Server) StartHTTPServer() error {
+	s.logger.Info("Starting HTTP server", slog.String("addr", s.serverConfig.Addr))
 	return s.e.Start(s.serverConfig.Addr)
 }
 
@@ -47,6 +48,10 @@ func (s *Server) Shutdown() error {
 
 func (s *Server) initHTTPServer() {
 	logger := s.logger
+
+	s.e.HidePort = true
+	s.e.HideBanner = true
+
 	s.e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus:   true,
 		LogURI:      true,
@@ -54,12 +59,12 @@ func (s *Server) initHTTPServer() {
 		HandleError: true, // forwards error to the global error handler, so it can decide appropriate status code
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil {
-				logger.LogAttrs(context.Background(), slog.LevelDebug, "REQUEST",
+				logger.LogAttrs(context.Background(), slog.LevelDebug, "Request",
 					slog.String("uri", v.URI),
 					slog.Int("status", v.Status),
 				)
 			} else {
-				logger.LogAttrs(context.Background(), slog.LevelError, "REQUEST_ERROR",
+				logger.LogAttrs(context.Background(), slog.LevelError, "Request Error",
 					slog.String("uri", v.URI),
 					slog.Int("status", v.Status),
 					slog.String("err", v.Error.Error()),

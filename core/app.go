@@ -1,7 +1,6 @@
 package core
 
 import (
-	"context"
 	"log/slog"
 
 	"go.uber.org/fx"
@@ -63,21 +62,12 @@ func (c *App) Run() error {
 		fx.Provide(c.Providers...),
 		fx.Invoke(c.Invokers...),
 		fx.Invoke(func(
-			lc fx.Lifecycle,
 			logger *slog.Logger,
-			cleanup *Cleanup,
 			command *Command,
-			server *Server,
 		) {
-			lc.Append(fx.Hook{
-				OnStart: func(context.Context) error {
-					return command.Run()
-				},
-				OnStop: func(context.Context) error {
-					c.cleanUp(logger, cleanup)
-					return nil
-				},
-			})
+			if err := command.Run(); err != nil {
+				logger.Error("Failed to run command", slog.Any("error", err))
+			}
 		}),
 	}
 

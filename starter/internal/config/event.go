@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log/slog"
 
 	"github.com/ThreeDotsLabs/watermill/message"
@@ -34,8 +33,8 @@ func InvokeSetEventRouter(
 		"example",
 		func(msg *message.Message) error {
 			logger.Info("Received message",
-				slog.Any("message", msg),
-				slog.String("payload", fmt.Sprintf("%s", msg.Payload)),
+				slog.Any("uuid", msg.UUID),
+				slog.String("payload", string(msg.Payload)),
 			)
 
 			return nil
