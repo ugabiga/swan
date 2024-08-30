@@ -5,8 +5,7 @@ tmp_dir = "tmp"
 [build]
 args_bin = []
 bin = "./tmp/main server"
-#cmd = "swag fmt && swag init --parseDependency -g ./cmd/swan/main.go && go build -o ./tmp/main ./cmd/swan/main.go"
-cmd = "swag fmt && swag init -g cmd/swan/main.go && go build -o ./tmp/main ./cmd/swan/main.go"
+cmd = "swag fmt && swag init --parseDependency -g ./cmd/swan/main.go && go build -o ./tmp/main ./cmd/swan/main.go"
 delay = 500
 exclude_dir = ["assets", "tmp", "vendor", "testdata", "web", "docs"]
 exclude_file = []
