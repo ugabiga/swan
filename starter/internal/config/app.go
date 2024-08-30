@@ -19,27 +19,27 @@ func ProvideApp() *core.App {
 		example.InvokeSetExampleCommand,
 	)
 
-	// Events
+	// Events order between invokers and providers matter
+	app.RegisterInvokers(
+		InvokeSetEventRouter,
+		core.InvokeListenForEvents,
+	)
+
 	app.RegisterProviders(
 		core.NewEventEmitter,
 	)
 
+	// Core
 	app.RegisterInvokers(
-		core.InvokeListenForEvents,
+		InvokeToSetCleanup,
+		InvokeSetRouteHTTPServer,
+		InvokeSetCronTabRouter,
 	)
 
-	// Core
 	app.RegisterProviders(
 		ProvideEventPubSubContainer,
 		ProvideEnvironmentVariables,
 		ProvideLogger,
-	)
-
-	app.RegisterInvokers(
-		InvokeToSetCleanup,
-		InvokeSetRouteHTTPServer,
-		InvokeSetEventRouter,
-		InvokeSetCronTabRouter,
 	)
 
 	app.SetUseDependencyLogger(false)
