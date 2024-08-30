@@ -16,6 +16,8 @@ github.com/ThreeDotsLabs/watermill-redisstream v1.3.0 h1:iCNX6d2MiBkx0reAfLWa2Ls
 github.com/ThreeDotsLabs/watermill-redisstream v1.3.0/go.mod h1:ZRe0VpA0Ho/4MESUrXdqJMaWtiWhi4emxIYpqsxi98Y=
 github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1 h1:+uW9Db+7Ep4uon7enOq1cozCRua3REH7zdmtXIuGQ7c=
 github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1/go.mod h1:iYZqlHt0tJPQIFwQSXoI6GnxDhTZhAzxVR1/EIS3DOw=
+github.com/adhocore/gronx v1.19.0 h1:GrEvNMPDwXND+YFadCyFVQPC+/xxoGJaQzu+duNf6aU=
+github.com/adhocore/gronx v1.19.0/go.mod h1:7oUY1WAU8rEJWmAxXR2DN0JaO4gi9khSgKjiRypqteg=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
 github.com/bsm/ginkgo/v2 v2.12.0/go.mod h1:SwYbGRRDovPVboqFv0tPTcG1sN61LM1Z4ARdbAV9g4c=
 github.com/bsm/gomega v1.27.10 h1:yeMWxP2pV2fG3FgAODIY8EiRE3dy0aeFYt4l7wh6yKA=
@@ -24,6 +26,7 @@ github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj
 github.com/cespare/xxhash/v2 v2.2.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
+github.com/cpuguy83/go-md2man/v2 v2.0.4/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -82,6 +85,8 @@ github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/go-multierror v1.1.1 h1:H5DkEtf6CXdFp0N0Em5UCwQpXMWke8IA0+lD48awMYo=
 github.com/hashicorp/go-multierror v1.1.1/go.mod h1:iw975J/qwKPdAO1clOe2L8331t/9/fmwbPZ6JB6eMoM=
+github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
+github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/jackc/chunkreader/v2 v2.0.1 h1:i+RDz65UE+mmpjTfyz0MoVTnzeYxroil2G82ki7MGG8=
 github.com/jackc/chunkreader/v2 v2.0.1/go.mod h1:odVSm741yZoC3dpHEUXIqA9tQRhFrgOHwnPIn9lDKlk=
 github.com/jackc/pgconn v1.6.4 h1:S7T6cx5o2OqmxdHaXLH1ZeD1SbI8jBznyYE9Ec0RCQ8=
@@ -145,6 +150,7 @@ github.com/redis/go-redis/v9 v9.5.4 h1:vOFYDKKVgrI5u++QvnMT7DksSMYg7Aw/Np4vLJLKL
 github.com/redis/go-redis/v9 v9.5.4/go.mod h1:hdY0cQFCN4fnSYT6TkisLufl/4W5UIXyv0b/CLO2V2M=
 github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU5NdKM8=
 github.com/rogpeppe/go-internal v1.12.0/go.mod h1:E+RYuTGaKKdloAfM02xzb0FW3Paa99yedzYV+kq4uf4=
+github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/samber/lo v1.38.1 h1:j2XEAqXKb09Am4ebOg31SpvzUTTs6EN3VfgeLUhPdXM=
 github.com/samber/lo v1.38.1/go.mod h1:+m/ZKRl6ClXCE2Lgf3MsQlWfh4bn1bz6CXEOxnEXnEA=
 github.com/samber/lo v1.46.0 h1:w8G+oaCPgz1PoCJztqymCFaKwXt+5cCXn51uPxExFfQ=
@@ -155,6 +161,10 @@ github.com/samber/slog-multi v1.1.0 h1:m5wfpXE8Qu2gCiR/JnhFGsLcWDOmTxnso32EMffVA
 github.com/samber/slog-multi v1.1.0/go.mod h1:uLAvHpGqbYgX4FSL0p1ZwoLuveIAJvBECtE07XmYvFo=
 github.com/samber/slog-multi v1.2.0 h1:JIebVdmeGkCMd5/ticlmU+aDYl4tdAZBmp5uLaSzr0k=
 github.com/samber/slog-multi v1.2.0/go.mod h1:uLAvHpGqbYgX4FSL0p1ZwoLuveIAJvBECtE07XmYvFo=
+github.com/spf13/cobra v1.8.1 h1:e5/vxKd/rZsfSJMUX1agtjeTDf+qv1/JdBF8gg5k9ZM=
+github.com/spf13/cobra v1.8.1/go.mod h1:wHxEcudfqmLYa8iTfL+OuZPbBZkmvliBWKIezN3kD9Y=
+github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
+github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
@@ -168,6 +178,8 @@ github.com/ugabiga/swan/core v0.0.0-20240718072105-e1cd49318a62 h1:i+i5JwAcgIJ1B
 github.com/ugabiga/swan/core v0.0.0-20240718072105-e1cd49318a62/go.mod h1:yVvWvGNmSRBsXjklirhQb/cGIIhpg4o6pDwo2oZlo5w=
 github.com/ugabiga/swan/core v0.0.0-20240718083152-eb057f22817c h1:hx7UrLb8VXXBcUhFtIHsCbII9y3YhJfF21EpVOs6e7c=
 github.com/ugabiga/swan/core v0.0.0-20240718083152-eb057f22817c/go.mod h1:p3SGmmq+NdUmhuGLW/MiM9hNK5DnL0wx3fZXGpV2lrc=
+github.com/ugabiga/swan/core v0.0.0-20240829162845-bc7c7181ee4b h1:NGlt9BGuFeN4z0TB9+uLQUG/LAA/AvUiOFzUbCUOVXs=
+github.com/ugabiga/swan/core v0.0.0-20240829162845-bc7c7181ee4b/go.mod h1:oVxiAZqBskAKxDs8ivRHcPxLwUH3yxg9OoFTdcTM6Ws=
 github.com/ugabiga/swan/utl v0.0.0-20240711092912-ff025159d659 h1:S3El16pU5CF2tjG0cgduJwq4zMi5n+Pnx0Igb6hXOK8=
 github.com/ugabiga/swan/utl v0.0.0-20240711092912-ff025159d659/go.mod h1:jgc56h4BraR0a1lZSaaN4QTvPsKeEQ8kAB5vzEIPk4c=
 github.com/ugabiga/swan/utl v0.0.0-20240718072105-e1cd49318a62 h1:drv9onfjh7yCBdwdUbgQ8TItumtgp0ZNl7scInfFTy0=

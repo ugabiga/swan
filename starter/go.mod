@@ -6,7 +6,7 @@ require (
 	github.com/ThreeDotsLabs/watermill v1.3.5
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/swaggo/swag v1.16.3
-	github.com/ugabiga/swan/core v0.0.0-20240718083152-eb057f22817c
+	github.com/ugabiga/swan/core v0.0.0-20240829162845-bc7c7181ee4b
 	github.com/ugabiga/swan/utl v0.0.0-20240718083152-eb057f22817c
 	go.uber.org/fx v1.22.1
 )
@@ -19,6 +19,7 @@ require (
 	github.com/Rican7/retry v0.3.1 // indirect
 	github.com/ThreeDotsLabs/watermill-redisstream v1.3.0 // indirect
 	github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1 // indirect
+	github.com/adhocore/gronx v1.19.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
@@ -33,6 +34,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
@@ -48,6 +50,8 @@ require (
 	github.com/samber/lo v1.46.0 // indirect
 	github.com/samber/slog-formatter v1.0.1 // indirect
 	github.com/samber/slog-multi v1.2.0 // indirect
+	github.com/spf13/cobra v1.8.1 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible // indirect

@@ -36,6 +36,7 @@ func ProvideApp() *core.App {
 	)
 
 	app.RegisterInvokers(
+		InvokeToSetCleanup,
 		InvokeSetRouteHTTPServer,
 		InvokeSetEventRouter,
 		InvokeToSetCronTabRouter,

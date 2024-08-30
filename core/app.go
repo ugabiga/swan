@@ -13,7 +13,6 @@ type App struct {
 	useDependencyLogger bool
 	Providers           []any
 	Invokers            []any
-	cleanUpFuncList     []func()
 }
 
 type AppConfig struct {
@@ -29,11 +28,11 @@ func NewApp() *App {
 		NewCronTab,
 		NewCommand,
 		NewServer,
+		NewCleanup,
 	)
 
 	a.RegisterInvokers(
 		InvokeSetCronCommand,
-		InvokeSetMainCommand,
 	)
 
 	return a
@@ -51,10 +50,6 @@ func (c *App) RegisterInvokers(invokers ...any) {
 	c.Invokers = append(c.Invokers, invokers...)
 }
 
-func (c *App) RegisterCleanUp(cleanUps ...func()) {
-	c.cleanUpFuncList = append(c.cleanUpFuncList, cleanUps...)
-}
-
 func (c *App) Invoke() error {
 	fx.New(
 		fx.Provide(c.Providers...),
@@ -70,12 +65,13 @@ func (c *App) Run() error {
 		fx.Invoke(c.Invokers...),
 		fx.Invoke(func(
 			logger *slog.Logger,
+			cleanup *Cleanup,
 			command *Command,
 			server *Server,
 		) {
 			// Defer the cleanup function
 			defer func() {
-				c.cleanUp()
+				c.cleanUp(logger, cleanup)
 			}()
 
 			// Create a channel to receive OS signals
@@ -86,7 +82,7 @@ func (c *App) Run() error {
 			go func() {
 				sig := <-sigChan
 				logger.Info("Received signal", slog.Any("signal", sig))
-				c.cleanUp()
+				c.cleanUp(logger, cleanup)
 				os.Exit(0)
 			}()
 
@@ -106,8 +102,10 @@ func (c *App) Run() error {
 	return nil
 }
 
-func (c *App) cleanUp() {
-	for _, cleanUp := range c.cleanUpFuncList {
-		cleanUp()
+func (c *App) cleanUp(logger *slog.Logger, cleanup *Cleanup) {
+	if cleanup != nil {
+		if err := cleanup.Run(); err != nil {
+			logger.Error("Failed to run cleanup", slog.Any("error", err))
+		}
 	}
 }
