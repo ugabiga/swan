@@ -83,7 +83,7 @@ func (emitter *EventEmitter) Emit(topic string, payload []byte) error {
 }
 
 func (emitter *EventEmitter) Run() {
-	emitter.logger.Info("Listening for events")
+	emitter.logger.Debug("Listening for events")
 
 	err := emitter.router.Run(context.Background())
 	if err != nil {

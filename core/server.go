@@ -54,7 +54,7 @@ func (s *Server) initHTTPServer() {
 		HandleError: true, // forwards error to the global error handler, so it can decide appropriate status code
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil {
-				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
+				logger.LogAttrs(context.Background(), slog.LevelDebug, "REQUEST",
 					slog.String("uri", v.URI),
 					slog.Int("status", v.Status),
 				)

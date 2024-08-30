@@ -46,7 +46,7 @@ func (c *CronTab) RegisterCronJob(expression string, cronFunc func() error) {
 }
 
 func (c *CronTab) Start() {
-	c.logger.Info("CronTab started")
+	c.logger.Debug("CronTab started")
 	c.start()
 }
 
