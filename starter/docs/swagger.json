@@ -39,13 +39,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.ListResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.ListResp"
                         }
                     }
                 }
@@ -69,7 +63,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.CreateReq"
+                            "$ref": "#/definitions/example.CreateReq"
                         }
                     }
                 ],
@@ -77,13 +71,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.CreateResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.CreateResp"
                         }
                     }
                 }
@@ -127,13 +115,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.ListResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.ListResp"
                         }
                     }
                 }
@@ -164,7 +146,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.EditReq"
+                            "$ref": "#/definitions/example.EditReq"
                         }
                     }
                 ],
@@ -172,13 +154,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.EditResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.EditResp"
                         }
                     }
                 }
@@ -209,7 +185,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.DeleteReq"
+                            "$ref": "#/definitions/example.DeleteReq"
                         }
                     }
                 ],
@@ -217,13 +193,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.DeleteResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.DeleteResp"
                         }
                     }
                 }
@@ -231,7 +201,7 @@
         }
     },
     "definitions": {
-        "internal_example.CreateReq": {
+        "example.CreateReq": {
             "type": "object",
             "required": [
                 "name"
@@ -242,7 +212,7 @@
                 }
             }
         },
-        "internal_example.CreateResp": {
+        "example.CreateResp": {
             "type": "object",
             "properties": {
                 "name": {
@@ -250,7 +220,7 @@
                 }
             }
         },
-        "internal_example.DeleteReq": {
+        "example.DeleteReq": {
             "type": "object",
             "properties": {
                 "name": {
@@ -258,26 +228,7 @@
                 }
             }
         },
-        "internal_example.DeleteResp": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_example.EditReq": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_example.EditResp": {
+        "example.DeleteResp": {
             "type": "object",
             "properties": {
                 "id": {
@@ -288,50 +239,32 @@
                 }
             }
         },
-        "internal_example.ListResp": {
+        "example.EditReq": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "example.EditResp": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "example.ListResp": {
             "type": "object",
             "properties": {
                 "func": {
                     "type": "string"
                 }
             }
-        },
-        "utl.RequestValidationError": {
-            "type": "object",
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            }
-        },
-        "utl.RequestValidationErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error_type": {
-                    "$ref": "#/definitions/utl.RequestValidationErrorType"
-                },
-                "errors": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/utl.RequestValidationError"
-                    }
-                }
-            }
-        },
-        "utl.RequestValidationErrorType": {
-            "type": "string",
-            "enum": [
-                "invalid_field"
-            ],
-            "x-enum-varnames": [
-                "requestValidationErrorTypeInvalidField"
-            ]
         }
     }
 }

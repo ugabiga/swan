@@ -1,69 +1,45 @@
 definitions:
-  internal_example.CreateReq:
+  example.CreateReq:
     properties:
       name:
         type: string
     required:
     - name
     type: object
-  internal_example.CreateResp:
+  example.CreateResp:
     properties:
       name:
         type: string
     type: object
-  internal_example.DeleteReq:
+  example.DeleteReq:
     properties:
       name:
         type: string
     type: object
-  internal_example.DeleteResp:
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-    type: object
-  internal_example.EditReq:
-    properties:
-      name:
-        type: string
-    type: object
-  internal_example.EditResp:
+  example.DeleteResp:
     properties:
       id:
         type: string
       name:
         type: string
     type: object
-  internal_example.ListResp:
+  example.EditReq:
+    properties:
+      name:
+        type: string
+    type: object
+  example.EditResp:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  example.ListResp:
     properties:
       func:
         type: string
     type: object
-  utl.RequestValidationError:
-    properties:
-      field:
-        type: string
-      message:
-        type: string
-      tag:
-        type: string
-    type: object
-  utl.RequestValidationErrorResponse:
-    properties:
-      error_type:
-        $ref: '#/definitions/utl.RequestValidationErrorType'
-      errors:
-        items:
-          $ref: '#/definitions/utl.RequestValidationError'
-        type: array
-    type: object
-  utl.RequestValidationErrorType:
-    enum:
-    - invalid_field
-    type: string
-    x-enum-varnames:
-    - requestValidationErrorTypeInvalidField
 host: localhost:8080
 info:
   contact: {}
@@ -91,11 +67,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_example.ListResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/utl.RequestValidationErrorResponse'
+            $ref: '#/definitions/example.ListResp'
       summary: List
       tags:
       - example
@@ -109,18 +81,14 @@ paths:
         name: req
         required: true
         schema:
-          $ref: '#/definitions/internal_example.CreateReq'
+          $ref: '#/definitions/example.CreateReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_example.CreateResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/utl.RequestValidationErrorResponse'
+            $ref: '#/definitions/example.CreateResp'
       summary: Create
       tags:
       - example
@@ -140,18 +108,14 @@ paths:
         name: req
         required: true
         schema:
-          $ref: '#/definitions/internal_example.DeleteReq'
+          $ref: '#/definitions/example.DeleteReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_example.DeleteResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/utl.RequestValidationErrorResponse'
+            $ref: '#/definitions/example.DeleteResp'
       summary: Delete
       tags:
       - example
@@ -179,11 +143,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_example.ListResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/utl.RequestValidationErrorResponse'
+            $ref: '#/definitions/example.ListResp'
       summary: One
       tags:
       - example
@@ -202,18 +162,14 @@ paths:
         name: req
         required: true
         schema:
-          $ref: '#/definitions/internal_example.EditReq'
+          $ref: '#/definitions/example.EditReq'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_example.EditResp'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/utl.RequestValidationErrorResponse'
+            $ref: '#/definitions/example.EditResp'
       summary: Edit
       tags:
       - example

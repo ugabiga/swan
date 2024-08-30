@@ -46,13 +46,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.ListResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.ListResp"
                         }
                     }
                 }
@@ -76,7 +70,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.CreateReq"
+                            "$ref": "#/definitions/example.CreateReq"
                         }
                     }
                 ],
@@ -84,13 +78,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.CreateResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.CreateResp"
                         }
                     }
                 }
@@ -134,13 +122,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.ListResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.ListResp"
                         }
                     }
                 }
@@ -171,7 +153,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.EditReq"
+                            "$ref": "#/definitions/example.EditReq"
                         }
                     }
                 ],
@@ -179,13 +161,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.EditResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.EditResp"
                         }
                     }
                 }
@@ -216,7 +192,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_example.DeleteReq"
+                            "$ref": "#/definitions/example.DeleteReq"
                         }
                     }
                 ],
@@ -224,13 +200,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_example.DeleteResp"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/utl.RequestValidationErrorResponse"
+                            "$ref": "#/definitions/example.DeleteResp"
                         }
                     }
                 }
@@ -238,7 +208,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "internal_example.CreateReq": {
+        "example.CreateReq": {
             "type": "object",
             "required": [
                 "name"
@@ -249,7 +219,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_example.CreateResp": {
+        "example.CreateResp": {
             "type": "object",
             "properties": {
                 "name": {
@@ -257,7 +227,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_example.DeleteReq": {
+        "example.DeleteReq": {
             "type": "object",
             "properties": {
                 "name": {
@@ -265,26 +235,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_example.DeleteResp": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_example.EditReq": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "internal_example.EditResp": {
+        "example.DeleteResp": {
             "type": "object",
             "properties": {
                 "id": {
@@ -295,50 +246,32 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_example.ListResp": {
+        "example.EditReq": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "example.EditResp": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "example.ListResp": {
             "type": "object",
             "properties": {
                 "func": {
                     "type": "string"
                 }
             }
-        },
-        "utl.RequestValidationError": {
-            "type": "object",
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            }
-        },
-        "utl.RequestValidationErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error_type": {
-                    "$ref": "#/definitions/utl.RequestValidationErrorType"
-                },
-                "errors": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/utl.RequestValidationError"
-                    }
-                }
-            }
-        },
-        "utl.RequestValidationErrorType": {
-            "type": "string",
-            "enum": [
-                "invalid_field"
-            ],
-            "x-enum-varnames": [
-                "requestValidationErrorTypeInvalidField"
-            ]
         }
     }
 }`
