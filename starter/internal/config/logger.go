@@ -7,11 +7,7 @@ import (
 )
 
 func ProvideLogger() *slog.Logger {
-	return utl.NewDefaultLogger(
-		&slog.HandlerOptions{
-			AddSource:   false,
-			Level:       slog.LevelDebug,
-			ReplaceAttr: nil,
-		},
-	)
+	return utl.NewCharmLogger(utl.LoggerOption{
+		Level: slog.LevelDebug,
+	})
 }

@@ -16,7 +16,16 @@ const (
 	LogAttrKeyError = "error"
 )
 
-func NewDefaultLogger(opts *slog.HandlerOptions) *slog.Logger {
+type LoggerOption struct {
+	Level slog.Level
+}
+
+func NewJSONLogger(option LoggerOption) *slog.Logger {
+	opts := &slog.HandlerOptions{
+		AddSource:   true,
+		Level:       option.Level,
+		ReplaceAttr: nil,
+	}
 	logHandler := slog.NewJSONHandler(os.Stdout, opts)
 
 	logger := slog.New(
@@ -30,14 +39,15 @@ func NewDefaultLogger(opts *slog.HandlerOptions) *slog.Logger {
 	return logger
 }
 
-func NewCharmLogger() *slog.Logger {
+func NewCharmLogger(option LoggerOption) *slog.Logger {
 	charmLoggerStyle := charmlogger.DefaultStyles()
 
 	charmLogger := charmlogger.NewWithOptions(
 		os.Stdout,
 		charmlogger.Options{
-			ReportCaller:    true,
+			Level:           charmlogger.Level(option.Level),
 			ReportTimestamp: true,
+			ReportCaller:    true,
 		},
 	)
 	charmLogger.SetStyles(charmLoggerStyle)
