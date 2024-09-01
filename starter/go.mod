@@ -5,6 +5,7 @@ go 1.22.2
 require (
 	github.com/ThreeDotsLabs/watermill v1.3.5
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/spf13/cobra v1.8.1
 	github.com/swaggo/swag v1.16.3
 	github.com/ugabiga/swan/core v0.0.0-20240829162845-bc7c7181ee4b
 	github.com/ugabiga/swan/utl v0.0.0-20240718083152-eb057f22817c
@@ -14,8 +15,6 @@ require (
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
-	github.com/PuerkitoBio/purell v1.2.1 // indirect
-	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/Rican7/retry v0.3.1 // indirect
 	github.com/ThreeDotsLabs/watermill-redisstream v1.3.0 // indirect
 	github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1 // indirect
@@ -50,7 +49,6 @@ require (
 	github.com/samber/lo v1.46.0 // indirect
 	github.com/samber/slog-formatter v1.0.1 // indirect
 	github.com/samber/slog-multi v1.2.0 // indirect
-	github.com/spf13/cobra v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
@@ -59,7 +57,6 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.25.0 // indirect
-	golang.org/x/exp v0.0.0-20240716175740-e3f259677ff7 // indirect
 	golang.org/x/net v0.27.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
@@ -67,6 +64,5 @@ require (
 	golang.org/x/tools v0.23.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
