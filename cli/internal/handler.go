@@ -259,6 +259,36 @@ type DeleteResp struct {
 	return nil
 }
 
+func registerStructToApp(fullPackageName, packageName, structName string) error {
+	appFilePath := "./internal/config/app.go"
+	appRegisterProvidersFunc := "app.RegisterProviders"
+
+	bytes, err := os.ReadFile(appFilePath)
+	if err != nil {
+		return err
+	}
+	appFileContents := string(bytes)
+
+	moduleName := utils.RetrieveModuleName()
+
+	// Format the package path
+	var packagePath string
+	packagePath = moduleName + "/" + fullPackageName
+	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+
+	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
+		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
+			"(", appRegisterProvidersFunc+
+			"(\n\t\t"+packageName+".New"+structName+",", 1)
+
+		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func registerHandlerToApp(domainName string) error {
 	appFilePath := "./internal/config/app.go"
 	appRegisterProvidersFunc := "app.RegisterProviders"
