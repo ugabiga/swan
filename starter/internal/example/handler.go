@@ -67,7 +67,7 @@ func (h *Handler) List(c echo.Context) error {
 }
 
 type ListQuery struct {
-	Limit  int `query:"limit" validate:"required"`
+	Limit  int `query:"limit"`
 	Offset int `query:"offset"`
 }
 
