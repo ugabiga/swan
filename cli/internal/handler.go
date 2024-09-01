@@ -260,7 +260,7 @@ type DeleteResp struct {
 }
 
 func registerHandlerToApp(domainName string) error {
-	appFilePath := "./internal/providers/app.go"
+	appFilePath := "./internal/config/app.go"
 	appRegisterProvidersFunc := "app.RegisterProviders"
 
 	bytes, err := os.ReadFile(appFilePath)
@@ -291,7 +291,7 @@ func registerHandlerToApp(domainName string) error {
 }
 
 func registerHandlerToRoute(domainName string) error {
-	routerFile := "./internal/providers/route.go"
+	routerFile := "./internal/config/route.go"
 	routerInvokeFunc := "InvokeSetRouteHTTPServer"
 
 	bytes, err := os.ReadFile(routerFile)
