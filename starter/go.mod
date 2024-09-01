@@ -45,7 +45,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/redis/go-redis/v9 v9.5.4 // indirect
+	github.com/redis/go-redis/v9 v9.6.1 // indirect
 	github.com/samber/lo v1.46.0 // indirect
 	github.com/samber/slog-formatter v1.0.1 // indirect
 	github.com/samber/slog-multi v1.2.0 // indirect
