@@ -51,6 +51,8 @@ func (c *CronTab) Start() {
 }
 
 func (c *CronTab) start() {
+	c.logger.Info("CronTab started")
+
 	ticker := time.NewTicker(1 * time.Minute)
 	defer ticker.Stop()
 
