@@ -4,6 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/ThreeDotsLabs/watermill/message"
+	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
 	"github.com/ugabiga/swan/core"
 	"github.com/ugabiga/swan/core/pubsub"
 )
@@ -21,6 +22,14 @@ func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, e
 			SQLPort:     &env.EventSQLPort,
 			SQLDBName:   &env.EventSQLDBName,
 		},
+	)
+}
+
+func InvokeSetEventMiddleware(
+	eventEmitter *core.EventEmitter,
+) {
+	eventEmitter.AddMiddleware(
+		middleware.Recoverer,
 	)
 }
 

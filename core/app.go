@@ -57,17 +57,19 @@ func (c *App) Invoke() error {
 	return nil
 }
 
-func (c *App) Run() error {
+func (c *App) Run() {
+	var command *Command
+	var logger *slog.Logger
+
 	options := []fx.Option{
 		fx.Provide(c.Providers...),
 		fx.Invoke(c.Invokers...),
 		fx.Invoke(func(
-			logger *slog.Logger,
-			command *Command,
+			invokedLogger *slog.Logger,
+			invokedCommand *Command,
 		) {
-			if err := command.Run(); err != nil {
-				logger.Error("Failed to run command", slog.Any("error", err))
-			}
+			logger = invokedLogger
+			command = invokedCommand
 		}),
 	}
 
@@ -75,9 +77,11 @@ func (c *App) Run() error {
 		options = append(options, fx.NopLogger)
 	}
 
-	fx.New(options...).Run()
+	fx.New(options...)
 
-	return nil
+	if err := command.Run(); err != nil {
+		logger.Error("Failed to run command", slog.Any("error", err))
+	}
 }
 
 func (c *App) cleanUp(logger *slog.Logger, cleanup *Cleanup) {

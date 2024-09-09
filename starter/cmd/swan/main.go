@@ -10,7 +10,5 @@ import (
 // @host			localhost:8080
 // @BasePath
 func main() {
-	if err := config.ProvideApp().Run(); err != nil {
-		panic(err)
-	}
+	config.ProvideApp().Run()
 }

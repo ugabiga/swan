@@ -45,6 +45,10 @@ func NewEventEmitter(
 	}
 }
 
+func (emitter *EventEmitter) AddMiddleware(m ...message.HandlerMiddleware) {
+	emitter.router.AddMiddleware(m...)
+}
+
 func (emitter *EventEmitter) AddOneWayHandler(handlerName, topic string, handler message.NoPublishHandlerFunc) {
 	emitter.router.AddNoPublisherHandler(handlerName, topic, emitter.subscriber, handler)
 }

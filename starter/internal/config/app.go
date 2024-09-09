@@ -21,6 +21,7 @@ func ProvideApp() *core.App {
 
 	// Events order between invokers and providers matter
 	app.RegisterInvokers(
+		InvokeSetEventMiddleware,
 		InvokeSetEventRouter,
 		core.InvokeListenForEvents,
 	)
