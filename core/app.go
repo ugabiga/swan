@@ -18,7 +18,7 @@ type AppConfig struct {
 
 func NewApp() *App {
 	a := &App{
-		useDependencyLogger: true,
+		useDependencyLogger: false,
 	}
 
 	a.RegisterProviders(
