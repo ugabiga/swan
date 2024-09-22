@@ -1,11 +1,11 @@
-package main
+package commands
 
 import (
 	"fmt"
+	"github.com/ugabiga/swan/cli/internal/generating"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal"
 )
 
 var NewCmd = &cobra.Command{
@@ -25,14 +25,10 @@ var NewCmd = &cobra.Command{
 			panic(err)
 		}
 
-		if err := internal.CreateNew(name, addWebProject); err != nil {
+		if err := generating.CreateNew(name, addWebProject); err != nil {
 			panic(err)
 		}
 
 		fmt.Printf("New App %s created successfully\n", name)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(NewCmd)
 }

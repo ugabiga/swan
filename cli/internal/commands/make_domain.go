@@ -1,11 +1,11 @@
-package main
+package commands
 
 import (
 	"fmt"
+	"github.com/ugabiga/swan/cli/internal/generating"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal"
 )
 
 var MakeDomainCmd = &cobra.Command{
@@ -25,12 +25,8 @@ var MakeDomainCmd = &cobra.Command{
 			panic(err)
 		}
 
-		internal.CreateDomain(domainName, routePrefix)
+		generating.CreateDomain(domainName, routePrefix)
 
 		fmt.Printf("Domain %s created successfully\n", domainName)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(MakeDomainCmd)
 }

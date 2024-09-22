@@ -1,11 +1,11 @@
-package main
+package commands
 
 import (
 	"fmt"
+	"github.com/ugabiga/swan/cli/internal/generating"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal"
 )
 
 var MakeStruct = &cobra.Command{
@@ -25,12 +25,8 @@ var MakeStruct = &cobra.Command{
 			panic(err)
 		}
 
-		internal.CreateStruct(path, name)
+		generating.CreateStruct(path, name)
 
 		fmt.Printf("Struct %s created successfully\n", name)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(MakeStruct)
 }
