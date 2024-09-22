@@ -22,14 +22,21 @@ func InitializeEvent(app *core.App, env *EnvironmentVariables) {
 		return
 	}
 
-	app.RegisterInvokers(
-		core.InvokeListenForEvents,
-	)
-
+	// The order of invokers is important
 	app.RegisterInvokers(
 		InvokeSetEventMiddleware,
 		InvokeSetEventRouter,
 	)
+
+	if env.EventDriver != "channel" {
+		return
+	}
+
+	// The order of invokers is important
+	app.RegisterInvokers(
+		core.InvokeListenForEvents,
+	)
+
 }
 
 func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, error) {
