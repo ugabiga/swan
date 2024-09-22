@@ -9,6 +9,29 @@ import (
 	"github.com/ugabiga/swan/core/pubsub"
 )
 
+func InitializeEvent(app *core.App, env *EnvironmentVariables) {
+	app.RegisterProviders(
+		core.NewEventEmitter,
+	)
+
+	app.RegisterProviders(
+		ProvideEventPubSubContainer,
+	)
+
+	if env.EventDriver == "none" {
+		return
+	}
+
+	app.RegisterInvokers(
+		core.InvokeListenForEvents,
+	)
+
+	app.RegisterInvokers(
+		InvokeSetEventMiddleware,
+		InvokeSetEventRouter,
+	)
+}
+
 func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, error) {
 	return pubsub.NewContainer(
 		pubsub.ContainerConfig{

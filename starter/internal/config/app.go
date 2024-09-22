@@ -6,10 +6,9 @@ import (
 )
 
 func ProvideApp() *core.App {
-	env := ProvideEnvironmentVariables()
 	app := core.NewApp()
+	env := ProvideEnvironmentVariables()
 
-	//Domain
 	app.RegisterProviders(
 		example.NewHandler,
 		example.NewService,
@@ -19,33 +18,9 @@ func ProvideApp() *core.App {
 		example.InvokeSetExampleCommand,
 	)
 
-	// Events order between invokers and providers matter
-	app.RegisterInvokers(
-		InvokeSetEventMiddleware,
-		InvokeSetEventRouter,
-		core.InvokeListenForEvents,
-	)
-
-	app.RegisterProviders(
-		core.NewEventEmitter,
-	)
-
-	// Core
-	app.RegisterInvokers(
-		InvokeToSetCleanup,
-		InvokeSetRouteHTTPServer,
-		InvokeSetCronTabRouter,
-	)
-
-	app.RegisterProviders(
-		ProvideEventPubSubContainer,
-		ProvideEnvironmentVariables,
-		ProvideLogger,
-	)
-
-	app.SetUseDependencyLogger(false)
-
-	ProvideConfigs(app, env)
+	InitializeEvent(app, env)
+	InitializeCore(app, env)
+	InitializeConfigs(app, env)
 
 	return app
 }
