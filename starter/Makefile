@@ -1,3 +1,9 @@
+# Load environment variables from .env file
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 dev-b:
 	air
 
@@ -13,4 +19,3 @@ ent-new:
 ent-gen:
 	@go run -mod=mod entgo.io/ent/cmd/ent generate --feature sql/upsert ./internal/ent/schema
 	@go generate ./internal/ent/
-
