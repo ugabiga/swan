@@ -31,6 +31,7 @@ func NewApp() *App {
 	a.RegisterInvokers(
 		InvokeSetServerCommand,
 		InvokeSetCronCommand,
+		InvokeSetWorkerCommand,
 	)
 
 	return a

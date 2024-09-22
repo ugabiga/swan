@@ -25,6 +25,7 @@ func InvokeSetServerCommand(
 }
 
 func InvokeSetCronCommand(
+	logger *slog.Logger,
 	crontab *CronTab,
 	command *Command,
 ) {
@@ -33,7 +34,25 @@ func InvokeSetCronCommand(
 			Use:   "cron",
 			Short: "",
 			Run: func(cmd *cobra.Command, args []string) {
+				logger.Info("Starting cron")
 				crontab.Start()
+			},
+		},
+	)
+}
+
+func InvokeSetWorkerCommand(
+	logger *slog.Logger,
+	eventEmitter *EventEmitter,
+	command *Command,
+) {
+	command.RegisterCommand(
+		&cobra.Command{
+			Use:   "worker",
+			Short: "",
+			Run: func(cmd *cobra.Command, args []string) {
+				logger.Info("Starting worker")
+				eventEmitter.Run()
 			},
 		},
 	)
