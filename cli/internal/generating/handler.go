@@ -1,11 +1,8 @@
 package generating
 
 import (
-	"log"
 	"os"
 	"strings"
-
-	"github.com/ugabiga/swan/cli/internal/utils"
 )
 
 func CreateHandler(domainName string, routePrefix string) {
@@ -266,111 +263,6 @@ type DeleteResp struct {
 
 	if err := registerHandlerToRoute(domainName); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func registerStructToApp(fullPackageName, packageName, structName string) error {
-	appFilePath := "./internal/config/app.go"
-	appRegisterProvidersFunc := "app.RegisterProviders"
-
-	bytes, err := os.ReadFile(appFilePath)
-	if err != nil {
-		return err
-	}
-	appFileContents := string(bytes)
-
-	moduleName := utils.RetrieveModuleName()
-
-	// Format the package path
-	var packagePath string
-	packagePath = moduleName + "/" + fullPackageName
-	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
-
-	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
-		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
-			"(", appRegisterProvidersFunc+
-			"(\n\t\t"+packageName+".New"+structName+",", 1)
-
-		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func registerHandlerToApp(domainName string) error {
-	appFilePath := "./internal/config/app.go"
-	appRegisterProvidersFunc := "app.RegisterProviders"
-
-	bytes, err := os.ReadFile(appFilePath)
-	if err != nil {
-		return err
-	}
-	appFileContents := string(bytes)
-
-	moduleName := utils.RetrieveModuleName()
-
-	// Format the package path
-	var packagePath string
-	packagePath = moduleName + "/internal/" + domainName
-	log.Printf("packagePath: %s", packagePath)
-	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
-
-	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
-		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
-			"(", appRegisterProvidersFunc+
-			"(\n\t\t"+domainName+".NewHandler,", 1)
-
-		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func registerHandlerToRoute(domainName string) error {
-	routerFile := "./internal/config/route.go"
-	routerInvokeFunc := "InvokeSetRouteHTTPServer"
-
-	bytes, err := os.ReadFile(routerFile)
-	if err != nil {
-		return err
-	}
-	appFileContents := string(bytes)
-
-	moduleName := utils.RetrieveModuleName()
-
-	// Format the package path
-	var packagePath string
-	packagePath = moduleName + "/internal/" + domainName
-	log.Printf("packagePath: %s", packagePath)
-	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
-
-	if strings.Contains(appFileContents, routerInvokeFunc+"(") {
-		appFileContents = strings.Replace(appFileContents,
-			routerInvokeFunc+"(",
-			routerInvokeFunc+"(\n\t"+domainName+"Handler *"+domainName+".Handler,",
-			1,
-		)
-
-		if err = os.WriteFile(routerFile, []byte(appFileContents), 0644); err != nil {
-			return err
-		}
-	}
-
-	if strings.Contains(appFileContents, "}") {
-		appFileContents = strings.Replace(appFileContents,
-			"}",
-			"\t"+domainName+"Handler.SetRoutes(group)\n}",
-			1,
-		)
-		if err = os.WriteFile(routerFile, []byte(appFileContents), 0644); err != nil {
-			return err
-		}
 	}
 
 	return nil
