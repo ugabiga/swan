@@ -8,7 +8,19 @@ import (
 	"github.com/ugabiga/swan/cli/internal/utils"
 )
 
-func CreateHandler(
+func CreateHandler(domainName string, routePrefix string) {
+	folderPath := "internal/" + domainName
+
+	if err := os.Mkdir(folderPath, 0755); err != nil {
+		panic(err)
+	}
+
+	if err := createHandler(folderPath, domainName, routePrefix); err != nil {
+		panic(err)
+	}
+}
+
+func createHandler(
 	folderPath string,
 	domainName string,
 	routePrefix string,
