@@ -6,7 +6,8 @@ func Commands() []*cobra.Command {
 	return []*cobra.Command{
 		NewCmd,
 		MakeStruct,
-		MakeDomainCmd,
+		MakeHandlerCommand,
 		MakeDBClient,
+		MakeCommandCommand,
 	}
 }

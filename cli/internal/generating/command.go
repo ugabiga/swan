@@ -3,10 +3,9 @@ package generating
 import (
 	"log"
 	"os"
-	"strings"
 )
 
-func CreateStruct(path, name string) {
+func CreateCommand(path, name string) {
 	folderPath := "internal/" + path
 
 	//Check if folder exists
@@ -16,44 +15,45 @@ func CreateStruct(path, name string) {
 		}
 	}
 
-	if err := createStruct(folderPath, name); err != nil {
+	if err := createCommand(folderPath); err != nil {
 		panic(err)
 	}
 }
 
-func createStruct(folderPath, structName string) error {
-	fileName := strings.ToLower(structName)
+func createCommand(folderPath string) error {
+	fileName := "command"
 	filePath := folderPath + "/" + fileName + ".go"
 	fullPackageName := folderPath
 	packageName := extractPackageName(folderPath)
+	funcName := "InvokeSetCommands"
 
 	template := `package ` + packageName + `
 
 import (
-	"log/slog"
+	"github.com/spf13/cobra"
+	"github.com/ugabiga/swan/core"
 )
 
-type STRUCT_NAME struct {
-	logger *slog.Logger
-}
-
-func NewSTRUCT_NAME(
-	logger *slog.Logger,
-) *STRUCT_NAME {
-	return &STRUCT_NAME{
-		logger: logger,
-	}
+func InvokeSetCommands(
+	command *core.Command,
+) {
+	command.RegisterCommand(
+		&cobra.Command{
+			Use:   "cmd",
+			Short: "",
+			Run: func(cmd *cobra.Command, args []string) {
+			},
+		},
+	)
 }
 
 `
-	template = strings.ReplaceAll(template, "STRUCT_NAME", structName)
-
 	if err := os.WriteFile(filePath, []byte(template), 0644); err != nil {
 		log.Printf("Error while creating struct: %s", err)
 		return err
 	}
 
-	if err := registerStructToApp(fullPackageName, packageName, structName); err != nil {
+	if err := registerStructToAppInvoker(fullPackageName, packageName, funcName); err != nil {
 		log.Printf("Error while register struct %s", err)
 		return err
 	}
