@@ -38,8 +38,19 @@ func (s *Server) HTTPServer() *echo.Echo {
 }
 
 func (s *Server) StartHTTPServer() error {
+	s.PrintAllRoutes()
 	s.logger.Info("Starting HTTP server", slog.String("addr", s.serverConfig.Addr))
+
 	return s.e.Start(s.serverConfig.Addr)
+}
+
+func (s *Server) PrintAllRoutes() {
+	routes := s.e.Routes()
+
+	s.logger.Info("Registered routes")
+	for _, route := range routes {
+		s.logger.Info("", slog.String("method", route.Method), slog.String("path", route.Path))
+	}
 }
 
 func (s *Server) Shutdown() error {

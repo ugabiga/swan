@@ -16,8 +16,12 @@ github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1 h1:+uW9Db+7Ep4uon7enOq1cozCRua3
 github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.1/go.mod h1:iYZqlHt0tJPQIFwQSXoI6GnxDhTZhAzxVR1/EIS3DOw=
 github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.3 h1:hOUvyfbspawpeSlygzZElgm45zZmtUXGim+VelAHPfU=
 github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.3/go.mod h1:G8/otZYWLTCeYL2Ww3ujQ7gQ/3+jw5Bj0UtyKn7bBjA=
+github.com/ThreeDotsLabs/watermill-sql/v3 v3.1.0 h1:g4uE5Nm3Z6LVB3m+uMgHlN4ne4bDpwf3RJmXYRgMv94=
+github.com/ThreeDotsLabs/watermill-sql/v3 v3.1.0/go.mod h1:G8/otZYWLTCeYL2Ww3ujQ7gQ/3+jw5Bj0UtyKn7bBjA=
 github.com/adhocore/gronx v1.19.0 h1:GrEvNMPDwXND+YFadCyFVQPC+/xxoGJaQzu+duNf6aU=
 github.com/adhocore/gronx v1.19.0/go.mod h1:7oUY1WAU8rEJWmAxXR2DN0JaO4gi9khSgKjiRypqteg=
+github.com/adhocore/gronx v1.19.1 h1:S4c3uVp5jPjnk00De0lslyTenGJ4nA3Ydbkj1SbdPVc=
+github.com/adhocore/gronx v1.19.1/go.mod h1:7oUY1WAU8rEJWmAxXR2DN0JaO4gi9khSgKjiRypqteg=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1/go.mod h1:uYgXzlJ7ZpABp8OJ+exZzJJhRNQ2ASbcXHWsFqH8hp8=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
@@ -184,10 +188,14 @@ github.com/ugabiga/swan/core v0.0.0-20240831141828-2d62825903a5 h1:7MN2c6iSaKlHM
 github.com/ugabiga/swan/core v0.0.0-20240831141828-2d62825903a5/go.mod h1:oVxiAZqBskAKxDs8ivRHcPxLwUH3yxg9OoFTdcTM6Ws=
 github.com/ugabiga/swan/core v0.0.0-20240920121800-957414349a22 h1:MBBxwV4ITB6lAqLKg3fbCmiZ5SVbU5JvctfIW1pUqL8=
 github.com/ugabiga/swan/core v0.0.0-20240920121800-957414349a22/go.mod h1:oVxiAZqBskAKxDs8ivRHcPxLwUH3yxg9OoFTdcTM6Ws=
+github.com/ugabiga/swan/core v0.0.0-20240927132044-4de26a7da4a3 h1:iviYJeSDe3PZrZHDK+QxyvP6Z8Gn+m5NjC8tAwnFtQs=
+github.com/ugabiga/swan/core v0.0.0-20240927132044-4de26a7da4a3/go.mod h1:oVxiAZqBskAKxDs8ivRHcPxLwUH3yxg9OoFTdcTM6Ws=
 github.com/ugabiga/swan/utl v0.0.0-20240831141828-2d62825903a5 h1:IaxOVdFE/U19ciU7Q5fwXNOfjHvxrpcF69makgoR6VM=
 github.com/ugabiga/swan/utl v0.0.0-20240831141828-2d62825903a5/go.mod h1:NZUS3zYIg6zWgjvNSSNq5YAV483mwq/iOX9WDBURyFY=
 github.com/ugabiga/swan/utl v0.0.0-20240920121800-957414349a22 h1:HGSZUZTKEUyd+qTrBqeXPYxDWhT5q1gj+zK1Zz9MB0k=
 github.com/ugabiga/swan/utl v0.0.0-20240920121800-957414349a22/go.mod h1:NZUS3zYIg6zWgjvNSSNq5YAV483mwq/iOX9WDBURyFY=
+github.com/ugabiga/swan/utl v0.0.0-20240927132044-4de26a7da4a3 h1:DOJbD/igcbFY8sO8pjuVWC027sWUE+WYGTq4Z6N2xyE=
+github.com/ugabiga/swan/utl v0.0.0-20240927132044-4de26a7da4a3/go.mod h1:NZUS3zYIg6zWgjvNSSNq5YAV483mwq/iOX9WDBURyFY=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQD0Loo=

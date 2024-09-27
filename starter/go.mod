@@ -7,8 +7,8 @@ require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/spf13/cobra v1.8.1
 	github.com/swaggo/swag v1.16.3
-	github.com/ugabiga/swan/core v0.0.0-20240920121800-957414349a22
-	github.com/ugabiga/swan/utl v0.0.0-20240920121800-957414349a22
+	github.com/ugabiga/swan/core v0.0.0-20240927132044-4de26a7da4a3
+	github.com/ugabiga/swan/utl v0.0.0-20240927132044-4de26a7da4a3
 	go.uber.org/fx v1.22.2
 )
 
@@ -17,8 +17,8 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/Rican7/retry v0.3.1 // indirect
 	github.com/ThreeDotsLabs/watermill-redisstream v1.4.2 // indirect
-	github.com/ThreeDotsLabs/watermill-sql/v3 v3.0.3 // indirect
-	github.com/adhocore/gronx v1.19.0 // indirect
+	github.com/ThreeDotsLabs/watermill-sql/v3 v3.1.0 // indirect
+	github.com/adhocore/gronx v1.19.1 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
