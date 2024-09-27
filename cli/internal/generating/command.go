@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func CreateCommand(path, name string) {
+func CreateCommand(path string) {
 	folderPath := "internal/" + path
 
 	//Check if folder exists

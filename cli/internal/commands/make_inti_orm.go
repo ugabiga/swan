@@ -18,7 +18,8 @@ var MakeDBClient = &cobra.Command{
 				fmt.Printf("Ent not initialized: Please run 'make ent-new and make ent-gen' first\n")
 				return
 			default:
-				panic(err)
+				fmt.Println(err)
+				return
 			}
 
 		}

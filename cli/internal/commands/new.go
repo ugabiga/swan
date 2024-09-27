@@ -18,15 +18,18 @@ var NewCmd = &cobra.Command{
 		)
 
 		if err := huh.NewInput().Title("Name").Value(&name).Run(); err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 
 		if err := huh.NewConfirm().Title("Add Web Project").Value(&addWebProject).Run(); err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 
 		if err := generating.CreateNew(name, addWebProject); err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 
 		fmt.Printf("New App %s created successfully\n", name)
