@@ -14,11 +14,12 @@ func extractPackageName(path string) string {
 	return packageName
 }
 
-func registerStructToAppInvoker(fullPackageName, packageName, structName string) error {
-	appFilePath := "./internal/config/app.go"
+// RegisterStructToAppInvoker registers a struct to the app invoker
+// config/app path : internal/config/app.go
+func registerStructToAppInvoker(filePath, fullPackageName, packageName, structName string) error {
 	appRegisterProvidersFunc := "app.RegisterInvokers"
 
-	bytes, err := os.ReadFile(appFilePath)
+	bytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return err
 	}
@@ -36,7 +37,7 @@ func registerStructToAppInvoker(fullPackageName, packageName, structName string)
 			"(", appRegisterProvidersFunc+
 			"(\n\t\t"+packageName+"."+structName+",", 1)
 
-		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
+		if err = os.WriteFile(filePath, []byte(appFileContents), 0644); err != nil {
 			return err
 		}
 	}

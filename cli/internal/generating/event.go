@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func CreateCommand(path, name string) {
+func CreateEvent(path string) {
 	folderPath := "internal/" + path
 
 	//Check if folder exists
@@ -15,45 +15,50 @@ func CreateCommand(path, name string) {
 		}
 	}
 
-	if err := createCommand(folderPath); err != nil {
+	if err := createEvent(folderPath); err != nil {
 		panic(err)
 	}
 }
 
-func createCommand(folderPath string) error {
-	fileName := "command"
+func createEvent(folderPath string) error {
+	fileName := "event"
 	filePath := folderPath + "/" + fileName + ".go"
 	fullPackageName := folderPath
 	packageName := extractPackageName(folderPath)
-	funcName := "InvokeSetCommands"
+	funcName := "InvokeSetEventRouter"
 
 	template := `package ` + packageName + `
 
 import (
-	"github.com/spf13/cobra"
+	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/ugabiga/swan/core"
+	"log/slog"
 )
 
-func InvokeSetCommands(
-	command *core.Command,
+func InvokeSetEventRouter(
+	logger *slog.Logger,
+	eventEmitter *core.EventEmitter,
 ) {
-	command.RegisterCommand(
-		&cobra.Command{
-			Use:   "cmd",
-			Short: "",
-			Run: func(cmd *cobra.Command, args []string) {
-			},
+	eventEmitter.AddOneWayHandler(
+		"eventHandler",
+		"event",
+		func(msg *message.Message) error {
+			logger.Info("Received message",
+				slog.Any("uuid", msg.UUID),
+				slog.String("payload", string(msg.Payload)),
+			)
+
+			return nil
 		},
 	)
 }
-
 `
 	if err := os.WriteFile(filePath, []byte(template), 0644); err != nil {
 		log.Printf("Error while creating struct: %s", err)
 		return err
 	}
 
-	if err := registerStructToAppInvoker("./internal/config/app.go",
+	if err := registerStructToAppInvoker("./internal/config/event.go",
 		fullPackageName, packageName, funcName); err != nil {
 		log.Printf("Error while register struct %s", err)
 		return err
