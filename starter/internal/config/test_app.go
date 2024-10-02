@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/ugabiga/swan/core"
-	"github.com/ugabiga/swan/starter/internal/example"
 	"go.uber.org/fx"
 )
 
@@ -16,7 +15,6 @@ type TestAppDependencies struct {
 	fx.In
 
 	//Put your dependencies for the test container here
-	ExampleService *example.Service
 }
 
 func NewTestApp(deps TestAppDependencies) *TestApp {

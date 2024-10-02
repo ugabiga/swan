@@ -1,13 +1,24 @@
 package config
 
 import (
-	"log/slog"
-
-	"github.com/ThreeDotsLabs/watermill/message"
 	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
 	"github.com/ugabiga/swan/core"
 	"github.com/ugabiga/swan/core/pubsub"
 )
+
+func registerEvents(app *core.App, env *EnvironmentVariables) {
+	app.RegisterInvokers(
+	//...
+	)
+}
+
+func SetEventMiddleware(
+	eventEmitter *core.EventEmitter,
+) {
+	eventEmitter.AddMiddleware(
+		middleware.Recoverer,
+	)
+}
 
 func InitializeEvent(app *core.App, env *EnvironmentVariables) {
 	app.RegisterProviders(
@@ -24,9 +35,10 @@ func InitializeEvent(app *core.App, env *EnvironmentVariables) {
 
 	// The order of invokers is important
 	app.RegisterInvokers(
-		InvokeSetEventMiddleware,
-		InvokeSetEventRouter,
+		SetEventMiddleware,
 	)
+
+	registerEvents(app, env)
 
 	if env.EventDriver != "channel" {
 		return
@@ -51,32 +63,6 @@ func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, e
 			SQLHost:     &env.EventSQLHost,
 			SQLPort:     &env.EventSQLPort,
 			SQLDBName:   &env.EventSQLDBName,
-		},
-	)
-}
-
-func InvokeSetEventMiddleware(
-	eventEmitter *core.EventEmitter,
-) {
-	eventEmitter.AddMiddleware(
-		middleware.Recoverer,
-	)
-}
-
-func InvokeSetEventRouter(
-	logger *slog.Logger,
-	eventEmitter *core.EventEmitter,
-) {
-	eventEmitter.AddOneWayHandler(
-		"exampleHandler",
-		"example",
-		func(msg *message.Message) error {
-			logger.Info("Received message",
-				slog.Any("uuid", msg.UUID),
-				slog.String("payload", string(msg.Payload)),
-			)
-
-			return nil
 		},
 	)
 }

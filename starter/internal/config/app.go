@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/ugabiga/swan/core"
-	"github.com/ugabiga/swan/starter/internal/example"
 )
 
 func ProvideApp() *core.App {
@@ -10,17 +9,26 @@ func ProvideApp() *core.App {
 	env := ProvideEnvironmentVariables()
 
 	app.RegisterProviders(
-		example.NewHandler,
-		example.NewService,
+	//...
 	)
 
 	app.RegisterInvokers(
-		example.InvokeSetExampleCommand,
+	//...
 	)
 
-	InitializeEvent(app, env)
-	InitializeCore(app, env)
+	app.RegisterInvokers(
+		SetRouteHTTPServer,
+	)
+
+	app.RegisterProviders(
+		ProvideEnvironmentVariables,
+		ProvideLogger,
+	)
+
 	InitializeConfigs(app, env)
+	InitializeCommands(app, env)
+	InitializeCron(app, env)
+	InitializeEvent(app, env)
 
 	return app
 }

@@ -2,16 +2,11 @@ package config
 
 import (
 	"github.com/ugabiga/swan/core"
-	"github.com/ugabiga/swan/starter/internal/example"
 )
 
-func InvokeSetRouteHTTPServer(
-	exampleHandler *example.Handler,
+func SetRouteHTTPServer(
 	server *core.Server,
 ) {
 	e := server.HTTPServer()
-
-	group := e.Group("")
-
-	exampleHandler.SetRoutes(group)
+	_ = e.Group("")
 }

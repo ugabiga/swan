@@ -53,7 +53,7 @@ func InvokeSetCommands(
 		return err
 	}
 
-	if err := registerStructToAppInvoker("./internal/config/app.go",
+	if err := registerStructToAppInvoker("./internal/config/commands.go",
 		fullPackageName, packageName, funcName); err != nil {
 		log.Printf("Error while register struct %s", err)
 		return err
