@@ -8,7 +8,7 @@ import (
 
 func registerEvents(app *core.App, env *EnvironmentVariables) {
 	app.RegisterInvokers(
-	//...
+		SetEventMiddleware,
 	)
 }
 
@@ -23,9 +23,6 @@ func SetEventMiddleware(
 func InitializeEvent(app *core.App, env *EnvironmentVariables) {
 	app.RegisterProviders(
 		core.NewEventEmitter,
-	)
-
-	app.RegisterProviders(
 		ProvideEventPubSubContainer,
 	)
 
@@ -33,18 +30,12 @@ func InitializeEvent(app *core.App, env *EnvironmentVariables) {
 		return
 	}
 
-	// The order of invokers is important
-	app.RegisterInvokers(
-		SetEventMiddleware,
-	)
-
 	registerEvents(app, env)
 
 	if env.EventDriver != "channel" {
 		return
 	}
 
-	// The order of invokers is important
 	app.RegisterInvokers(
 		core.InvokeListenForEvents,
 	)
@@ -55,14 +46,6 @@ func ProvideEventPubSubContainer(env *EnvironmentVariables) (pubsub.Container, e
 	return pubsub.NewContainer(
 		pubsub.ContainerConfig{
 			EventDriver: env.EventDriver,
-			RedisAddr:   &env.EventRedisAddr,
-			RedisDB:     &env.EventRedisDB,
-			SQLDBType:   &env.EventSQLDBType,
-			SQLUser:     &env.EventSQLUser,
-			SQLPass:     &env.EventSQLPass,
-			SQLHost:     &env.EventSQLHost,
-			SQLPort:     &env.EventSQLPort,
-			SQLDBName:   &env.EventSQLDBName,
 		},
 	)
 }
