@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
@@ -31,7 +31,7 @@ var MakeStruct = &cobra.Command{
 			}
 		}
 
-		generating.CreateStruct(path, name)
+		generate.CreateStruct(path, name)
 
 		fmt.Printf("Struct %s created successfully\n", name)
 	},

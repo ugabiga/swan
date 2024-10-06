@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 	"github.com/charmbracelet/huh"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/spf13/cobra"
 )
@@ -33,7 +33,7 @@ var MakeHandlerCommand = &cobra.Command{
 			}
 		}
 
-		generating.CreateHandler(handlerName, routePrefix)
+		generate.CreateHandler(handlerName, routePrefix)
 
 		fmt.Printf("Domain %s created successfully\n", handlerName)
 	},

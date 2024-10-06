@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 	"github.com/charmbracelet/huh"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/spf13/cobra"
 )
@@ -27,7 +27,7 @@ var MakeCommandCommand = &cobra.Command{
 			}
 		}
 
-		generating.CreateCommand(path)
+		generate.CreateCommand(path)
 
 		fmt.Printf("Command created successfully at %s\n", path)
 	},

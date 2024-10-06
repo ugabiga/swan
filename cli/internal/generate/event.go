@@ -1,4 +1,4 @@
-package generating
+package generate
 
 import (
 	"log"
@@ -58,7 +58,7 @@ func InvokeSetEventRouter(
 		return err
 	}
 
-	if err := registerStructToAppInvoker("./internal/config/event.go",
+	if err := registerToInvoker("./internal/config/event.go",
 		fullPackageName, packageName, funcName); err != nil {
 		log.Printf("Error while register struct %s", err)
 		return err

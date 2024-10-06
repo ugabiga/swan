@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
@@ -27,7 +27,7 @@ var NewCmd = &cobra.Command{
 			return
 		}
 
-		if err := generating.CreateNew(name, addWebProject); err != nil {
+		if err := generate.CreateNew(name, addWebProject); err != nil {
 			fmt.Println(err)
 			return
 		}

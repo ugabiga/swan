@@ -4,17 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 )
 
 var MakeDBClient = &cobra.Command{
 	Use:   "init:ent",
 	Short: "Initialize Ent ORM",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := generating.InitializeEntORM()
+		err := generate.InitializeEntORM()
 		if err != nil {
 			switch {
-			case errors.Is(err, generating.ErrEntNotInitialized):
+			case errors.Is(err, generate.ErrEntNotInitialized):
 				fmt.Printf("Ent not initialized: Please run 'make ent-new and make ent-gen' first\n")
 				return
 			default:

@@ -1,4 +1,4 @@
-package generating
+package generate
 
 import (
 	"fmt"
@@ -19,28 +19,30 @@ func extractPackageName(path string) string {
 
 // RegisterStructToAppInvoker registers a struct to the app invoker
 // config/app path : internal/config/app.go
-func registerStructToAppInvoker(filePath, fullPackageName, packageName, structName string) error {
+func registerToInvoker(invokerFilePath, fullPackageName, packageName, structName string) error {
 	appRegisterProvidersFunc := "app.RegisterInvokers"
 
-	bytes, err := os.ReadFile(filePath)
+	bytes, err := os.ReadFile(invokerFilePath)
 	if err != nil {
 		return err
 	}
-	appFileContents := string(bytes)
 
-	moduleName := utils.RetrieveModuleName()
+	invokerFileContent := string(bytes)
+	targetModuleName := utils.RetrieveModuleName()
 
 	// Format the package path
 	var packagePath string
-	packagePath = moduleName + "/" + fullPackageName
-	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+	packagePath = targetModuleName + "/" + fullPackageName
+	invokerFileContent = strings.ReplaceAll(invokerFileContent, "import (", "import (\n\t\""+packagePath+"\"")
 
-	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
-		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
-			"(", appRegisterProvidersFunc+
-			"(\n\t\t"+packageName+"."+structName+",", 1)
+	if strings.Contains(invokerFileContent, appRegisterProvidersFunc+"(") {
+		invokerFileContent = strings.Replace(
+			invokerFileContent,
+			appRegisterProvidersFunc+"(", appRegisterProvidersFunc+"(\n\t\t"+packageName+"."+structName+",",
+			1,
+		)
 
-		if err = os.WriteFile(filePath, []byte(appFileContents), 0644); err != nil {
+		if err = os.WriteFile(invokerFilePath, []byte(invokerFileContent), 0644); err != nil {
 			return err
 		}
 	}

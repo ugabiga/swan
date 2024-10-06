@@ -2,7 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/generating"
+	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
@@ -28,7 +28,7 @@ var MakeEventCommand = &cobra.Command{
 			}
 		}
 
-		generating.CreateEvent(path)
+		generate.CreateEvent(path)
 
 		fmt.Printf("Event %s created successfully\n", path)
 	},
