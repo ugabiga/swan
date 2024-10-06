@@ -12,7 +12,7 @@ var (
 	ErrEntNotInitialized = errors.New("ent not initialized")
 )
 
-func InitializeORM() error {
+func InitializeEntORM() error {
 	if err := createDBClient(); err != nil {
 		return err
 	}
@@ -29,16 +29,6 @@ func InitializeORM() error {
 }
 
 func addMakefileCommands() error {
-	//Add the following commands to the Makefile
-	//migrate-diff:
-	//@make ent-gen && atlas migrate diff "$(name)" --dir "file://$(MIGRATION_PATH)" --to "ent://internal/ent/schema" --dev-url "$(DEVELOP_DB_URL)"
-	//
-	//migrate-up:
-	//@atlas migrate apply --dir "file://$(MIGRATION_PATH)" --url "$(DB_URL)"
-	//
-	//migrate-down:
-	//@atlas migrate down --dir "file://$(MIGRATION_PATH)" --url "$(DB_URL)" --dev-url "$(DEVELOP_DB_URL)"
-
 	makefilePath := "Makefile"
 	migrationCommands := `
 

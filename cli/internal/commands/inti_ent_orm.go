@@ -8,10 +8,10 @@ import (
 )
 
 var MakeDBClient = &cobra.Command{
-	Use:   "make:init-orm",
-	Short: "Create DB client, add migration setup to .env file and add Makefile commands",
+	Use:   "init:ent",
+	Short: "Initialize Ent ORM",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := generating.InitializeORM()
+		err := generating.InitializeEntORM()
 		if err != nil {
 			switch {
 			case errors.Is(err, generating.ErrEntNotInitialized):
