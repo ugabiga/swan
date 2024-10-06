@@ -17,8 +17,6 @@ func extractPackageName(path string) string {
 	return packageName
 }
 
-// RegisterStructToAppInvoker registers a struct to the app invoker
-// config/app path : internal/config/app.go
 func registerToInvoker(invokerFilePath, fullPackageName, packageName, structName string) error {
 	appRegisterProvidersFunc := "app.RegisterInvokers"
 

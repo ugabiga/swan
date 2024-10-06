@@ -33,7 +33,10 @@ var MakeHandlerCommand = &cobra.Command{
 			}
 		}
 
-		generate.CreateHandler(handlerName, routePrefix)
+		if err := generate.CreateHandler(handlerName, routePrefix); err != nil {
+			fmt.Printf("Error while creating domain: %s", err)
+			return
+		}
 
 		fmt.Printf("Domain %s created successfully\n", handlerName)
 	},

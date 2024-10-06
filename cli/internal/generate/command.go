@@ -1,23 +1,24 @@
 package generate
 
 import (
+	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
 )
 
-func CreateCommand(path string) {
+func CreateCommand(path string) error {
 	folderPath := "internal/" + path
 
 	//Check if folder exists
-	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
-		if err := os.MkdirAll(folderPath, 0755); err != nil {
-			panic(err)
-		}
+	if err := utils.IfFolderNotExistsCreate(folderPath); err != nil {
+		return err
 	}
 
 	if err := createCommand(folderPath); err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func createCommand(folderPath string) error {

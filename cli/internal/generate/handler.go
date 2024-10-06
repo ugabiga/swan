@@ -1,20 +1,23 @@
 package generate
 
 import (
+	"github.com/ugabiga/swan/cli/internal/utils"
 	"os"
 	"strings"
 )
 
-func CreateHandler(domainName string, routePrefix string) {
+func CreateHandler(domainName string, routePrefix string) error {
 	folderPath := "internal/" + domainName
 
-	if err := os.Mkdir(folderPath, 0755); err != nil {
-		panic(err)
+	if err := utils.IfFolderNotExistsCreate(folderPath); err != nil {
+		return err
 	}
 
 	if err := createHandler(folderPath, domainName, routePrefix); err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func createHandler(

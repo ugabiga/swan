@@ -28,7 +28,10 @@ var MakeEventCommand = &cobra.Command{
 			}
 		}
 
-		generate.CreateEvent(path)
+		if err := generate.CreateEvent(path); err != nil {
+			fmt.Printf("Error while creating event: %s", err)
+			return
+		}
 
 		fmt.Printf("Event %s created successfully\n", path)
 	},

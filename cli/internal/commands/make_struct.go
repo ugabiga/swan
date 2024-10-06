@@ -31,7 +31,10 @@ var MakeStruct = &cobra.Command{
 			}
 		}
 
-		generate.CreateStruct(path, name)
+		if err := generate.CreateStruct(path, name); err != nil {
+			fmt.Printf("Error while creating struct: %s", err)
+			return
+		}
 
 		fmt.Printf("Struct %s created successfully\n", name)
 	},

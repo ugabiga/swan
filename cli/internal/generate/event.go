@@ -1,23 +1,23 @@
 package generate
 
 import (
+	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
 )
 
-func CreateEvent(path string) {
+func CreateEvent(path string) error {
 	folderPath := "internal/" + path
 
-	//Check if folder exists
-	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
-		if err := os.MkdirAll(folderPath, 0755); err != nil {
-			panic(err)
-		}
+	if err := utils.IfFolderNotExistsCreate(folderPath); err != nil {
+		return err
 	}
 
 	if err := createEvent(folderPath); err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func createEvent(folderPath string) error {

@@ -28,7 +28,7 @@ var NewCmd = &cobra.Command{
 		}
 
 		if err := generate.CreateNew(name, addWebProject); err != nil {
-			fmt.Println(err)
+			fmt.Printf("Error while creating app: %s", err)
 			return
 		}
 

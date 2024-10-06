@@ -27,7 +27,10 @@ var MakeCommandCommand = &cobra.Command{
 			}
 		}
 
-		generate.CreateCommand(path)
+		if err := generate.CreateCommand(path); err != nil {
+			fmt.Printf("Error while creating command: %s", err)
+			return
+		}
 
 		fmt.Printf("Command created successfully at %s\n", path)
 	},
