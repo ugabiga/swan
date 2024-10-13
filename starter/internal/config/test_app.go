@@ -28,7 +28,7 @@ func ProvideTestApp(t *testing.T) *TestApp {
 
 	var testContainer *TestApp
 
-	app := ProvideApp()
+	app := NewApp()
 	app.RegisterProviders(
 		NewTestApp,
 	)

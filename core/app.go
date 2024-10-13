@@ -85,6 +85,27 @@ func (c *App) Run() {
 	}
 }
 
+func (c *App) Provide() *fx.App {
+	options := []fx.Option{
+		fx.Provide(c.Providers...),
+		fx.Invoke(c.Invokers...),
+		fx.Invoke(func(
+			invokedLogger *slog.Logger,
+			invokedCommand *Command,
+		) {
+			if err := invokedCommand.Run(); err != nil {
+				invokedLogger.Error("Failed to run command", slog.Any("error", err))
+			}
+		}),
+	}
+
+	if !c.useDependencyLogger {
+		options = append(options, fx.NopLogger)
+	}
+
+	return fx.New(options...)
+}
+
 func (c *App) cleanUp(logger *slog.Logger, cleanup *Cleanup) {
 	logger.Debug("Running cleanup...")
 	if cleanup != nil {

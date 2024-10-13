@@ -10,5 +10,5 @@ import (
 // @host			localhost:8080
 // @BasePath		/
 func main() {
-	config.ProvideApp().Run()
+	config.RunApp()
 }

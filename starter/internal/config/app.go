@@ -1,10 +1,12 @@
 package config
 
 import (
+	"context"
 	"github.com/ugabiga/swan/core"
+	"log"
 )
 
-func ProvideApp() *core.App {
+func NewApp() *core.App {
 	app := core.NewApp()
 	env := ProvideEnvironmentVariables()
 
@@ -31,4 +33,15 @@ func ProvideApp() *core.App {
 	InitializeEvent(app, env)
 
 	return app
+}
+
+func RunApp() {
+	ctx := context.Background()
+	newApp := NewApp().Provide()
+	if err := newApp.Start(ctx); err != nil {
+		log.Fatal(err)
+	}
+	if err := newApp.Start(ctx); err != nil {
+		log.Fatal(err)
+	}
 }
