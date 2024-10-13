@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/generate"
 	"github.com/ugabiga/swan/cli/internal/tpl"
 	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
@@ -40,7 +39,15 @@ var CreateCmdHandler = &cobra.Command{
 		tplData := TplData{
 			HandlerURL: args[1] + "/" + path,
 		}
+
+		initTplData(&tplData, genType, path)
+
 		if err := gen(genType, tplData, path); err != nil {
+			log.Printf("Error while creating: %s", err)
+			return
+		}
+
+		if err := registerRouter(tplData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
@@ -107,11 +114,11 @@ func CreateCmds() *cobra.Command {
 func invokerPathByType(genType string) string {
 	switch genType {
 	case "command":
-		return generate.CommandPath
+		return CommandPath
 	case "event":
-		return generate.EventPath
+		return EventPath
 	default:
-		return generate.AppPath
+		return AppPath
 	}
 }
 
@@ -148,6 +155,12 @@ func fileNameByType(genType string, tplData TplData) string {
 	}
 }
 
+func initTplData(tplData *TplData, genType, path string) {
+	filePath := fmt.Sprintf("internal/%s/", path)
+	tplData.FuncName = funcNameByType(genType, *tplData)
+	tplData.PackageName = extractPackageName(filePath)
+}
+
 func gen(genType string, tplData TplData, path string) error {
 	filePath := fmt.Sprintf("internal/%s/", path)
 	tplData.FuncName = funcNameByType(genType, tplData)
@@ -182,6 +195,60 @@ func createTemplate(filePath, genType string, tplData TplData) error {
 
 	if err = t.Execute(f, tplData); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
+		return err
+	}
+
+	return nil
+}
+
+func registerRouter(tplData TplData) error {
+	projectPackage := utils.RetrieveModuleName()
+	registerFunc := "SetRouteHTTPServer("
+	routerPath := RoutePath
+	handlerName := tplData.PackageName + "Handler"
+	invokerStruct := tplData.PackageName + "." + "Handler"
+	invokerFullPackage := projectPackage + "/internal/" + tplData.PackageName
+
+	fileContent, err := readFileContent(routerPath)
+	if err != nil {
+		log.Fatalf("Failed to read file %s: %v", routerPath, err)
+		return err
+	}
+
+	if !strings.Contains(fileContent, registerFunc) {
+		return errors.New("app.RegisterInvokers not found in the file")
+	}
+
+	if !strings.Contains(fileContent, invokerFullPackage) {
+		// Replace package name
+		fileContent = strings.ReplaceAll(
+			fileContent,
+			"import (", "import (\n\t\""+invokerFullPackage+"\"",
+		)
+	}
+
+	if strings.Contains(fileContent, "*"+invokerStruct) {
+		log.Printf("Already registered %s in the file %s", invokerStruct, routerPath)
+		return nil
+	}
+
+	fileContent = strings.Replace(
+		fileContent,
+		registerFunc,
+		registerFunc+"\n\t"+handlerName+" *"+invokerStruct+",",
+		1,
+	)
+
+	if strings.Contains(fileContent, "}") {
+		fileContent = strings.Replace(fileContent,
+			"}",
+			"\t"+handlerName+".SetRoutes(g)\n}",
+			1,
+		)
+	}
+
+	if err = os.WriteFile(routerPath, []byte(fileContent), 0644); err != nil {
+		log.Fatalf("Failed to write file %s: %v", routerPath, err)
 		return err
 	}
 
