@@ -13,7 +13,8 @@ import (
 	"text/template"
 )
 
-type TplData struct {
+type GenData struct {
+	FilePath    string
 	PackageName string
 	FuncName    string
 	StructType  string
@@ -36,18 +37,18 @@ var CreateCmdHandler = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		genType := cmd.Use
-		tplData := TplData{
+		genData := GenData{
 			HandlerURL: args[1] + "/" + path,
 		}
 
-		initTplData(&tplData, genType, path)
+		initGenData(&genData, genType, path)
 
-		if err := gen(genType, tplData, path); err != nil {
+		if err := gen(genType, genData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
 
-		if err := registerRouter(tplData); err != nil {
+		if err := registerRouter(genData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
@@ -61,8 +62,9 @@ var CreateCmdCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		genType := cmd.Use
-		tplData := TplData{}
-		if err := gen(genType, tplData, path); err != nil {
+		genData := GenData{}
+		initGenData(&genData, genType, path)
+		if err := gen(genType, genData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
@@ -77,8 +79,9 @@ var CreateCmdEvent = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		genType := cmd.Use
-		tplData := TplData{}
-		if err := gen(genType, tplData, path); err != nil {
+		genData := GenData{}
+		initGenData(&genData, genType, path)
+		if err := gen(genType, genData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
@@ -93,10 +96,11 @@ var CreateCmdStruct = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		genType := cmd.Use
-		tplData := TplData{
+		genData := GenData{
 			StructName: args[1],
 		}
-		if err := gen(genType, tplData, path); err != nil {
+		initGenData(&genData, genType, path)
+		if err := gen(genType, genData); err != nil {
 			log.Printf("Error while creating: %s", err)
 			return
 		}
@@ -131,7 +135,7 @@ func registerFuncByType(genType string) string {
 	}
 }
 
-func funcNameByType(genType string, tplData TplData) string {
+func funcNameByType(genType string, genData GenData) string {
 	switch genType {
 	case "command":
 		return "SetCommands"
@@ -140,47 +144,45 @@ func funcNameByType(genType string, tplData TplData) string {
 	case "handler":
 		return "NewHandler"
 	case "struct":
-		return "New" + tplData.StructName
+		return "New" + genData.StructName
 	default:
 		return ""
 	}
 }
 
-func fileNameByType(genType string, tplData TplData) string {
+func fileNameByType(genType string, genData GenData) string {
 	switch genType {
 	case "struct":
-		return strings.ToLower(tplData.StructName) + ".go"
+		return strings.ToLower(genData.StructName) + ".go"
 	default:
 		return strings.ToLower(genType) + ".go"
 	}
 }
 
-func initTplData(tplData *TplData, genType, path string) {
+func initGenData(genData *GenData, genType, path string) {
 	filePath := fmt.Sprintf("internal/%s/", path)
-	tplData.FuncName = funcNameByType(genType, *tplData)
-	tplData.PackageName = extractPackageName(filePath)
+
+	genData.FilePath = filePath
+	genData.FuncName = funcNameByType(genType, *genData)
+	genData.PackageName = extractPackageName(filePath)
 }
 
-func gen(genType string, tplData TplData, path string) error {
-	filePath := fmt.Sprintf("internal/%s/", path)
-	tplData.FuncName = funcNameByType(genType, tplData)
-	tplData.PackageName = extractPackageName(filePath)
-
-	if err := createTemplate(filePath, genType, tplData); err != nil {
+func gen(genType string, genData GenData) error {
+	if err := createTemplate(genData.FilePath, genType, genData); err != nil {
 		return err
 	}
 
-	if err := registerInvokerOrProvider(genType, tplData.PackageName, tplData.FuncName); err != nil {
+	if err := registerInvokerOrProvider(genType, genData.PackageName, genData.FuncName); err != nil {
 		return err
 	}
 
-	log.Printf("Generated %s%s", filePath, fileNameByType(genType, tplData))
+	log.Printf("Generated %s%s", genData.FilePath, fileNameByType(genType, genData))
 
 	return nil
 }
 
-func createTemplate(filePath, genType string, tplData TplData) error {
-	f := createFile(filePath, fileNameByType(genType, tplData))
+func createTemplate(filePath, genType string, genData GenData) error {
+	f := createFile(filePath, fileNameByType(genType, genData))
 	if f == nil {
 		log.Printf("warn: file %s%s %s", filePath, strings.ToLower(genType)+".go", "already exists.")
 		return nil
@@ -193,7 +195,7 @@ func createTemplate(filePath, genType string, tplData TplData) error {
 		return err
 	}
 
-	if err = t.Execute(f, tplData); err != nil {
+	if err = t.Execute(f, genData); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 		return err
 	}
@@ -201,13 +203,13 @@ func createTemplate(filePath, genType string, tplData TplData) error {
 	return nil
 }
 
-func registerRouter(tplData TplData) error {
+func registerRouter(genData GenData) error {
 	projectPackage := utils.RetrieveModuleName()
 	registerFunc := "SetRouteHTTPServer("
 	routerPath := RoutePath
-	handlerName := tplData.PackageName + "Handler"
-	invokerStruct := tplData.PackageName + "." + "Handler"
-	invokerFullPackage := projectPackage + "/internal/" + tplData.PackageName
+	handlerName := genData.PackageName + "Handler"
+	invokerStruct := genData.PackageName + "." + "Handler"
+	invokerFullPackage := projectPackage + "/internal/" + genData.PackageName
 
 	fileContent, err := readFileContent(routerPath)
 	if err != nil {
