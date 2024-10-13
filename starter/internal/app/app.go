@@ -1,4 +1,4 @@
-package config
+package app
 
 import (
 	"context"
@@ -41,7 +41,7 @@ func RunApp() {
 	if err := newApp.Start(ctx); err != nil {
 		log.Fatal(err)
 	}
-	if err := newApp.Start(ctx); err != nil {
+	if err := newApp.Stop(ctx); err != nil {
 		log.Fatal(err)
 	}
 }

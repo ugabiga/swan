@@ -1,6 +1,8 @@
-package config
+package app
 
-import "github.com/ugabiga/swan/core"
+import (
+	"github.com/ugabiga/swan/core"
+)
 
 func InitializeCommands(app *core.App, env *EnvironmentVariables) {
 	app.RegisterInvokers(

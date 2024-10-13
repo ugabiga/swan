@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ugabiga/swan/starter/internal/config"
+	"github.com/ugabiga/swan/starter/internal/app"
 )
 
 // @title			STARTER_PLACEHOLDER
@@ -10,5 +10,5 @@ import (
 // @host			localhost:8080
 // @BasePath		/
 func main() {
-	config.RunApp()
+	app.RunApp()
 }
