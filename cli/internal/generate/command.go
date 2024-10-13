@@ -1,41 +1,64 @@
 package generate
 
 import (
+	"fmt"
 	"github.com/ugabiga/swan/cli/internal/utils"
-	"log"
 	"os"
+	"text/template"
 )
 
 func CreateCommand(path string) error {
 	folderPath := "internal/" + path
+	fileName := "command"
+	filePath := folderPath + "/" + fileName + ".go"
+	invokerFilePath := "./internal/config/commands.go"
+	packageName := extractPackageName(folderPath)
+	funcName := "SetCommands"
 
-	//Check if folder exists
 	if err := utils.IfFolderNotExistsCreate(folderPath); err != nil {
 		return err
 	}
 
-	if err := createCommand(folderPath); err != nil {
+	if err := commandTemplate(
+		filePath,
+		packageName,
+		funcName,
+	); err != nil {
+		return err
+	}
+
+	if err := registerToInvoker(
+		invokerFilePath,
+		folderPath,
+		packageName,
+		funcName,
+	); err != nil {
+		fmt.Printf("Error while registering command to invoker: %s", err)
 		return err
 	}
 
 	return nil
 }
 
-func createCommand(folderPath string) error {
-	fileName := "command"
-	filePath := folderPath + "/" + fileName + ".go"
-	fullPackageName := folderPath
-	packageName := extractPackageName(folderPath)
-	funcName := "InvokeSetCommands"
+func commandTemplate(filePath, packageName, funcName string) error {
+	type CommandTemplateData struct {
+		PackageName string
+		FuncName    string
+	}
 
-	template := `package ` + packageName + `
+	tmplData := CommandTemplateData{
+		PackageName: packageName,
+		FuncName:    funcName,
+	}
+
+	tmpl, err := template.New("command").Parse(`package {{.PackageName}}
 
 import (
 	"github.com/spf13/cobra"
 	"github.com/ugabiga/swan/core"
 )
 
-func InvokeSetCommands(
+func {{.FuncName}}(
 	command *core.Command,
 ) {
 	command.RegisterCommand(
@@ -47,20 +70,21 @@ func InvokeSetCommands(
 		},
 	)
 }
-
-`
-	if err := os.WriteFile(filePath, []byte(template), 0644); err != nil {
-		log.Printf("Error while creating struct: %s", err)
+`)
+	if err != nil {
+		fmt.Printf("Error while parsing template: %s", err)
 		return err
 	}
 
-	if err := registerToInvoker(
-		"./internal/config/commands.go",
-		fullPackageName,
-		packageName,
-		funcName,
-	); err != nil {
-		log.Printf("Error while register struct %s", err)
+	file, err := os.Create(filePath)
+	if err != nil {
+		fmt.Printf("Error while creating file: %s", err)
+		return err
+	}
+	defer file.Close()
+
+	if err = tmpl.Execute(file, tmplData); err != nil {
+		fmt.Printf("Error while executing template: %s", err)
 		return err
 	}
 
