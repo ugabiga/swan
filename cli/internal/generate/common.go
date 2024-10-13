@@ -49,7 +49,7 @@ func registerToInvoker(invokerFilePath, fullPackageName, packageName, structName
 }
 
 func registerStructToApp(fullPackageName, packageName, structName string) error {
-	appFilePath := "./internal/config/app.go"
+	appFilePath := AppPath
 	appRegisterProvidersFunc := "app.RegisterProviders"
 
 	bytes, err := os.ReadFile(appFilePath)
@@ -79,7 +79,7 @@ func registerStructToApp(fullPackageName, packageName, structName string) error 
 }
 
 func registerHandlerToApp(domainName string) error {
-	appFilePath := "./internal/config/app.go"
+	appFilePath := AppPath
 	appRegisterProvidersFunc := "app.RegisterProviders"
 
 	bytes, err := os.ReadFile(appFilePath)
@@ -110,7 +110,7 @@ func registerHandlerToApp(domainName string) error {
 }
 
 func registerHandlerToRoute(domainName string) error {
-	routerFile := "./internal/config/route.go"
+	routerFile := RouterPath
 	routerInvokeFunc := "InvokeSetRouteHTTPServer"
 
 	bytes, err := os.ReadFile(routerFile)

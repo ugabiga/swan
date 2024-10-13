@@ -11,7 +11,7 @@ func CreateCommand(path string) error {
 	folderPath := "internal/" + path
 	fileName := "command"
 	filePath := folderPath + "/" + fileName + ".go"
-	invokerFilePath := "./internal/config/commands.go"
+	invokerFilePath := CommandPath
 	packageName := extractPackageName(folderPath)
 	funcName := "SetCommands"
 
