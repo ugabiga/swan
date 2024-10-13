@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-git/go-git/v5"
-	"log"
 	"os"
 	"path/filepath"
 )
@@ -21,7 +20,6 @@ var (
 
 func CreateNew(
 	appName string,
-	addWebProject bool,
 ) error {
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
 		URL:      StarterRepo,
@@ -76,18 +74,6 @@ func CreateNew(
 
 	if err := setupDependencies(appName); err != nil {
 		return err
-	}
-
-	// TODO : Refactor this
-	if addWebProject {
-		if err := setupDependenciesForWeb(appName); err != nil {
-			log.Printf("Error setting up web project dependencies: %v", err)
-			log.Printf("Skipping web project dependencies setup")
-		}
-	} else {
-		if err := os.RemoveAll(fmt.Sprintf("./%s/web", appName)); err != nil {
-			return err
-		}
 	}
 
 	if err := cleanKeepFiles(appName); err != nil {

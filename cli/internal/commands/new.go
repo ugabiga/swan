@@ -13,8 +13,7 @@ var NewCmd = &cobra.Command{
 	Short: "Create a new app",
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			name          string
-			addWebProject bool
+			name string
 		)
 
 		if err := huh.NewInput().Title("Name").Value(&name).Run(); err != nil {
@@ -22,12 +21,7 @@ var NewCmd = &cobra.Command{
 			return
 		}
 
-		if err := huh.NewConfirm().Title("Add Web Project").Value(&addWebProject).Run(); err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		if err := generate.CreateNew(name, addWebProject); err != nil {
+		if err := generate.CreateNew(name); err != nil {
 			fmt.Printf("Error while creating app: %s", err)
 			return
 		}
