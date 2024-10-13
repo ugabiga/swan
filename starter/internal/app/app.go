@@ -11,11 +11,11 @@ func NewApp() *core.App {
 	env := ProvideEnvironmentVariables()
 
 	app.RegisterProviders(
-	//...
+	// Add your providers here
 	)
 
 	app.RegisterInvokers(
-	//...
+	// Add your invokers here
 	)
 
 	app.RegisterInvokers(
