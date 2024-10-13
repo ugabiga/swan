@@ -1,0 +1,17 @@
+package {{.PackageName}}
+
+import (
+	"log/slog"
+)
+
+type {{.StructName}} struct {
+	logger *slog.Logger
+}
+
+func {{.FuncName}}(
+	logger *slog.Logger,
+) *{{.StructName}} {
+	return &{{.StructName}}{
+		logger: logger,
+	}
+}
