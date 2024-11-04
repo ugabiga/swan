@@ -3,15 +3,16 @@ package generate
 import (
 	"errors"
 	"fmt"
-	"github.com/go-git/go-git/v5"
 	"os"
 	"path/filepath"
+
+	"github.com/go-git/go-git/v5"
 )
 
 const (
-	StarterRepo    = "https://github.com/ugabiga/swan.git"
-	StarterDirName = "starter"
-	StarterPath    = "swan/starter"
+	StarterRepo     = "https://github.com/ugabiga/swan.git"
+	BoostrapDirName = "bootstrap"
+	BootstrapPath   = "swan/bootstrap"
 )
 
 var (
@@ -22,8 +23,9 @@ func CreateNew(
 	appName string,
 ) error {
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
-		URL:      StarterRepo,
-		Progress: os.Stdout,
+		URL:           StarterRepo,
+		Progress:      os.Stdout,
+		ReferenceName: "refs/heads/v2",
 	})
 	if err != nil {
 		return err
@@ -33,7 +35,7 @@ func CreateNew(
 		return err
 	}
 
-	srcDir := appName + "/" + StarterDirName
+	srcDir := appName + "/" + BoostrapDirName
 	destDir := appName
 
 	files, err := os.ReadDir(srcDir)
@@ -52,7 +54,7 @@ func CreateNew(
 		}
 	}
 
-	if err = os.RemoveAll(fmt.Sprintf("./%s/"+StarterDirName, appName)); err != nil {
+	if err = os.RemoveAll(fmt.Sprintf("./%s/"+BoostrapDirName, appName)); err != nil {
 		return err
 	}
 

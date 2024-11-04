@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+
 	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/charmbracelet/huh"
@@ -16,7 +17,7 @@ var NewCmd = &cobra.Command{
 			name string
 		)
 
-		if err := huh.NewInput().Title("Name").Value(&name).Run(); err != nil {
+		if err := huh.NewInput().Title("Name v2").Value(&name).Run(); err != nil {
 			fmt.Println(err)
 			return
 		}

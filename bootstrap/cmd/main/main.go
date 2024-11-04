@@ -7,7 +7,7 @@ import (
 	"github.com/ugabiga/swan/bootstrap/internal/core/app"
 )
 
-// @title		Boilerplate API
+// @title		BOOTSTRAP_PLACEHOLDER
 // @host		localhost:8080
 // @version	0.1
 func main() {

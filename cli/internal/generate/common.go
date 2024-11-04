@@ -2,12 +2,13 @@ package generate
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/ugabiga/swan/cli/internal/utils"
 )
 
 func extractPackageName(path string) string {
@@ -154,19 +155,19 @@ func registerHandlerToRoute(domainName string) error {
 }
 
 func setupEnvFile(appName string) error {
-	envExampleFile, err := os.ReadFile("./" + appName + "/.env.example")
+	envExampleFile, err := os.ReadFile("./" + appName + "/.example.env")
 	if err != nil {
 		return err
 	}
 
 	envFileContents := string(envExampleFile)
-	envFileContents = strings.ReplaceAll(envFileContents, "starter", appName)
+	envFileContents = strings.ReplaceAll(envFileContents, "bootstrap", appName)
 
 	if err := os.WriteFile("./"+appName+"/.env", []byte(envFileContents), 0644); err != nil {
 		return err
 	}
 
-	if err := os.WriteFile("./"+appName+"/.env.test", []byte(envFileContents), 0644); err != nil {
+	if err := os.WriteFile("./"+appName+"/.test.env", []byte(envFileContents), 0644); err != nil {
 		return err
 	}
 
@@ -174,14 +175,14 @@ func setupEnvFile(appName string) error {
 }
 
 func setupMainFile(appName string) error {
-	filePath := fmt.Sprintf("./%s/cmd/swan/main.go", appName)
+	filePath := fmt.Sprintf("./%s/cmd/main/main.go", appName)
 	mainFile, err := os.ReadFile(filePath)
 	if err != nil {
 		return err
 	}
 
 	mailFileContents := string(mainFile)
-	mailFileContents = strings.ReplaceAll(mailFileContents, "STARTER_PLACEHOLDER", appName)
+	mailFileContents = strings.ReplaceAll(mailFileContents, "BOOTSTRAP_PLACEHOLDER", appName)
 
 	if err := os.WriteFile(filePath, []byte(mailFileContents), 0644); err != nil {
 		return err
@@ -230,6 +231,7 @@ func setupDependenciesForWeb(appName string) error {
 func removeOtherFiles(appName string) error {
 	fileAndDirNames := []string{
 		fmt.Sprintf("./%s/.git", appName),
+		fmt.Sprintf("./%s/starter", appName),
 		fmt.Sprintf("./%s/cli", appName),
 		fmt.Sprintf("./%s/core", appName),
 		fmt.Sprintf("./%s/utl", appName),
@@ -255,7 +257,7 @@ func renameGoModuleInGoModFile(appName string) error {
 	}
 
 	goModContents := string(goModFile)
-	goModContents = strings.ReplaceAll(goModContents, StarterPath, appName)
+	goModContents = strings.ReplaceAll(goModContents, BootstrapPath, appName)
 
 	if err = os.WriteFile(goMod, []byte(goModContents), 0644); err != nil {
 		return err
@@ -282,7 +284,7 @@ func renameGoModuleInGoFiles(appName string) error {
 				return err
 			}
 
-			newContents := strings.ReplaceAll(string(read), StarterPath, appName)
+			newContents := strings.ReplaceAll(string(read), BootstrapPath, appName)
 
 			err = os.WriteFile(path, []byte(newContents), 0)
 			if err != nil {
