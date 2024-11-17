@@ -1,7 +1,7 @@
 host: localhost:8080
 info:
   contact: {}
-  title: Boilerplate API
+  title: BOOTSTRAP_PLACEHOLDER
   version: "0.1"
 paths: {}
 swagger: "2.0"
