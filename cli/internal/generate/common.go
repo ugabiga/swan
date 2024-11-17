@@ -79,9 +79,9 @@ func registerStructToApp(fullPackageName, packageName, structName string) error 
 	return nil
 }
 
-func registerHandlerToApp(domainName string) error {
-	appFilePath := AppPath
-	appRegisterProvidersFunc := "app.RegisterProviders"
+func registerHandlerToApp(folderPath, domainName string) error {
+	appFilePath := ContainerPath
+	appRegisterProvidersFunc := "fx.Provide"
 
 	bytes, err := os.ReadFile(appFilePath)
 	if err != nil {
@@ -91,9 +91,7 @@ func registerHandlerToApp(domainName string) error {
 
 	moduleName := utils.RetrieveModuleName()
 
-	// Format the package path
-	var packagePath string
-	packagePath = moduleName + "/internal/" + domainName
+	packagePath := moduleName + "/" + folderPath
 	log.Printf("packagePath: %s", packagePath)
 	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
 
@@ -110,9 +108,9 @@ func registerHandlerToApp(domainName string) error {
 	return nil
 }
 
-func registerHandlerToRoute(domainName string) error {
+func registerHandlerToRoute(folderPath, domainName string) error {
 	routerFile := RouterPath
-	routerInvokeFunc := "InvokeSetRouteHTTPServer"
+	routerInvokeFunc := "SetRouter"
 
 	bytes, err := os.ReadFile(routerFile)
 	if err != nil {
@@ -123,8 +121,7 @@ func registerHandlerToRoute(domainName string) error {
 	moduleName := utils.RetrieveModuleName()
 
 	// Format the package path
-	var packagePath string
-	packagePath = moduleName + "/internal/" + domainName
+	packagePath := moduleName + "/" + folderPath
 	log.Printf("packagePath: %s", packagePath)
 	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
 
@@ -143,7 +140,7 @@ func registerHandlerToRoute(domainName string) error {
 	if strings.Contains(appFileContents, "}") {
 		appFileContents = strings.Replace(appFileContents,
 			"}",
-			"\t"+domainName+"Handler.SetRoutes(group)\n}",
+			"\t"+domainName+"Handler.SetRoutes(api)\n}",
 			1,
 		)
 		if err = os.WriteFile(routerFile, []byte(appFileContents), 0644); err != nil {

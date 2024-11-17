@@ -1,19 +1,20 @@
 package generate
 
 import (
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"os"
 	"strings"
+
+	"github.com/ugabiga/swan/cli/internal/utils"
 )
 
-func CreateHandler(domainName string, routePrefix string) error {
-	folderPath := "internal/" + domainName
+func CreateHandler(path, handlerName string, routePrefix string) error {
+	folderPath := "internal/" + path
 
 	if err := utils.IfFolderNotExistsCreate(folderPath); err != nil {
 		return err
 	}
 
-	if err := createHandler(folderPath, domainName, routePrefix); err != nil {
+	if err := createHandler(folderPath, handlerName, routePrefix); err != nil {
 		return err
 	}
 
@@ -22,17 +23,18 @@ func CreateHandler(domainName string, routePrefix string) error {
 
 func createHandler(
 	folderPath string,
-	domainName string,
+	handlerName string,
 	routePrefix string,
 ) error {
-	template := `package ` + domainName + `
+	packageName := extractPackageName(folderPath)
+
+	template := `package ` + packageName + `
 
 import (
 	"log/slog"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/ugabiga/swan/utl"
 )
 
 type Handler struct {
@@ -44,7 +46,7 @@ func NewHandler(
 	logger *slog.Logger,
 ) *Handler {
 	return &Handler{
-		prefix: "/DOMAIN",
+		prefix: "/HANDLER_NAME",
 		logger: logger,
 	}
 }
@@ -61,23 +63,17 @@ func (h *Handler) SetRoutes(e *echo.Group) {
 //
 //	@Summary		List
 //	@Description	List
-//	@Tags			DOMAIN
+//	@Tags			HANDLER_NAME
 //	@Accept			json
 //	@Produce		json
 //	@Param			limit		query		int		false	"Limit"
 //	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
-//	@Failure		400			{object}	utl.RequestValidationErrorResponse
-//	@Router			ROUTE_PREFIX/DOMAIN [get]
+//	@Router			ROUTE_PREFIX/HANDLER_NAME [get]
 func (h *Handler) List(c echo.Context) error {
 	var query ListQuery
 	if err := c.Bind(&query); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
-	}
-
-	validationErrors, ok := utl.ValidateRequestStruct(query)
-	if !ok {
-		return c.JSON(http.StatusBadRequest, validationErrors)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, ListResp{
@@ -98,26 +94,20 @@ type ListResp struct {
 //
 //	@Summary		One
 //	@Description	One
-//	@Tags			DOMAIN
+//	@Tags			HANDLER_NAME
 //	@Accept			json
 //	@Produce		json
 //	@Param			id			path		string	true	"ID"
 //	@Param			limit		query		int		false	"Limit"
 //	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
-//	@Failure		400			{object}	utl.RequestValidationErrorResponse
-//	@Router			ROUTE_PREFIX/DOMAIN/{id} [get]
+//	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [get]
 func (h *Handler) One(c echo.Context) error {
 	id := c.Param("id")
 
 	var query OneQuery
 	if err := c.Bind(&query); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
-	}
-
-	validationErrors, ok := utl.ValidateRequestStruct(query)
-	if !ok {
-		return c.JSON(http.StatusBadRequest, validationErrors)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, OneResp{
@@ -138,22 +128,16 @@ type OneResp struct {
 //
 //	@Summary		Create
 //	@Description	Create
-//	@Tags			DOMAIN
+//	@Tags			HANDLER_NAME
 //	@Accept			json
 //	@Produce		json
 //	@Param			req	body		CreateReq	true	"Request"
 //	@Success		200	{object}	CreateResp
-//	@Failure		400	{object}	utl.RequestValidationErrorResponse
-//	@Router			ROUTE_PREFIX/DOMAIN [post]
+//	@Router			ROUTE_PREFIX/HANDLER_NAME [post]
 func (h *Handler) Create(c echo.Context) error {
 	var req CreateReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
-	}
-
-	validationErrors, ok := utl.ValidateRequestStruct(req)
-	if !ok {
-		return c.JSON(http.StatusBadRequest, validationErrors)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, CreateResp{
@@ -173,25 +157,19 @@ type CreateResp struct {
 //
 //	@Summary		Edit
 //	@Description	Edit
-//	@Tags			DOMAIN
+//	@Tags			HANDLER_NAME
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"ID"
 //	@Param			req	body		EditReq	true	"Request"
 //	@Success		200	{object}	EditResp
-//	@Failure		400	{object}	utl.RequestValidationErrorResponse
-//	@Router			ROUTE_PREFIX/DOMAIN/{id} [put]
+//	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [put]
 func (h *Handler) Edit(c echo.Context) error {
 	id := c.Param("id")
 
 	var req EditReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
-	}
-
-	validationErrors, ok := utl.ValidateRequestStruct(req)
-	if !ok {
-		return c.JSON(http.StatusBadRequest, validationErrors)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, EditResp{
@@ -213,30 +191,23 @@ type EditResp struct {
 //
 //	@Summary		Delete
 //	@Description	Delete
-//	@Tags			DOMAIN
+//	@Tags			HANDLER_NAME
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string		true	"ID"
 //	@Param			req	body		DeleteReq	true	"Request"
 //	@Success		200	{object}	DeleteResp
-//	@Failure		400	{object}	utl.RequestValidationErrorResponse
-//	@Router			ROUTE_PREFIX/DOMAIN/{id} [delete]
+//	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [delete]
 func (h *Handler) Delete(c echo.Context) error {
 	id := c.Param("id")
 
 	var req DeleteReq
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, utl.ValidateRequestAllEmptyResponse())
-	}
-
-	validationErrors, ok := utl.ValidateRequestStruct(req)
-	if !ok {
-		return c.JSON(http.StatusBadRequest, validationErrors)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, DeleteResp{
 		ID:   id,
-		Name: req.Name,
 	})
 }
 
@@ -246,13 +217,11 @@ type DeleteReq struct {
 
 type DeleteResp struct {
 	ID   string ` + "`json:\"id\"`" + `
-	Name string ` + "`json:\"name\"`" + `
 }
 `
 	filePath := folderPath + "/handler.go"
 
-	// replace DOMAIN with domainName
-	template = strings.ReplaceAll(template, "DOMAIN", domainName)
+	template = strings.ReplaceAll(template, "HANDLER_NAME", handlerName)
 	template = strings.ReplaceAll(template, "ROUTE_PREFIX", routePrefix)
 
 	// write to file
@@ -260,11 +229,11 @@ type DeleteResp struct {
 		return err
 	}
 
-	if err := registerHandlerToApp(domainName); err != nil {
+	if err := registerHandlerToApp(folderPath, handlerName); err != nil {
 		return err
 	}
 
-	if err := registerHandlerToRoute(domainName); err != nil {
+	if err := registerHandlerToRoute(folderPath, handlerName); err != nil {
 		return err
 	}
 

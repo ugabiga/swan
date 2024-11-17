@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+
 	"github.com/charmbracelet/huh"
 	"github.com/ugabiga/swan/cli/internal/generate"
 
@@ -14,14 +15,21 @@ var MakeHandlerCommand = &cobra.Command{
 	Args:  cobra.MaximumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
+			handlerPath string
 			handlerName string
 			routePrefix string
 		)
 
 		if len(args) == 2 {
-			handlerName = args[0]
-			routePrefix = args[1]
+			handlerPath = args[0]
+			handlerName = args[1]
+			routePrefix = args[2]
 		} else {
+			if err := huh.NewInput().Title("Handler Path").Value(&handlerPath).Run(); err != nil {
+				fmt.Println(err)
+				return
+			}
+
 			if err := huh.NewInput().Title("Handler Name").Value(&handlerName).Run(); err != nil {
 				fmt.Println(err)
 				return
@@ -33,7 +41,7 @@ var MakeHandlerCommand = &cobra.Command{
 			}
 		}
 
-		if err := generate.CreateHandler(handlerName, routePrefix); err != nil {
+		if err := generate.CreateHandler(handlerPath, handlerName, routePrefix); err != nil {
 			fmt.Printf("Error while creating domain: %s", err)
 			return
 		}
