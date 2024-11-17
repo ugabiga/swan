@@ -1,10 +1,10 @@
 package app
 
 import (
-	"github.com/ugabiga/swan/bootstrap/internal/core/auth"
-	"github.com/ugabiga/swan/bootstrap/internal/core/config"
-	"github.com/ugabiga/swan/bootstrap/internal/core/database"
-	"github.com/ugabiga/swan/bootstrap/internal/core/server"
+	"github.com/ugabiga/swan/bootstrap/internal/app/auth"
+	"github.com/ugabiga/swan/bootstrap/internal/app/config"
+	"github.com/ugabiga/swan/bootstrap/internal/app/database"
+	"github.com/ugabiga/swan/bootstrap/internal/app/server"
 	"go.uber.org/fx"
 )
 

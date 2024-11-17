@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"strings"
 
+	"github.com/ugabiga/swan/bootstrap/internal/app/config"
 	"github.com/ugabiga/swan/bootstrap/internal/common/dir"
-	"github.com/ugabiga/swan/bootstrap/internal/core/config"
 
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite"
 	_ "github.com/golang-migrate/migrate/v4/source/file"

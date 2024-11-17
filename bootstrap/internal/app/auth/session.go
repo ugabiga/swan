@@ -11,7 +11,7 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/google"
-	"github.com/ugabiga/swan/bootstrap/internal/core/config"
+	"github.com/ugabiga/swan/bootstrap/internal/app/config"
 )
 
 const (

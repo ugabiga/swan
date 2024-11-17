@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/gorilla/sessions"
-	"github.com/ugabiga/swan/bootstrap/internal/core/config"
+	"github.com/ugabiga/swan/bootstrap/internal/app/config"
 	"github.com/wader/gormstore/v2"
 	"gorm.io/gorm"
 )

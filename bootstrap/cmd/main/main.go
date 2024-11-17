@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/ugabiga/swan/bootstrap/internal/core/app"
+	"github.com/ugabiga/swan/bootstrap/internal/app"
 )
 
 // @title		BOOTSTRAP_PLACEHOLDER

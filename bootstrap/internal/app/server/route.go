@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/ugabiga/swan/bootstrap/internal/core/auth"
+	"github.com/ugabiga/swan/bootstrap/internal/app/auth"
 )
 
 func SetRoutes(
