@@ -28,11 +28,13 @@ func NewServer(logger *slog.Logger) *echo.Echo {
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil {
 				logger.LogAttrs(c.Request().Context(), slog.LevelDebug, "Request",
+					slog.String("method", c.Request().Method),
 					slog.String("uri", v.URI),
 					slog.Int("status", v.Status),
 				)
 			} else {
 				logger.LogAttrs(c.Request().Context(), slog.LevelError, "Request Error",
+					slog.String("method", c.Request().Method),
 					slog.String("uri", v.URI),
 					slog.Int("status", v.Status),
 					slog.String("err", v.Error.Error()),
