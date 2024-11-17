@@ -38,7 +38,7 @@ func invoke() fx.Option {
 			database.SetCommands,
 		),
 		fx.Invoke(
-			server.SetRoutes,
+			server.SetRouter,
 			server.SetCommands,
 		),
 	)

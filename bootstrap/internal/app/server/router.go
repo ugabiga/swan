@@ -5,7 +5,7 @@ import (
 	"github.com/ugabiga/swan/bootstrap/internal/app/auth"
 )
 
-func SetRoutes(
+func SetRouter(
 	authManger *auth.Manager,
 	openAPIHandler *OpenAPIHandler,
 	staticHandler *StaticHandler,
