@@ -71,23 +71,21 @@ func (h *Handler) SetRoutes(e *echo.Group) {
 //	@Success		200			{object}	ListResp
 //	@Router			ROUTE_PREFIX/HANDLER_NAME [get]
 func (h *Handler) List(c echo.Context) error {
-	var query ListQuery
-	if err := c.Bind(&query); err != nil {
+	var req ListReq 
+	if err := c.Bind(&req); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, ListResp{
-		Tag: "list",
 	})
 }
 
-type ListQuery struct {
+type ListReq struct {
 	Limit  int ` + "`query:\"limit\"`" + `
 	Offset int ` + "`query:\"offset\"`" + `
 }
 
 type ListResp struct {
-	Tag string ` + "`json:\"func\"`" + `
 }
 
 // One godoc
@@ -98,26 +96,21 @@ type ListResp struct {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id			path		string	true	"ID"
-//	@Param			limit		query		int		false	"Limit"
-//	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
 //	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [get]
 func (h *Handler) One(c echo.Context) error {
-	id := c.Param("id")
-
-	var query OneQuery
-	if err := c.Bind(&query); err != nil {
+	var req OneReq
+	if err := c.Bind(&req); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, OneResp{
-		ID: id,
+		ID: req.ID,
 	})
 }
 
-type OneQuery struct {
-	Limit  int ` + "`query:\"limit\"`" + `
-	Offset int ` + "`query:\"offset\"`" + `
+type OneReq struct {
+	ID  string ` + "`param:\"id\"`" + `
 }
 
 type OneResp struct {
@@ -141,7 +134,7 @@ func (h *Handler) Create(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, CreateResp{
-		Name: req.Name,
+		CreatedName: req.Name,
 	})
 }
 
@@ -150,7 +143,7 @@ type CreateReq struct {
 }
 
 type CreateResp struct {
-	Name string ` + "`json:\"name\"`" + `
+	CreatedName string ` + "`json:\"created_name\"`" + `
 }
 
 // Edit godoc
@@ -165,20 +158,19 @@ type CreateResp struct {
 //	@Success		200	{object}	EditResp
 //	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [put]
 func (h *Handler) Edit(c echo.Context) error {
-	id := c.Param("id")
-
 	var req EditReq
 	if err := c.Bind(&req); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, EditResp{
-		ID:   id,
+		ID:   req.ID,
 		Name: req.Name,
 	})
 }
 
 type EditReq struct {
+	ID   string ` + "`param:\"id\"`" + `
 	Name string ` + "`json:\"name\"`" + `
 }
 
@@ -199,19 +191,18 @@ type EditResp struct {
 //	@Success		200	{object}	DeleteResp
 //	@Router			ROUTE_PREFIX/HANDLER_NAME/{id} [delete]
 func (h *Handler) Delete(c echo.Context) error {
-	id := c.Param("id")
-
 	var req DeleteReq
 	if err := c.Bind(&req); err != nil {
 		return err
 	}
 
 	return c.JSON(http.StatusOK, DeleteResp{
-		ID:   id,
+		ID:   req.ID,
 	})
 }
 
 type DeleteReq struct {
+	ID   string ` + "`param:\"id\"`" + `
 	Name string ` + "`json:\"name\"`" + `
 }
 
