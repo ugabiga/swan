@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -18,4 +19,11 @@ func RetrieveModuleName() string {
 	moduleName := strings.Split(lines[0], " ")[1]
 
 	return moduleName
+}
+
+func ExtractPackageName(path string) string {
+	packageName := filepath.Base(path)
+	packageName = strings.TrimSuffix(packageName, "/")
+
+	return packageName
 }
