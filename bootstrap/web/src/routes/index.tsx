@@ -7,8 +7,10 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
     return (
-        <main className="p-4 space-y-4">
-            <h3 className="text-2xl">Home</h3>
+        <main className="w-screen h-screen">
+            <h3 className="text-2xl ml-4 mt-4">
+                Home
+            </h3>
         </main>
     );
 }

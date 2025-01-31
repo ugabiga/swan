@@ -6,8 +6,10 @@ export const Route = createFileRoute("/about")({
 
 function AboutComponent() {
     return (
-        <main className="p-4 space-y-4">
-            <h3 className="text-2xl">About</h3>
+        <main className="w-screen h-screen">
+            <h3 className="text-2xl ml-4 mt-4">
+                About
+            </h3>
         </main>
     )
 }
