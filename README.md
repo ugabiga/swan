@@ -16,7 +16,7 @@ Inspired by [caesar](http://github.com/caesar-rocks)
 ## Installation
 
 ```bash
-go install github.com/ugabiga/swan/cli@latest
+go install github.com/ugabiga/swan/swctl@latest
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ go install github.com/ugabiga/swan/cli@latest
 Create a new project:
 
 ```bash
-swan new <project-name>
+swctl new <project-name>
 ```
 
 All make commands are generate files in the given directory and add dependencies to config/app
@@ -32,23 +32,23 @@ All make commands are generate files in the given directory and add dependencies
 Create a new handler:
 
 ```bash
-swan make:handler
+swctl make:handler
 ```
 
 Create a new command:
 
 ```bash
-swan make:command
+swctl make:command
 ```
 
 Create a new event:
 
 ```bash
-swan make:event
+swctl make:event
 ```
 
 Create a struct:
 
 ```bash
-swan make:struct
+swctl make:struct
 ```
