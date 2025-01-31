@@ -172,7 +172,7 @@ func setupEnvFile(appName string) error {
 }
 
 func setupMainFile(appName string) error {
-	filePath := fmt.Sprintf("./%s/cmd/main/main.go", appName)
+	filePath := fmt.Sprintf("./%s/cmd/app/main.go", appName)
 	mainFile, err := os.ReadFile(filePath)
 	if err != nil {
 		return err
