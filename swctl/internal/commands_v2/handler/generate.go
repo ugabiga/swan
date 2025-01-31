@@ -20,6 +20,7 @@ var templateFS embed.FS
 func Generate(routePrefix, handlerPath, handlerName string) error {
 	handlerPath = filepath.Join("internal", handlerPath)
 	packageName := utils.ExtractPackageName(handlerPath)
+	funcName := "NewHandler"
 
 	if err := utils.IfFolderNotExistsCreate(handlerPath); err != nil {
 		return err
@@ -29,10 +30,7 @@ func Generate(routePrefix, handlerPath, handlerName string) error {
 		return err
 	}
 
-	if err := registerHandlerToApp(
-		handlerPath,
-		handlerName,
-	); err != nil {
+	if err := generate.RegisterStructToContainer(handlerPath, packageName, funcName); err != nil {
 		return err
 	}
 
@@ -68,35 +66,6 @@ func generateHandlerFile(
 		"RoutePrefix": routePrefix,
 	}); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func registerHandlerToApp(folderPath, handlerName string) error {
-	appFilePath := generate.ContainerPath
-	appRegisterProvidersFunc := "fx.Provide"
-
-	bytes, err := os.ReadFile(appFilePath)
-	if err != nil {
-		return err
-	}
-	appFileContents := string(bytes)
-
-	moduleName := utils.RetrieveModuleName()
-
-	packagePath := moduleName + "/" + folderPath
-	log.Printf("packagePath: %s", packagePath)
-	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
-
-	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
-		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
-			"(", appRegisterProvidersFunc+
-			"(\n\t\t"+handlerName+".NewHandler,", 1)
-
-		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
-			return err
-		}
 	}
 
 	return nil
