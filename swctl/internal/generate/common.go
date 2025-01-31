@@ -229,7 +229,7 @@ func removeOtherFiles(appName string) error {
 	fileAndDirNames := []string{
 		fmt.Sprintf("./%s/.git", appName),
 		fmt.Sprintf("./%s/starter", appName),
-		fmt.Sprintf("./%s/cli", appName),
+		fmt.Sprintf("./%s/swctl", appName),
 		fmt.Sprintf("./%s/core", appName),
 		fmt.Sprintf("./%s/utl", appName),
 		fmt.Sprintf("./%s/go.work.sum", appName),
