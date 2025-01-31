@@ -1,4 +1,4 @@
-module github.com/ugabiga/swan/cli
+module github.com/ugabiga/swan/swctl
 
 go 1.22.2
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/command"
-	"github.com/ugabiga/swan/cli/internal/commands"
+	"github.com/ugabiga/swan/swctl/internal/command"
+	"github.com/ugabiga/swan/swctl/internal/commands"
 )
 
 var rootCmd = &cobra.Command{

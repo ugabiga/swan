@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ugabiga/swan/cli/internal/utils"
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 func CreateHandler(path, handlerName string, routePrefix string) error {

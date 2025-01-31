@@ -3,8 +3,9 @@ package commands
 import (
 	"errors"
 	"fmt"
+
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/generate"
+	"github.com/ugabiga/swan/swctl/internal/generate"
 )
 
 var MakeDBClient = &cobra.Command{

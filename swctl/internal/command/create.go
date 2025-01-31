@@ -3,14 +3,15 @@ package command
 import (
 	"errors"
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/tpl"
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/spf13/cobra"
+	"github.com/ugabiga/swan/swctl/internal/tpl"
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 type GenData struct {

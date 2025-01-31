@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ugabiga/swan/cli/internal/utils"
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 func extractPackageName(path string) string {

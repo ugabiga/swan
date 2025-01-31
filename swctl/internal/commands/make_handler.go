@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/charmbracelet/huh"
-	"github.com/ugabiga/swan/cli/internal/generate"
+	"github.com/ugabiga/swan/swctl/internal/generate"
 
 	"github.com/spf13/cobra"
 )

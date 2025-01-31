@@ -2,7 +2,8 @@ package commands
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/generate"
+
+	"github.com/ugabiga/swan/swctl/internal/generate"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"

@@ -2,17 +2,17 @@ package commands
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/generate"
 
 	"github.com/charmbracelet/huh"
+	"github.com/ugabiga/swan/swctl/internal/generate"
+
 	"github.com/spf13/cobra"
 )
 
-var MakeEventCommand = &cobra.Command{
-	Use:        "make:event",
-	Short:      "Create a new event",
-	Args:       cobra.MaximumNArgs(1),
-	ArgAliases: []string{"path"},
+var MakeCommandCommand = &cobra.Command{
+	Use:   "make:command",
+	Short: "Create a new command",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			path string
@@ -28,11 +28,11 @@ var MakeEventCommand = &cobra.Command{
 			}
 		}
 
-		if err := generate.CreateEvent(path); err != nil {
-			fmt.Printf("Error while creating event: %s", err)
+		if err := generate.CreateCommand(path); err != nil {
+			fmt.Printf("Error while creating command: %s", err)
 			return
 		}
 
-		fmt.Printf("Event %s created successfully\n", path)
+		fmt.Printf("Command created successfully at %s\n", path)
 	},
 }

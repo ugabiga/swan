@@ -1,9 +1,10 @@
 package generate
 
 import (
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
+
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 func CreateEvent(path string) error {

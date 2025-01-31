@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/ugabiga/swan/cli/internal/generate"
+	"github.com/ugabiga/swan/swctl/internal/generate"
 )
 
 // validateAppName checks if the provided name is valid for a new app

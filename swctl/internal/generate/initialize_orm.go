@@ -3,9 +3,10 @@ package generate
 import (
 	"errors"
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"os"
 	"strings"
+
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 var (

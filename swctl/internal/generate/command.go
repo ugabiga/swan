@@ -2,9 +2,10 @@ package generate
 
 import (
 	"fmt"
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"os"
 	"text/template"
+
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 func CreateCommand(path string) error {

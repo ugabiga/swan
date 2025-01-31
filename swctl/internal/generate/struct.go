@@ -1,10 +1,11 @@
 package generate
 
 import (
-	"github.com/ugabiga/swan/cli/internal/utils"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 func CreateStruct(path, name string) error {
