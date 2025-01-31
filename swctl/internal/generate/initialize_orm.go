@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/ugabiga/swan/swctl/internal/utils"
@@ -275,5 +276,73 @@ func newSqliteEntClient(logger *slog.Logger, url string) (*ent.Client, error) {
 		fmt.Printf("Error while register struct %s", err)
 		return err
 	}
+	return nil
+}
+
+func extractPackageName(path string) string {
+	packageName := filepath.Base(path)
+	packageName = strings.TrimSuffix(packageName, "/")
+
+	return packageName
+}
+
+func registerToInvoker(invokerFilePath, fullPackageName, packageName, structName string) error {
+	appRegisterProvidersFunc := "app.RegisterInvokers"
+
+	bytes, err := os.ReadFile(invokerFilePath)
+	if err != nil {
+		return err
+	}
+
+	invokerFileContent := string(bytes)
+	targetModuleName := utils.RetrieveModuleName()
+
+	// Format the package path
+	var packagePath string
+	packagePath = targetModuleName + "/" + fullPackageName
+	invokerFileContent = strings.ReplaceAll(invokerFileContent, "import (", "import (\n\t\""+packagePath+"\"")
+
+	if strings.Contains(invokerFileContent, appRegisterProvidersFunc+"(") {
+		invokerFileContent = strings.Replace(
+			invokerFileContent,
+			appRegisterProvidersFunc+"(", appRegisterProvidersFunc+"(\n\t\t"+packageName+"."+structName+",",
+			1,
+		)
+
+		if err = os.WriteFile(invokerFilePath, []byte(invokerFileContent), 0644); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func registerStructToApp(fullPackageName, packageName, structName string) error {
+	appFilePath := AppPath
+	appRegisterProvidersFunc := "app.RegisterProviders"
+
+	bytes, err := os.ReadFile(appFilePath)
+	if err != nil {
+		return err
+	}
+	appFileContents := string(bytes)
+
+	moduleName := utils.RetrieveModuleName()
+
+	// Format the package path
+	var packagePath string
+	packagePath = moduleName + "/" + fullPackageName
+	appFileContents = strings.ReplaceAll(appFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+
+	if strings.Contains(appFileContents, appRegisterProvidersFunc+"(") {
+		appFileContents = strings.Replace(appFileContents, appRegisterProvidersFunc+
+			"(", appRegisterProvidersFunc+
+			"(\n\t\t"+packageName+".New"+structName+",", 1)
+
+		if err = os.WriteFile(appFilePath, []byte(appFileContents), 0644); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
