@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/go-git/go-git/v5"
@@ -79,6 +80,21 @@ func CreateNew(
 
 	if err := cleanKeepFiles(appName); err != nil {
 		return err
+	}
+
+	if err := runPnpmInstall(destDir); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func runPnpmInstall(dir string) error {
+	webDir := filepath.Join(dir, "web")
+	os.Chdir(webDir)
+
+	if _, err := exec.Command("pnpm", "install").Output(); err != nil {
+		return fmt.Errorf("failed to run pnpm install: %w", err)
 	}
 
 	return nil
