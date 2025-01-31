@@ -8,12 +8,7 @@ import (
 	"strings"
 
 	"github.com/go-git/go-git/v5"
-)
-
-const (
-	RepoAddr        = "https://github.com/ugabiga/swan.git"
-	BoostrapDirName = "bootstrap"
-	BootstrapPath   = "swan/bootstrap"
+	"github.com/ugabiga/swan/swctl/internal/generate"
 )
 
 func Generate(name string) error {
@@ -62,7 +57,7 @@ func Generate(name string) error {
 
 func cloneRepo(name string) error {
 	_, err := git.PlainClone("./"+name, false, &git.CloneOptions{
-		URL: RepoAddr,
+		URL: generate.RepoAddr,
 	})
 	if err != nil {
 		return err
@@ -93,7 +88,7 @@ func removeExceptBootstrap(appName string) error {
 }
 
 func moveBootstrapFiles(appName string) error {
-	srcDir := appName + "/" + BoostrapDirName
+	srcDir := appName + "/" + generate.BoostrapDirName
 	destDir := appName
 
 	files, err := os.ReadDir(srcDir)
@@ -112,7 +107,7 @@ func moveBootstrapFiles(appName string) error {
 		}
 	}
 
-	if err = os.RemoveAll(fmt.Sprintf("./%s/"+BoostrapDirName, appName)); err != nil {
+	if err = os.RemoveAll(fmt.Sprintf("./%s/"+generate.BoostrapDirName, appName)); err != nil {
 		return err
 	}
 
@@ -127,7 +122,7 @@ func renameGoModuleInGoModFile(appName string) error {
 	}
 
 	goModContents := string(goModFile)
-	goModContents = strings.ReplaceAll(goModContents, BootstrapPath, appName)
+	goModContents = strings.ReplaceAll(goModContents, generate.BootstrapPath, appName)
 
 	if err = os.WriteFile(goMod, []byte(goModContents), 0644); err != nil {
 		return err
@@ -154,7 +149,7 @@ func renameGoModuleInGoFiles(appName string) error {
 				return err
 			}
 
-			newContents := strings.ReplaceAll(string(read), BootstrapPath, appName)
+			newContents := strings.ReplaceAll(string(read), generate.BootstrapPath, appName)
 
 			err = os.WriteFile(path, []byte(newContents), 0)
 			if err != nil {

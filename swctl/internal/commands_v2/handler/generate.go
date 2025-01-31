@@ -10,17 +10,12 @@ import (
 
 	"text/template"
 
+	"github.com/ugabiga/swan/swctl/internal/generate"
 	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
 //go:embed *.tmpl
 var templateFS embed.FS
-
-const (
-	AppRootPath   = "./internal/app"
-	ContainerPath = AppRootPath + "/container.go"
-	RouterPath    = AppRootPath + "/server/router.go"
-)
 
 func Generate(routePrefix, handlerPath, handlerName string) error {
 	handlerPath = filepath.Join("internal", handlerPath)
@@ -79,7 +74,7 @@ func generateHandlerFile(
 }
 
 func registerHandlerToApp(folderPath, handlerName string) error {
-	appFilePath := ContainerPath
+	appFilePath := generate.ContainerPath
 	appRegisterProvidersFunc := "fx.Provide"
 
 	bytes, err := os.ReadFile(appFilePath)
@@ -108,7 +103,7 @@ func registerHandlerToApp(folderPath, handlerName string) error {
 }
 
 func registerHandlerToRoute(handlerPath, routePrefix, handlerName string) error {
-	routerFile := RouterPath
+	routerFile := generate.RouterPath
 	routerInvokeFunc := "SetRouter"
 
 	bytes, err := os.ReadFile(routerFile)
