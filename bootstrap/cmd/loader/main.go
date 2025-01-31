@@ -10,9 +10,11 @@ import (
 	"ariga.io/atlas-provider-gorm/gormschema"
 )
 
+var models = []any{}
+
 func main() {
 	stmts, err := gormschema.New("sqlite").Load(
-		app.models()...,
+		models...,
 	)
 	if err != nil {
 		_, err := fmt.Fprintf(os.Stderr, "failed to load gorm schema: %v\n", err)

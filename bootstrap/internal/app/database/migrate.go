@@ -2,7 +2,9 @@ package database
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
+	"os/exec"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/spf13/cobra"
@@ -24,6 +26,23 @@ func extractDSN(dialector gorm.Dialector) string {
 	default:
 		return ""
 	}
+}
+
+func migrateCreate(name string) (bool, error) {
+	atlasCmd := exec.Command("atlas", "migrate", "create", "-dir", "-ext", "sql", "-name", name)
+	if err := atlasCmd.Run(); err != nil {
+		fmt.Println("failed to create migration", err)
+		fmt.Println("to install atlas visit https://atlasgo.io/getting-started/")
+
+		return false, err
+	}
+
+	createMigrationCmd := exec.Command("atlas", "migrate", "diff", name, "--env", "gorm")
+	if err := createMigrationCmd.Run(); err != nil {
+		fmt.Println("failed to create migration", err)
+		return false, err
+	}
+	return true, nil
 }
 
 func migrateUp(dialector gorm.Dialector) (bool, error) {
@@ -84,6 +103,28 @@ func SetCommands(
 		Short: "Database migration commands",
 	}
 
+	var migrateCreateCmd = &cobra.Command{
+		Use:   "create [name]",
+		Short: "Create a new database migration",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			if len(args) == 0 {
+				logger.Error("migration name is required")
+				return
+			}
+
+			dialector := db.Dialector
+			result, err := migrateCreate(dialector, args[0])
+			if err != nil {
+				logger.Error("migration creation failed", "err", err)
+				return
+			}
+			if result {
+				logger.Info("migration creation completed successfully")
+			}
+		},
+	}
+
 	var migrateUpCmd = &cobra.Command{
 		Use:   "up",
 		Short: "Run database migrations",
@@ -120,6 +161,7 @@ func SetCommands(
 		},
 	}
 
+	migrateCmd.AddCommand(migrateCreateCmd)
 	migrateCmd.AddCommand(migrateUpCmd)
 	migrateCmd.AddCommand(migrateDownCmd)
 	cmd.AddCommand(migrateCmd)
