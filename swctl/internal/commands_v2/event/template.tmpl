@@ -1,0 +1,23 @@
+package {{.PackageName}}
+
+import (
+	"log/slog"
+
+	"github.com/ThreeDotsLabs/watermill/message"
+)
+
+func SetEvent(
+	logger *slog.Logger,
+	subscriber message.Subscriber,
+	eventRouter *message.Router,
+) {
+	eventRouter.AddNoPublisherHandler(
+		"evt-handle",
+		"evt-topic",
+		subscriber,
+		func(msg *message.Message) error {
+			logger.Info("received event", "topic", msg.Metadata.Get("topic"))
+			return nil
+		},
+	)
+}

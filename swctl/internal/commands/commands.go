@@ -9,6 +9,6 @@ func Commands() []*cobra.Command {
 		MakeStruct,
 		MakeDBClient,
 		MakeCommandCommand,
-		MakeEventCommand,
+		// MakeEventCommand,
 	}
 }

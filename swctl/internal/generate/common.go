@@ -1,6 +1,7 @@
 package generate
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -258,7 +259,7 @@ func setupDependenciesForWeb(appName string) error {
 
 	_, err := exec.LookPath("yarn")
 	if err != nil {
-		return ErrorNoYarn
+		return errors.New("yarn not found")
 	}
 
 	for _, command := range commands {
@@ -300,7 +301,7 @@ func renameGoModuleInGoModFile(appName string) error {
 	}
 
 	goModContents := string(goModFile)
-	goModContents = strings.ReplaceAll(goModContents, BootstrapPath, appName)
+	// goModContents = strings.ReplaceAll(goModContents, BootstrapPath, appName)
 
 	if err = os.WriteFile(goMod, []byte(goModContents), 0644); err != nil {
 		return err
@@ -319,21 +320,21 @@ func renameGoModuleInGoFiles(appName string) error {
 			return nil
 		}
 
-		matched := strings.HasSuffix(path, ".go")
+		// matched := strings.HasSuffix(path, ".go")
 
-		if matched {
-			read, err := os.ReadFile(path)
-			if err != nil {
-				return err
-			}
+		// if matched {
+		// 	read, err := os.ReadFile(path)
+		// 	if err != nil {
+		// 		return err
+		// 	}
 
-			newContents := strings.ReplaceAll(string(read), BootstrapPath, appName)
+		// 	// newContents := strings.ReplaceAll(string(read), BootstrapPath, appName)
 
-			err = os.WriteFile(path, []byte(newContents), 0)
-			if err != nil {
-				return err
-			}
-		}
+		// 	err = os.WriteFile(path, []byte(newContents), 0)
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// }
 
 		return nil
 	})
