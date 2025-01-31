@@ -1,7 +1,6 @@
 package generate
 
 import (
-	"log"
 	"os"
 	"strings"
 
@@ -27,10 +26,15 @@ func RegisterInvokeInContainer(folderPath, structName, funcName string) error {
 	moduleName := utils.RetrieveModuleName()
 
 	packagePath := moduleName + "/" + folderPath
-	log.Printf("packagePath: %s", packagePath)
-	containerFileContents = strings.ReplaceAll(containerFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+	if !strings.Contains(containerFileContents, packagePath) {
+		containerFileContents = strings.ReplaceAll(containerFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+	}
 
 	if strings.Contains(containerFileContents, invokeFunc+"(") {
+		if strings.Contains(containerFileContents, structName+"."+funcName) {
+			return nil
+		}
+
 		containerFileContents = strings.Replace(containerFileContents, invokeFunc+
 			"(", invokeFunc+
 			"(\n\t\t\t"+structName+"."+funcName+",", 1)
@@ -55,10 +59,18 @@ func RegisterStructToContainer(folderPath, packageName, funcName string) error {
 	containerFileContents := string(bytes)
 
 	packagePath := moduleName + "/" + folderPath
-	log.Printf("packagePath: %s", packagePath)
-	containerFileContents = strings.ReplaceAll(containerFileContents, "import (", "import (\n\t\""+packagePath+"\"")
+	if !strings.Contains(containerFileContents, packagePath) {
+		containerFileContents = strings.ReplaceAll(containerFileContents,
+			"import (",
+			"import (\n\t\""+packagePath+"\"",
+		)
+	}
 
 	if strings.Contains(containerFileContents, provideFunc+"(") {
+		if strings.Contains(containerFileContents, packageName+"."+funcName) {
+			return nil
+		}
+
 		containerFileContents = strings.Replace(containerFileContents, provideFunc+
 			"(", provideFunc+
 			"(\n\t\t\t"+packageName+"."+funcName+",", 1)
