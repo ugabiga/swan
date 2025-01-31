@@ -7,8 +7,8 @@ import (
 func Commands() []*cobra.Command {
 	return []*cobra.Command{
 		// MakeStruct,
-		MakeDBClient,
-		MakeCommandCommand,
+		// MakeDBClient,
+		// MakeCommandCommand,
 		// MakeEventCommand,
 	}
 }

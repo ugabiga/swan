@@ -33,8 +33,9 @@ func Generate(path, name string) error {
 	return nil
 }
 
-func generateStructFile(folderPath, packageName, name string) error {
-	filePath := filepath.Join(folderPath, name+".go")
+func generateStructFile(folderPath, packageName, structName string) error {
+	snakeName := utils.ConvertToSnakeCase(structName)
+	filePath := filepath.Join(folderPath, snakeName+".go")
 
 	f, err := os.Create(filePath)
 	if err != nil {
@@ -49,7 +50,7 @@ func generateStructFile(folderPath, packageName, name string) error {
 
 	if err := tmpl.Execute(f, map[string]string{
 		"PackageName": packageName,
-		"StructName":  name,
+		"StructName":  structName,
 	}); err != nil {
 		return err
 	}
