@@ -7,12 +7,6 @@ import (
 	"github.com/ugabiga/swan/swctl/internal/utils"
 )
 
-const (
-	RepoAddr        = "https://github.com/ugabiga/swan.git"
-	BoostrapDirName = "bootstrap"
-	BootstrapPath   = "swan/bootstrap"
-)
-
 func RegisterInvokeInContainer(folderPath, structName, funcName string) error {
 	containerPath := ContainerPath
 	invokeFunc := "fx.Invoke"

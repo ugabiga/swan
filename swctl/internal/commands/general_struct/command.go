@@ -1,4 +1,4 @@
-package general
+package general_struct
 
 import (
 	"fmt"
