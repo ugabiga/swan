@@ -224,7 +224,7 @@ type DeleteResp struct {
 		return err
 	}
 
-	if err := registerHandlerToRoute(folderPath, handlerName); err != nil {
+	if err := registerHandlerToRoute(folderPath, routePrefix, handlerName); err != nil {
 		return err
 	}
 
