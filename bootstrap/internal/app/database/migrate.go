@@ -29,11 +29,10 @@ func extractDSN(dialector gorm.Dialector) string {
 }
 
 func migrateCreate(name string) (bool, error) {
-	atlasCmd := exec.Command("atlas", "migrate", "create", "-dir", "-ext", "sql", "-name", name)
+	atlasCmd := exec.Command("which", "atlas")
 	if err := atlasCmd.Run(); err != nil {
 		fmt.Println("failed to create migration", err)
 		fmt.Println("to install atlas visit https://atlasgo.io/getting-started/")
-
 		return false, err
 	}
 
@@ -113,8 +112,7 @@ func SetCommands(
 				return
 			}
 
-			dialector := db.Dialector
-			result, err := migrateCreate(dialector, args[0])
+			result, err := migrateCreate(args[0])
 			if err != nil {
 				logger.Error("migration creation failed", "err", err)
 				return
