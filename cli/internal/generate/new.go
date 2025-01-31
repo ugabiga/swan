@@ -23,9 +23,8 @@ func CreateNew(
 	appName string,
 ) error {
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
-		URL:           StarterRepo,
-		Progress:      os.Stdout,
-		ReferenceName: "refs/heads/v2",
+		URL:      StarterRepo,
+		Progress: os.Stdout,
 	})
 	if err != nil {
 		return err
