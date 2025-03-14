@@ -10,6 +10,7 @@ import (
 type Config struct {
 	DatabaseConfig DatabaseConfig `json:"database_config"`
 	OAuthConfig    OAuthConfig    `json:"oauth_config"`
+	EventConfig    EventConfig    `json:"event_config"`
 }
 
 type DatabaseConfig struct {
@@ -23,6 +24,10 @@ type OAuthConfig struct {
 	GoogleClientKey    string `json:"google_client_key"`
 	GoogleClientSecret string `json:"google_client_secret"`
 	GoogleCallbackURL  string `json:"google_callback_url"`
+}
+
+type EventConfig struct {
+	Enabled bool `json:"enabled"`
 }
 
 func NewConfig() Config {
@@ -42,6 +47,14 @@ func NewConfig() Config {
 			GoogleClientKey:    os.Getenv("GOOGLE_CLIENT_KEY"),
 			GoogleClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 			GoogleCallbackURL:  os.Getenv("GOOGLE_CALLBACK_URL"),
+		},
+		EventConfig: EventConfig{
+			Enabled: func() bool {
+				if val, err := strconv.ParseBool(os.Getenv("EVENT_ENABLED")); err == nil {
+					return val
+				}
+				return false
+			}(),
 		},
 	}
 }

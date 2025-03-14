@@ -6,6 +6,7 @@ import (
 
 	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
 	"github.com/ThreeDotsLabs/watermill/pubsub/gochannel"
+	"github.com/ugabiga/swan/bootstrap/internal/app/config"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill/message"
@@ -29,7 +30,11 @@ func NewEventRouter(logger *slog.Logger) (*message.Router, error) {
 	return router, err
 }
 
-func RunEventRouter(logger *slog.Logger, router *message.Router) {
+func RunEventRouter(logger *slog.Logger, cfg config.Config, router *message.Router) {
+	if !cfg.EventConfig.Enabled {
+		return
+	}
+
 	go func() {
 		ctx := context.Background()
 		if err := router.Run(ctx); err != nil {
