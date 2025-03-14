@@ -16,7 +16,7 @@ func NewHandler(
 	logger *slog.Logger,
 ) *Handler {
 	return &Handler{
-		prefix: "/{{.HandlerName}}",
+		prefix: "/{{.HandlerRouteName}}",
 		logger: logger,
 	}
 }
@@ -33,13 +33,13 @@ func (h *Handler) SetRoutes(e *echo.Group) {
 //
 //	@Summary		List
 //	@Description	List
-//	@Tags			{{.HandlerName}}
+//	@Tags			{{.HandlerRouteName}}
 //	@Accept			json
 //	@Produce		json
 //	@Param			limit		query		int		false	"Limit"
 //	@Param			offset		query		int		false	"Offset"
 //	@Success		200			{object}	ListResp
-//	@Router			{{.RoutePrefix}}/{{.HandlerName}} [get]
+//	@Router			{{.RoutePrefix}}/{{.HandlerRouteName}} [get]
 func (h *Handler) List(c echo.Context) error {
 	var req ListReq 
 	if err := c.Bind(&req); err != nil {
@@ -61,12 +61,12 @@ type ListResp struct {
 //
 //	@Summary		One
 //	@Description	One
-//	@Tags			{{.HandlerName}}
+//	@Tags			{{.HandlerRouteName}}
 //	@Accept			json
 //	@Produce		json
 //	@Param			id			path		string	true	"ID"
 //	@Success		200			{object}	ListResp
-//	@Router			{{.RoutePrefix}}/{{.HandlerName}}/{id} [get]
+//	@Router			{{.RoutePrefix}}/{{.HandlerRouteName}}/{id} [get]
 func (h *Handler) One(c echo.Context) error {
 	var req OneReq
 	if err := c.Bind(&req); err != nil {
@@ -87,12 +87,12 @@ type OneResp struct {
 //
 //	@Summary		Create
 //	@Description	Create
-//	@Tags			{{.HandlerName}}
+//	@Tags			{{.HandlerRouteName}}
 //	@Accept			json
 //	@Produce		json
 //	@Param			req	body		CreateReq	true	"Request"
 //	@Success		200	{object}	CreateResp
-//	@Router			{{.RoutePrefix}}/{{.HandlerName}} [post]
+//	@Router			{{.RoutePrefix}}/{{.HandlerRouteName}} [post]
 func (h *Handler) Create(c echo.Context) error {
 	var req CreateReq
 	if err := c.Bind(&req); err != nil {
@@ -113,13 +113,13 @@ type CreateResp struct {
 //
 //	@Summary		Edit
 //	@Description	Edit
-//	@Tags			{{.HandlerName}}
+//	@Tags			{{.HandlerRouteName}}
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string	true	"ID"
 //	@Param			req	body		EditReq	true	"Request"
 //	@Success		200	{object}	EditResp
-//	@Router			{{.RoutePrefix}}/{{.HandlerName}}/{id} [put]
+//	@Router			{{.RoutePrefix}}/{{.HandlerRouteName}}/{id} [put]
 func (h *Handler) Edit(c echo.Context) error {
 	var req EditReq
 	if err := c.Bind(&req); err != nil {
@@ -141,13 +141,13 @@ type EditResp struct {
 //
 //	@Summary		Delete
 //	@Description	Delete
-//	@Tags			{{.HandlerName}}
+//	@Tags			{{.HandlerRouteName}}
 //	@Accept			json
 //	@Produce		json
 //	@Param			id	path		string		true	"ID"
 //	@Param			req	body		DeleteReq	true	"Request"
 //	@Success		200	{object}	DeleteResp
-//	@Router			{{.RoutePrefix}}/{{.HandlerName}}/{id} [delete]
+//	@Router			{{.RoutePrefix}}/{{.HandlerRouteName}}/{id} [delete]
 func (h *Handler) Delete(c echo.Context) error {
 	var req DeleteReq
 	if err := c.Bind(&req); err != nil {

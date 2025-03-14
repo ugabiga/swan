@@ -7,25 +7,31 @@ import (
 )
 
 var Cmd = &cobra.Command{
-	Use:   "make:handler [route-prefix] [path] [name]",
-	Short: "Create a new handler",
-	Args:  cobra.RangeArgs(0, 3),
+	Use:     "make:handler [file_path_under_internal] [route_prefix] [handler_name]",
+	Short:   "Create a new handler, file_path starts from internal",
+	Example: "swctl make:handler app/handlers /api/v1 users",
+	Args:    cobra.RangeArgs(0, 3),
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			handlerPath string
-			handlerName string
-			routePrefix string
+			handlerFilePath  string
+			routePrefix      string
+			handlerRouteName string
 		)
 
-		routePrefix = args[0]
-		handlerPath = args[1]
-		handlerName = args[2]
+		if len(args) == 0 {
+			cmd.Help()
+			return
+		}
 
-		if err := Generate(routePrefix, handlerPath, handlerName); err != nil {
+		handlerFilePath = args[0]
+		routePrefix = args[1]
+		handlerRouteName = args[2]
+
+		if err := Generate(handlerFilePath, routePrefix, handlerRouteName); err != nil {
 			fmt.Printf("Error while creating handler: %s", err)
 			return
 		}
 
-		fmt.Printf("Handler %s created successfully\n", handlerName)
+		fmt.Printf("Handler %s created successfully\n", handlerRouteName)
 	},
 }

@@ -17,24 +17,24 @@ import (
 //go:embed *.tmpl
 var templateFS embed.FS
 
-func Generate(routePrefix, handlerPath, handlerName string) error {
-	handlerPath = filepath.Join("internal", handlerPath)
-	packageName := utils.ExtractPackageName(handlerPath)
+func Generate(handlerFilePath, routePrefix, handlerRouteName string) error {
+	handlerFilePath = filepath.Join("internal", handlerFilePath)
+	packageName := utils.ExtractPackageName(handlerFilePath)
 	funcName := "NewHandler"
 
-	if err := utils.IfFolderNotExistsCreate(handlerPath); err != nil {
+	if err := utils.IfFolderNotExistsCreate(handlerFilePath); err != nil {
 		return err
 	}
 
-	if err := generateHandlerFile(handlerPath, handlerName, routePrefix, packageName); err != nil {
+	if err := generateHandlerFile(handlerFilePath, routePrefix, handlerRouteName, packageName); err != nil {
 		return err
 	}
 
-	if err := generate.RegisterStructToContainer(handlerPath, packageName, funcName); err != nil {
+	if err := generate.RegisterStructToContainer(handlerFilePath, packageName, funcName); err != nil {
 		return err
 	}
 
-	if err := registerHandlerToRoute(handlerPath, routePrefix, handlerName); err != nil {
+	if err := registerHandlerToRoute(handlerFilePath, routePrefix, handlerRouteName); err != nil {
 		return err
 	}
 
@@ -42,12 +42,12 @@ func Generate(routePrefix, handlerPath, handlerName string) error {
 }
 
 func generateHandlerFile(
-	handlerPath,
-	handlerName,
+	handlerFilePath,
 	routePrefix,
+	handlerRouteName,
 	packageName string,
 ) error {
-	filePath := filepath.Join(handlerPath, "handler.go")
+	filePath := filepath.Join(handlerFilePath, "handler.go")
 
 	f, err := os.Create(filePath)
 	if err != nil {
@@ -61,9 +61,9 @@ func generateHandlerFile(
 	}
 
 	if err := tmpl.Execute(f, map[string]string{
-		"PackageName": packageName,
-		"HandlerName": handlerName,
-		"RoutePrefix": routePrefix,
+		"PackageName":      packageName,
+		"HandlerRouteName": handlerRouteName,
+		"RoutePrefix":      routePrefix,
 	}); err != nil {
 		return err
 	}
