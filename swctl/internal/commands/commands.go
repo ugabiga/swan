@@ -7,6 +7,7 @@ import (
 	"github.com/ugabiga/swan/swctl/internal/commands/event"
 	"github.com/ugabiga/swan/swctl/internal/commands/general_struct"
 	"github.com/ugabiga/swan/swctl/internal/commands/handler"
+	"github.com/ugabiga/swan/swctl/internal/commands/migration"
 	"github.com/ugabiga/swan/swctl/internal/commands/new"
 )
 
@@ -19,5 +20,11 @@ func Commands() []*cobra.Command {
 		general_struct.Cmd,
 		entdb.NewCmd,
 		entdb.GenerateCmd,
+		migration.CreateCmd,
+		migration.HashCmd,
+		migration.DropCmd,
+		migration.UpCmd,
+		migration.DownCmd,
+		migration.ForceCmd,
 	}
 }
