@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/spf13/cobra"
 	"github.com/ugabiga/swan/swctl/internal/commands/command"
+	"github.com/ugabiga/swan/swctl/internal/commands/entdb"
 	"github.com/ugabiga/swan/swctl/internal/commands/event"
 	"github.com/ugabiga/swan/swctl/internal/commands/general_struct"
 	"github.com/ugabiga/swan/swctl/internal/commands/handler"
@@ -16,5 +17,7 @@ func Commands() []*cobra.Command {
 		event.Cmd,
 		command.Cmd,
 		general_struct.Cmd,
+		entdb.NewCmd,
+		entdb.GenerateCmd,
 	}
 }
