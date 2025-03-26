@@ -31,24 +31,52 @@ All make commands are generate files in the given directory and add dependencies
 
 Create a new handler:
 
+command:
 ```bash
-swctl make:handler
+swctl make:handler [folder-path] [api-prefix] [endpoint-name]
+```
+
+example:
+```bash
+swctl make:handler todos /api/v1 todos
 ```
 
 Create a new command:
+This command will generate a new cobra command in the given folder path named command.go
 
+command:
 ```bash
-swctl make:command
+swctl make:command [folder-path]
+```
+
+example:
+```bash
+swctl make:command todos
 ```
 
 Create a new event:
+This command will generate a new event in the given folder path named event.go
 
+command:
 ```bash
-swctl make:event
+swctl make:event [folder-path]
+```
+
+example:
+```bash
+swctl make:event todos
 ```
 
 Create a struct:
+This command will generate a new struct in the given folder path named by the struct name
+and add it to container.go
 
+command:
 ```bash
-swctl make:struct
+swctl make:struct [folder-path] [struct-name]
+```
+
+example:
+```bash
+swctl make:struct todos Todo
 ```
