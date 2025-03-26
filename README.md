@@ -80,3 +80,14 @@ example:
 ```bash
 swctl make:struct todos Todo
 ```
+
+For activating entdb (temporary solution)
+
+1. uncomment the following line in container.go:
+```go
+entdb.NewEntClient,
+```
+
+2. uncomment the following all the code in entdb/client.go
+
+
