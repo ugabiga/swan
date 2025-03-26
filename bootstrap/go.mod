@@ -5,12 +5,15 @@ go 1.23.1
 require (
 	ariga.io/atlas-go-sdk v0.6.4
 	ariga.io/atlas-provider-gorm v0.5.0
+	entgo.io/ent v0.14.4
 	github.com/ThreeDotsLabs/watermill v1.4.1
 	github.com/charmbracelet/log v0.4.0
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	github.com/gorilla/sessions v1.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/lib/pq v1.10.9
 	github.com/markbates/goth v1.80.0
 	github.com/orandin/slog-gorm v1.4.0
 	github.com/spf13/cobra v1.8.1
@@ -21,6 +24,7 @@ require (
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.12
+	modernc.org/sqlite v1.18.1
 )
 
 require (
@@ -37,7 +41,6 @@ require (
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/spec v0.20.4 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
@@ -79,16 +82,16 @@ require (
 	go.uber.org/dig v1.18.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
-	golang.org/x/crypto v0.27.0 // indirect
+	golang.org/x/crypto v0.33.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
-	golang.org/x/mod v0.21.0 // indirect
-	golang.org/x/net v0.29.0 // indirect
+	golang.org/x/mod v0.23.0 // indirect
+	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/oauth2 v0.18.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/sync v0.11.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.24.0 // indirect
+	golang.org/x/tools v0.30.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -100,7 +103,6 @@ require (
 	modernc.org/mathutil v1.5.0 // indirect
 	modernc.org/memory v1.2.1 // indirect
 	modernc.org/opt v0.1.3 // indirect
-	modernc.org/sqlite v1.18.1 // indirect
 	modernc.org/strutil v1.1.3 // indirect
 	modernc.org/token v1.0.0 // indirect
 )
