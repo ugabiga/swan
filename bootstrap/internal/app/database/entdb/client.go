@@ -3,9 +3,6 @@ package entdb
 import (
 	"database/sql/driver"
 	"errors"
-	"fmt"
-	"net/url"
-	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -64,28 +61,28 @@ func (d sqliteDriver) Open(name string) (driver.Conn, error) {
 // 	}
 // }
 
-func convertMySQLURL(urlString string) (string, error) {
-	u, err := url.Parse(urlString)
-	if err != nil {
-		return "", fmt.Errorf("failed to parse URL: %v", err)
-	}
+// func convertMySQLURL(urlString string) (string, error) {
+// 	u, err := url.Parse(urlString)
+// 	if err != nil {
+// 		return "", fmt.Errorf("failed to parse URL: %v", err)
+// 	}
 
-	userInfo := u.User
-	host := u.Hostname()
-	port := u.Port()
-	dbName := strings.TrimPrefix(u.Path, "/")
+// 	userInfo := u.User
+// 	host := u.Hostname()
+// 	port := u.Port()
+// 	dbName := strings.TrimPrefix(u.Path, "/")
 
-	convertedURL := fmt.Sprintf("%s@tcp(%s:%s)/%s", userInfo.String(), host, port, dbName)
+// 	convertedURL := fmt.Sprintf("%s@tcp(%s:%s)/%s", userInfo.String(), host, port, dbName)
 
-	query := u.Query()
-	for key, values := range query {
-		for _, value := range values {
-			convertedURL += fmt.Sprintf("&%s=%s", key, value)
-		}
-	}
+// 	query := u.Query()
+// 	for key, values := range query {
+// 		for _, value := range values {
+// 			convertedURL += fmt.Sprintf("&%s=%s", key, value)
+// 		}
+// 	}
 
-	return convertedURL, nil
-}
+// 	return convertedURL, nil
+// }
 
 // func newMySQLClient(logger *slog.Logger, url string) (*ent.Client, error) {
 // 	convertedURL, err := convertMySQLURL(url)
