@@ -33,20 +33,3 @@ env "gorm" {
     }
   }
 }
-
-env "local" {
-  src = "ent://internal/ent/schema"
-  url = local.envfile["DATABASE_URL"]
-  dev = local.envfile["DEV_DATABASE_URL"]
-
-  migration {
-    dir = "file://migrations"
-    format = golang-migrate
-  }
-
-  format {
-    migrate {
-      diff = "{{ sql . \"  \" }}"
-    }
-  }
-}

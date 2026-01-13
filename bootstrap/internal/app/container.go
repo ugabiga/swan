@@ -20,7 +20,6 @@ func provide() fx.Option {
 			server.NewOpenAPIHandler,
 			server.NewStaticHandler,
 			event.NewEventEmitter,
-			// entdb.NewEntClient,
 		),
 		fx.Provide(
 			NewEventRouter,

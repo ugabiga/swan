@@ -14,7 +14,7 @@ Swan is a Go web development boilerplate/framework for building web applications
 
 - **Web Framework**: Echo v4
 - **Dependency Injection**: Uber Fx
-- **ORM**: GORM (primary), Ent (optional)
+- **ORM**: GORM
 - **Migrations**: Atlas + golang-migrate
 - **API Documentation**: Swag (Swagger)
 - **Pub/Sub**: Watermill
@@ -155,10 +155,6 @@ Configure via `DATABASE_URL` environment variable. Atlas migrations support all 
 
 **GORM** (default): Active and configured in `bootstrap/internal/app/database/gormdb/`
 
-**Ent** (optional): Currently commented out. To activate:
-1. Uncomment `entdb.NewEntClient` in `container.go`
-2. Uncomment code in `entdb/client.go`
-
 ### Migration Workflow
 
 Migrations use Atlas CLI to generate golang-migrate files from GORM models:
@@ -168,9 +164,8 @@ Migrations use Atlas CLI to generate golang-migrate files from GORM models:
 3. Run `go run cmd/app/main.go migrate create <name>`
 4. Apply with `go run cmd/app/main.go migrate up`
 
-Configuration is in `atlas.hcl` with two environments:
+Configuration is in `atlas.hcl` with a single environment:
 - `gorm`: Uses GORM schema loader (recommended)
-- `local`: Uses Ent schema (when using Ent)
 
 ### Frontend Integration
 
