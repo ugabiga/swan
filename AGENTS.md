@@ -19,7 +19,7 @@ Guidance for future coding work in this repository.
 ## Go Architecture Notes
 - Dependency Injection: Uber Fx, configured in `bootstrap/internal/app/container.go`
 - Web server: Echo v4
-- ORM: GORM (primary), Ent (optional)
+- ORM: GORM
 - Migrations: Atlas + golang-migrate
 - API Docs: Swag (Swagger)
 - Events: Watermill (guarded by `EVENT_ENABLED`)
