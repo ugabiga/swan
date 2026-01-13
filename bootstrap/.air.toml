@@ -3,8 +3,8 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-args_bin = []
-bin = "./tmp/main server"
+args_bin = ["server"]
+entrypoint = "./tmp/main"
 cmd = "swag fmt . && swag init -g cmd/app/main.go -q && cd web && pnpm run build && cd .. && go build -o ./tmp/main ./cmd/app/main.go"
 delay = 1000
 exclude_dir = ["assets", "tmp", "vendor", "testdata", "docs", 'web/dist', 'web/node_modules', 'web/src/api']

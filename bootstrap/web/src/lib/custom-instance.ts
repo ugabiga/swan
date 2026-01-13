@@ -7,18 +7,17 @@ export const customInstance = <T>(
     config: AxiosRequestConfig,
     options?: AxiosRequestConfig,
 ): Promise<T> => {
-    const source = Axios.CancelToken.source();
+    const controller = new AbortController();
     const promise = AXIOS_INSTANCE({
         ...config,
         ...options,
-        cancelToken: source.token,
+        signal: controller.signal,
         withCredentials: true,
     }).then(({data}) => data);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error - Adding cancel method for compatibility
     promise.cancel = () => {
-        source.cancel('Query was cancelled');
+        controller.abort();
     };
 
     return promise;
